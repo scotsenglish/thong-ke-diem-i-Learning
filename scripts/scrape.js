@@ -130,12 +130,20 @@ async function main() {
 
       async function post(endpoint, body, attempt = 1) {
         try {
-          const res = await fetch(`${BASE}/${endpoint}`, {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json;charset=UTF-8" },
-            body: JSON.stringify(body)
-          });
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 25000);
+          let res;
+          try {
+            res = await fetch(`${BASE}/${endpoint}`, {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "application/json;charset=UTF-8" },
+              body: JSON.stringify(body),
+              signal: controller.signal
+            });
+          } finally {
+            clearTimeout(timeoutId);
+          }
           const text = await res.text();
           if ([502, 503, 504].includes(res.status) && attempt < 3) {
             await new Promise(r => setTimeout(r, 1000 * attempt));
@@ -248,23 +256,71 @@ async function main() {
 
   console.log(`Class ID Cache: ${step1.cacheRows.length} lớp. Lỗi: ${step1.errorRows.length}`);
 
+  // ================= Chuẩn bị ghi checkpoint + output =================
+  const outDir = path.join(__dirname, "..", "data");
+  fs.mkdirSync(outDir, { recursive: true });
+
+  function saveOutputs(students, errors, meta) {
+    fs.writeFileSync(path.join(outDir, "raw_scores.json"), JSON.stringify(students));
+    fs.writeFileSync(
+      path.join(outDir, "run_log.json"),
+      JSON.stringify(
+        {
+          run_at: new Date().toISOString(),
+          classes_total: step1.cacheRows.length,
+          cache_errors: step1.errorRows,
+          students_total: students.length,
+          score_errors: errors,
+          ...meta
+        },
+        null,
+        2
+      )
+    );
+  }
+
+  // Node expose ra 1 hàm để phía trình duyệt (page.evaluate) gọi ngược lại,
+  // ghi checkpoint xuống đĩa ngay lập tức -> nếu job bị cắt ngang giữa chừng
+  // (VD sự cố hạ tầng của Actions) thì vẫn còn dữ liệu đã cào được tới lúc đó,
+  // không phải làm lại từ đầu.
+  let lastCheckpointCount = 0;
+  await context.exposeFunction("__saveCheckpoint", (studentsSnapshot, errorsSnapshot, done, total) => {
+    lastCheckpointCount = studentsSnapshot.length;
+    saveOutputs(studentsSnapshot, errorsSnapshot, {
+      checkpoint: true,
+      progress: `${done}/${total}`
+    });
+    console.log(`[Checkpoint] Đã lưu tạm ${studentsSnapshot.length} dòng học viên (${done}/${total} lớp).`);
+  });
+
   // ================= BƯỚC 2: Export điểm raw theo lecture =================
   console.log("== Đang export điểm raw i-Learning ==");
-  const step2 = await page.evaluate(
-    async ({ BASE, classes, LECTURE_FROM, LECTURE_TO }) => {
-      const CONCURRENCY = 3;
-      const REQUEST_DELAY_MS = 150;
-      const activityOrder = ["i-Build", "i-Read", "i-Listen", "i-Imagine", "i-Create"];
-      const sleep = ms => new Promise(r => setTimeout(r, ms));
+  let step2;
+  try {
+    step2 = await page.evaluate(
+      async ({ BASE, classes, LECTURE_FROM, LECTURE_TO }) => {
+        const CONCURRENCY = 3;
+        const REQUEST_DELAY_MS = 150;
+        const CHECKPOINT_EVERY = 100;
+        const activityOrder = ["i-Build", "i-Read", "i-Listen", "i-Imagine", "i-Create"];
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
 
       async function post(endpoint, body, attempt = 1) {
         try {
-          const res = await fetch(`${BASE}/${endpoint}`, {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json;charset=UTF-8" },
-            body: JSON.stringify(body)
-          });
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 25000);
+          let res;
+          try {
+            res = await fetch(`${BASE}/${endpoint}`, {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "application/json;charset=UTF-8" },
+              body: JSON.stringify(body),
+              signal: controller.signal
+            });
+          } finally {
+            clearTimeout(timeoutId);
+          }
           const text = await res.text();
           if ([502, 503, 504].includes(res.status) && attempt < 3) {
             await sleep(1000 * attempt);
@@ -359,8 +415,11 @@ async function main() {
           errors.push({ Branch: item.Branch, Class: item.Class, Error: String(err?.message ?? err) });
         } finally {
           done++;
-          if (done % 50 === 0 || done === classes.length) {
+          if (done % 10 === 0 || done === classes.length) {
             console.log(`Đã xử lý ${done}/${classes.length} lớp | Lỗi: ${errors.length}`);
+          }
+          if (done % CHECKPOINT_EVERY === 0 || done === classes.length) {
+            await window.__saveCheckpoint([...students.values()], errors, done, classes.length);
           }
           await sleep(REQUEST_DELAY_MS);
         }
@@ -374,30 +433,27 @@ async function main() {
       );
 
       return { students: [...students.values()], errors };
-    },
-    { BASE, classes: step1.cacheRows, LECTURE_FROM, LECTURE_TO }
-  );
+      },
+      { BASE, classes: step1.cacheRows, LECTURE_FROM, LECTURE_TO }
+    );
+  } catch (err) {
+    console.log("== Bước export bị gián đoạn giữa chừng ==");
+    console.log("Lý do:", String(err?.message ?? err));
+    if (lastCheckpointCount > 0) {
+      console.log(`Vẫn còn checkpoint gần nhất với ${lastCheckpointCount} dòng học viên đã lưu ở data/raw_scores.json — build.py sẽ dùng tạm dữ liệu này.`);
+    } else {
+      console.log("Chưa có checkpoint nào được lưu (bị cắt ngang quá sớm) — data/raw_scores.json giữ nguyên bản cũ (nếu có).");
+    }
+    await browser.close();
+    // Không throw tiếp nữa: để job không bị đánh dấu "failed" cứng, cho phép
+    // các bước build + commit phía sau vẫn chạy với dữ liệu checkpoint đã có.
+    process.exit(0);
+  }
 
   console.log(`Điểm raw: ${step2.students.length} dòng học viên. Lỗi: ${step2.errors.length}`);
 
-  // ================= Ghi file output =================
-  const outDir = path.join(__dirname, "..", "data");
-  fs.mkdirSync(outDir, { recursive: true });
-  fs.writeFileSync(path.join(outDir, "raw_scores.json"), JSON.stringify(step2.students));
-  fs.writeFileSync(
-    path.join(outDir, "run_log.json"),
-    JSON.stringify(
-      {
-        run_at: new Date().toISOString(),
-        classes_total: step1.cacheRows.length,
-        cache_errors: step1.errorRows,
-        students_total: step2.students.length,
-        score_errors: step2.errors
-      },
-      null,
-      2
-    )
-  );
+  // ================= Ghi file output cuối cùng (đầy đủ, không phải checkpoint) =================
+  saveOutputs(step2.students, step2.errors, { checkpoint: false });
 
   await browser.close();
   console.log("== Hoàn tất ==");
