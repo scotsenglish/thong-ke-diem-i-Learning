@@ -82,17 +82,39 @@ async function main() {
   const page = await context.newPage();
   page.setDefaultTimeout(60000);
 
+  // LMS có thể hiện alert() báo sai tài khoản/mật khẩu — bắt lại để log ra,
+  // tránh Playwright bị treo chờ vô thời hạn vì dialog chưa được xử lý
+  page.on("dialog", async dialog => {
+    console.log(`[DIALOG từ trang] ${dialog.type()}: ${dialog.message()}`);
+    await dialog.dismiss().catch(() => {});
+  });
+
   console.log("== Đăng nhập LMS ==");
   await page.goto(LOGIN_URL, { waitUntil: "networkidle" });
+  await page.waitForSelector("#login_id", { state: "visible" });
   await page.fill("#login_id", loginId);
   await page.fill("#login_password", loginPassword);
   await page.click("#btn_login");
 
-  // Đợi rời khỏi trang login (Angular xử lý login() rồi điều hướng đi nơi khác)
-  await page.waitForFunction(() => !location.href.includes("login.html"), {
-    timeout: 30000
-  });
-  console.log("Đăng nhập OK. URL hiện tại:", page.url());
+  try {
+    // Đợi rời khỏi trang login (Angular xử lý login() rồi điều hướng đi nơi khác)
+    await page.waitForFunction(() => !location.href.includes("login.html"), {
+      timeout: 60000
+    });
+    console.log("Đăng nhập OK. URL hiện tại:", page.url());
+  } catch (err) {
+    // Không đăng nhập được -> chụp lại màn hình + HTML tại thời điểm lỗi để debug,
+    // vì không thể xem trực tiếp máy chạy Actions
+    console.log("== ĐĂNG NHẬP THẤT BẠI — đang lưu ảnh chụp + HTML để debug ==");
+    const debugDir = path.join(__dirname, "..", "debug");
+    fs.mkdirSync(debugDir, { recursive: true });
+    await page.screenshot({ path: path.join(debugDir, "login-failed.png"), fullPage: true }).catch(() => {});
+    fs.writeFileSync(path.join(debugDir, "login-failed.html"), await page.content().catch(() => "(không lấy được HTML)"));
+    console.log("Đã lưu debug/login-failed.png và debug/login-failed.html");
+    console.log("URL tại thời điểm lỗi:", page.url());
+    await browser.close();
+    throw err;
+  }
 
   // ================= BƯỚC 1: Class Plan + Class ID Cache =================
   console.log("== Đang build Class Plan + Class ID Cache ==");
