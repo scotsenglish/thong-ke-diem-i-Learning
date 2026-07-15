@@ -13,6 +13,20 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
+
+// LƯU Ý QUAN TRỌNG: khi GitHub hủy 1 job từ bên ngoài (timeout, abuse-detection,
+// hay bất kỳ lý do gì), nó hủy NGUYÊN CẢ JOB ngay lập tức — không bước nào sau
+// đó (kể cả bước "Commit & push") kịp chạy. Vì vậy checkpoint không thể chỉ ghi
+// xuống đĩa tạm của runner; phải TỰ commit + push lên GitHub ngay trong lúc
+// đang chạy, mỗi lần checkpoint, để tiến độ được lưu thật sự an toàn.
+
+// Tổ chức GitHub của bạn giới hạn cứng 90 phút/job (không sửa được từ workflow).
+// Đặt ngưỡng nội bộ thấp hơn hẳn để KỊP tự dừng có kiểm soát, lưu lại tiến độ,
+// và nhường phần còn lại cho lần chạy kế tiếp (6h/12h/18h) tiếp tục — thay vì
+// bị GitHub giết đột ngột giữa chừng (mất khả năng lưu trạng thái sạch sẽ).
+const TIME_BUDGET_MS = 320 * 60 * 1000; // 320 phút cho phần cào điểm — chừa ~40 phút buffer cho setup/login/build/commit trong tổng trần 360 phút
+const CACHE_BUILD_BUDGET_MS = 20 * 60 * 1000; // 20 phút cho phần build Class ID Cache (chỉ chạy ở vòng quét mới)
 
 const LOGIN_URL = "https://lms.scotsenglish.edu.vn/login.html";
 const BASE = "https://lms.scotsenglish.edu.vn/data/setup.asmx";
@@ -116,10 +130,57 @@ async function main() {
     throw err;
   }
 
+  const outDir = path.join(__dirname, "..", "data");
+  fs.mkdirSync(outDir, { recursive: true });
+  const statePath = path.join(outDir, "scrape_state.json");
+  const rawScoresPath = path.join(outDir, "raw_scores.json");
+
+  function loadJsonSafe(p, fallback) {
+    try {
+      return JSON.parse(fs.readFileSync(p, "utf-8"));
+    } catch {
+      return fallback;
+    }
+  }
+
+  const prevState = loadJsonSafe(statePath, null);
+  const isResuming = !!(prevState && prevState.status === "in_progress" && Array.isArray(prevState.remainingClasses) && prevState.remainingClasses.length > 0);
+
+  const repoRoot = path.join(__dirname, "..");
+  function gitCheckpointCommit(message) {
+    try {
+      execSync("git add data/raw_scores.json data/run_log.json data/scrape_state.json", { cwd: repoRoot, stdio: "pipe" });
+      // Nếu không có gì thay đổi thì bỏ qua commit (tránh lỗi "nothing to commit")
+      const hasChanges = execSync("git diff --cached --name-only", { cwd: repoRoot }).toString().trim().length > 0;
+      if (!hasChanges) return;
+      execSync(`git commit -m "${message.replace(/"/g, "'")}"`, { cwd: repoRoot, stdio: "pipe" });
+      execSync("git push", { cwd: repoRoot, stdio: "pipe" });
+    } catch (err) {
+      // Không để lỗi git làm crash cả tiến trình cào dữ liệu — chỉ log lại để biết
+      console.log("[CẢNH BÁO] Commit/push checkpoint thất bại:", String(err?.message ?? err).slice(0, 300));
+    }
+  }
+
+  let classesForCycle;
+  let allStudents;
+  let allErrors = [];
+  let totalClassesInCycle = 0;
+
+  if (isResuming) {
+    console.log(`== Đang TIẾP TỤC vòng quét dang dở: còn ${prevState.remainingClasses.length} lớp (bắt đầu vòng lúc ${prevState.cycleStartedAt}) ==`);
+    classesForCycle = prevState.remainingClasses;
+    allStudents = loadJsonSafe(rawScoresPath, []); // dữ liệu đã cào được ở các lần chạy trước trong vòng này
+    totalClassesInCycle = prevState.totalClassesInCycle || prevState.remainingClasses.length;
+  }
+
   // ================= BƯỚC 1: Class Plan + Class ID Cache =================
-  console.log("== Đang build Class Plan + Class ID Cache ==");
-  const step1 = await page.evaluate(
-    async ({ BASE, STAFF_ID, BRANCHES }) => {
+  // Chỉ build lại danh sách lớp khi bắt đầu 1 VÒNG QUÉT MỚI (không phải đang
+  // tiếp tục vòng dang dở), để giữ nguyên tập lớp xuyên suốt 1 vòng.
+  let step1 = { cacheRows: [], errorRows: [] };
+  if (!isResuming) {
+    console.log("== Đang build Class Plan + Class ID Cache (vòng quét mới) ==");
+    step1 = await page.evaluate(
+    async ({ BASE, STAFF_ID, BRANCHES, deadline }) => {
       const normalize = v =>
         String(v ?? "")
           .trim()
@@ -166,8 +227,14 @@ async function main() {
       const cacheRows = [];
       const errorRows = [];
       const seenCache = new Set();
+      let stoppedEarly = false;
 
       for (const branch of BRANCHES) {
+        if (Date.now() >= deadline) {
+          stoppedEarly = true;
+          errorRows.push({ Branch: branch.brch_name, Step: "Deadline", Error: "Chưa xử lý do hết thời gian nội bộ build cache" });
+          continue;
+        }
         try {
           const semesters = await post("CounSemester", {
             staff: { stf_id: STAFF_ID },
@@ -249,17 +316,38 @@ async function main() {
         }
       }
 
-      return { cacheRows, errorRows };
+      return { cacheRows, errorRows, stoppedEarly };
     },
-    { BASE, STAFF_ID, BRANCHES }
+    { BASE, STAFF_ID, BRANCHES, deadline: Date.now() + CACHE_BUILD_BUDGET_MS }
   );
 
-  console.log(`Class ID Cache: ${step1.cacheRows.length} lớp. Lỗi: ${step1.errorRows.length}`);
+    if (step1.stoppedEarly) {
+      console.log(`[CẢNH BÁO] Build Class ID Cache bị dừng sớm do quá ${CACHE_BUILD_BUDGET_MS / 60000} phút — 1 số chi nhánh có thể chưa được quét đủ trong vòng này.`);
+    }
+
+    console.log(`Class ID Cache: ${step1.cacheRows.length} lớp. Lỗi: ${step1.errorRows.length}`);
+
+    classesForCycle = step1.cacheRows;
+    allStudents = []; // vòng quét mới -> làm lại từ đầu, không giữ dữ liệu vòng cũ
+    totalClassesInCycle = classesForCycle.length;
+
+    fs.writeFileSync(
+      statePath,
+      JSON.stringify(
+        {
+          status: "in_progress",
+          cycleStartedAt: new Date().toISOString(),
+          totalClassesInCycle,
+          remainingClasses: classesForCycle,
+          cacheErrors: step1.errorRows
+        },
+        null,
+        2
+      )
+    );
+  }
 
   // ================= Chuẩn bị ghi checkpoint + output =================
-  const outDir = path.join(__dirname, "..", "data");
-  fs.mkdirSync(outDir, { recursive: true });
-
   function saveOutputs(students, errors, meta) {
     fs.writeFileSync(path.join(outDir, "raw_scores.json"), JSON.stringify(students));
     fs.writeFileSync(
@@ -267,7 +355,7 @@ async function main() {
       JSON.stringify(
         {
           run_at: new Date().toISOString(),
-          classes_total: step1.cacheRows.length,
+          classes_total: totalClassesInCycle,
           cache_errors: step1.errorRows,
           students_total: students.length,
           score_errors: errors,
@@ -280,28 +368,52 @@ async function main() {
   }
 
   // Node expose ra 1 hàm để phía trình duyệt (page.evaluate) gọi ngược lại,
-  // ghi checkpoint xuống đĩa ngay lập tức -> nếu job bị cắt ngang giữa chừng
-  // (VD sự cố hạ tầng của Actions) thì vẫn còn dữ liệu đã cào được tới lúc đó,
-  // không phải làm lại từ đầu.
-  let lastCheckpointCount = 0;
-  await context.exposeFunction("__saveCheckpoint", (studentsSnapshot, errorsSnapshot, done, total) => {
-    lastCheckpointCount = studentsSnapshot.length;
-    saveOutputs(studentsSnapshot, errorsSnapshot, {
+  // gửi về PHẦN MỚI vừa xử lý xong (không phải toàn bộ), Node gộp dồn lại rồi
+  // ghi checkpoint xuống đĩa ngay -> phía trình duyệt xóa sạch bộ nhớ đã gửi,
+  // tránh tích lũy dữ liệu khổng lồ trong RAM của tab Chrome gây bị kill giữa chừng.
+  // Đồng thời cập nhật luôn file trạng thái resume (còn lại bao nhiêu lớp),
+  // để nếu bị kill đột ngột thì lần chạy sau vẫn biết chính xác cần làm tiếp từ đâu.
+  await context.exposeFunction("__saveCheckpoint", (newStudentsBatch, newErrorsBatch, done, total) => {
+    allStudents = allStudents.concat(newStudentsBatch);
+    allErrors = allErrors.concat(newErrorsBatch);
+    saveOutputs(allStudents, allErrors, {
       checkpoint: true,
       progress: `${done}/${total}`
     });
-    console.log(`[Checkpoint] Đã lưu tạm ${studentsSnapshot.length} dòng học viên (${done}/${total} lớp).`);
+    // Cập nhật state resume: những lớp từ vị trí `done` trở đi trong classesForCycle
+    // là phần CHƯA xử lý xong -> lưu lại để lần chạy sau (nếu bị kill) tiếp tục đúng chỗ.
+    fs.writeFileSync(
+      statePath,
+      JSON.stringify(
+        {
+          status: "in_progress",
+          cycleStartedAt: prevState?.cycleStartedAt || new Date().toISOString(),
+          totalClassesInCycle,
+          remainingClasses: classesForCycle.slice(done),
+          cacheErrors: step1.errorRows
+        },
+        null,
+        2
+      )
+    );
+    console.log(`[Checkpoint] Đã lưu tạm ${allStudents.length} dòng học viên (${done}/${total} lớp).`);
+
+    // QUAN TRỌNG: commit + push NGAY, không đợi tới cuối job — vì job có thể bị
+    // hủy đột ngột bất cứ lúc nào sau đây, và dữ liệu chỉ nằm trên đĩa runner
+    // (chưa push) sẽ mất trắng nếu không làm bước này ở đây.
+    gitCheckpointCommit(`Checkpoint tự động: ${done}/${total} lớp (${allStudents.length} dòng học viên)`);
   });
 
   // ================= BƯỚC 2: Export điểm raw theo lecture =================
-  console.log("== Đang export điểm raw i-Learning ==");
+  const deadline = Date.now() + TIME_BUDGET_MS;
+  console.log(`== Đang export điểm raw i-Learning (giới hạn nội bộ ${TIME_BUDGET_MS / 60000} phút cho phần này) ==`);
   let step2;
   try {
     step2 = await page.evaluate(
-      async ({ BASE, classes, LECTURE_FROM, LECTURE_TO }) => {
+      async ({ BASE, classes, LECTURE_FROM, LECTURE_TO, deadline }) => {
         const CONCURRENCY = 3;
         const REQUEST_DELAY_MS = 150;
-        const CHECKPOINT_EVERY = 100;
+        const CHECKPOINT_EVERY = 50;
         const activityOrder = ["i-Build", "i-Read", "i-Listen", "i-Imagine", "i-Create"];
         const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -419,7 +531,13 @@ async function main() {
             console.log(`Đã xử lý ${done}/${classes.length} lớp | Lỗi: ${errors.length}`);
           }
           if (done % CHECKPOINT_EVERY === 0 || done === classes.length) {
-            await window.__saveCheckpoint([...students.values()], errors, done, classes.length);
+            // Chụp nhanh + xóa NGAY (đồng bộ, chưa await) để các lớp đang xử lý
+            // song song khác không bị mất dữ liệu nếu chúng ghi vào đúng lúc này.
+            const batch = [...students.values()];
+            const errBatch = [...errors];
+            students.clear();
+            errors.length = 0;
+            await window.__saveCheckpoint(batch, errBatch, done, classes.length);
           }
           await sleep(REQUEST_DELAY_MS);
         }
@@ -428,19 +546,24 @@ async function main() {
       let index = 0;
       await Promise.all(
         Array.from({ length: CONCURRENCY }, async () => {
-          while (index < classes.length) await processClass(classes[index++]);
+          while (index < classes.length && Date.now() < deadline) await processClass(classes[index++]);
         })
       );
 
-      return { students: [...students.values()], errors };
+      // Xả nốt phần chưa kịp checkpoint (nếu dừng không đúng mốc CHECKPOINT_EVERY)
+      if (students.size > 0 || errors.length > 0) {
+        await window.__saveCheckpoint([...students.values()], errors, done, classes.length);
+      }
+
+      return { totalErrors: errors.length, stoppedEarly: index < classes.length, processedIndex: index };
       },
-      { BASE, classes: step1.cacheRows, LECTURE_FROM, LECTURE_TO }
+      { BASE, classes: classesForCycle, LECTURE_FROM, LECTURE_TO, deadline }
     );
   } catch (err) {
     console.log("== Bước export bị gián đoạn giữa chừng ==");
     console.log("Lý do:", String(err?.message ?? err));
-    if (lastCheckpointCount > 0) {
-      console.log(`Vẫn còn checkpoint gần nhất với ${lastCheckpointCount} dòng học viên đã lưu ở data/raw_scores.json — build.py sẽ dùng tạm dữ liệu này.`);
+    if (allStudents.length > 0) {
+      console.log(`Vẫn còn checkpoint gần nhất với ${allStudents.length} dòng học viên đã lưu ở data/raw_scores.json — build.py sẽ dùng tạm dữ liệu này.`);
     } else {
       console.log("Chưa có checkpoint nào được lưu (bị cắt ngang quá sớm) — data/raw_scores.json giữ nguyên bản cũ (nếu có).");
     }
@@ -450,10 +573,22 @@ async function main() {
     process.exit(0);
   }
 
-  console.log(`Điểm raw: ${step2.students.length} dòng học viên. Lỗi: ${step2.errors.length}`);
+  console.log(`Điểm raw (cộng dồn cả vòng tới nay): ${allStudents.length} dòng học viên. Lỗi: ${allErrors.length}`);
+
+  if (step2.stoppedEarly) {
+    console.log(`== Hết thời gian nội bộ (${TIME_BUDGET_MS / 60000} phút) trước khi xong hết vòng ==`);
+    console.log(`Đã xử lý ${step2.processedIndex}/${classesForCycle.length} lớp trong lần chạy này. Còn lại ${classesForCycle.length - step2.processedIndex} lớp sẽ được lần chạy kế tiếp (theo lịch 6h/12h/18h) tiếp tục.`);
+    // state file đã được checkpoint cập nhật remainingClasses đúng rồi, không cần ghi lại.
+  } else {
+    console.log("== Đã quét xong toàn bộ lớp trong vòng này ==");
+    fs.writeFileSync(
+      statePath,
+      JSON.stringify({ status: "done", cycleFinishedAt: new Date().toISOString(), totalClassesInCycle }, null, 2)
+    );
+  }
 
   // ================= Ghi file output cuối cùng (đầy đủ, không phải checkpoint) =================
-  saveOutputs(step2.students, step2.errors, { checkpoint: false });
+  saveOutputs(allStudents, allErrors, { checkpoint: !step2.stoppedEarly ? false : true });
 
   await browser.close();
   console.log("== Hoàn tất ==");
