@@ -124,7 +124,7 @@
 /* Khóa: "<ID hoc vien>::<Ma lop>"  ->  { id, name, branch, region, program, syllabus, classCode, lectures:{ "1":{...}, "2":{...} } } */
 const students = __STUDENT_DATA__;
 
-const BASE_ACTIVITIES = ["i-Build","i-Read","i-Listen","i-Imagine"];
+const BASE_ACTIVITIES = ["i-Build","i-Imagine","i-Listen","i-Read"];
 const LOW_SCORE_THRESHOLD = 65;
 
 /* ===================== Index phụ trợ ===================== */
@@ -152,8 +152,8 @@ function maxLectureNumber(){
   return max || 48;
 }
 
-/* Gộp danh sách cột hoạt động theo đúng thứ tự: i-Build, i-Read, i-Listen,
-   i-Imagine (luôn hiện) -> các biến thể i-Create (VD "i-Create (Dialogue
+/* Gộp danh sách cột hoạt động theo đúng thứ tự: i-Build, i-Imagine, i-Listen,
+   i-Read (luôn hiện) -> các biến thể i-Create (VD "i-Create (Dialogue
    Speaking)", "i-Create (Sentence Writing)", sắp theo abc) -> i-Boost (nếu có)
    -> bất kỳ hoạt động lạ nào khác chưa biết trước */
 function collectActivityColumns(lectureObjs){

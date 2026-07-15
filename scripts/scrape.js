@@ -454,8 +454,11 @@ async function main() {
       // Chuỗi gốc từ LMS có 2 dạng:
       //   "i-Build(Book 1 > Looking for Fun)"                          -> hoạt động đơn giản
       //   "i-Create(Dialogue Speaking)(Book 1 > Looking for Fun)"      -> i-Create có phân loại phụ
-      // Cặp ngoặc cuối cùng luôn là tên bài học; nếu còn 1 cặp ngoặc phía trước
-      // nữa (chỉ xảy ra với i-Create) thì đó là phân loại phụ (Dialogue Speaking/Sentence Writing...).
+      // NHƯNG không phải dòng nào cũng có đủ cả 2 cặp ngoặc — có lúc chỉ có
+      // "i-Create(Dialogue Speaking)" một mình, không kèm tên bài học phía sau.
+      // Vì vậy KHÔNG dựa vào số lượng cặp ngoặc để đoán, mà dựa vào đặc điểm:
+      // tên bài học luôn chứa dấu ">" (VD "Book 1 > Looking for Fun"), còn
+      // phân loại phụ của i-Create thì không bao giờ có dấu ">".
       const parseExamName = raw => {
         const s = String(raw ?? "").trim();
         const groups = [...s.matchAll(/\(([^()]*)\)/g)].map(m => m[1].trim());
@@ -463,11 +466,13 @@ async function main() {
         const lower = prefix.toLowerCase();
         const baseActivity = activityOrder.find(a => lower.startsWith(a.toLowerCase())) || prefix || "Unknown";
 
-        if (baseActivity.toLowerCase() === "i-create" && groups.length >= 2) {
-          // groups[0] = phân loại phụ (VD "Dialogue Speaking"), groups cuối = tên bài học
-          return { activity: `i-Create (${groups[0]})`, lesson: groups[groups.length - 1] };
+        const lessonGroup = groups.find(g => g.includes(">"));
+        const nonLessonGroups = groups.filter(g => g !== lessonGroup);
+
+        if (baseActivity.toLowerCase() === "i-create" && nonLessonGroups.length > 0) {
+          return { activity: `i-Create (${nonLessonGroups[0]})`, lesson: lessonGroup || "" };
         }
-        return { activity: baseActivity, lesson: groups[groups.length - 1] || "" };
+        return { activity: baseActivity, lesson: lessonGroup || "" };
       };
       const rawScore = v => (v === null || v === undefined || v === "" ? "" : v);
 
