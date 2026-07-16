@@ -122,7 +122,7 @@
 <script>
 /* ===================== Dữ liệu thật do build.py nhúng vào ===================== */
 /* Khóa: "<ID hoc vien>::<Ma lop>"  ->  { id, name, branch, region, program, syllabus, classCode, lectures:{ "1":{...}, "2":{...} } } */
-const students = {"4655::AKH_26_OFF_CKENG_CKENGLISH2_424": {"id": "4655", "name": "Phạm Anh Tuấn", "branch": "Scots English An Khánh", "region": "Vùng 3", "program": "CK English", "syllabus": "CK English 2", "classCode": "AKH_26_OFF_CKENG_CKENGLISH2_424", "lectures": {"1": {"lesson": "Book 1 > Looking for Fun", "scores": {"i-Build": 90.0, "i-Read": 100.0, "i-Listen": 100.0, "i-Imagine": 100.0, "i-Create (Dialogue Speaking)": 100.0, "i-Create (Sentence Writing)": 100.0, "i-Boost": 83.0}}, "3": {"lesson": "Book 1 > A New Friend", "scores": {"i-Build": 80.0, "i-Read": 90.0, "i-Listen": 88.0, "i-Imagine": 92.0, "i-Create (Dialogue Speaking)": 70.0, "i-Create (Sentence Writing)": 60.0}}}}, "5488::AKH_26_OFF_CKENG_CKENGLISH2_424": {"id": "5488", "name": "Bùi Mai Hương", "branch": "Scots English An Khánh", "region": "Vùng 3", "program": "CK English", "syllabus": "CK English 2", "classCode": "AKH_26_OFF_CKENG_CKENGLISH2_424", "lectures": {"1": {"lesson": "Book 1 > Looking for Fun", "scores": {"i-Build": 55.0, "i-Read": 60.0, "i-Listen": 58.0, "i-Imagine": 49.0, "i-Create (Dialogue Speaking)": 54.0, "i-Create (Sentence Writing)": 50.0, "i-Boost": 45.0}}, "3": {"lesson": "Book 1 > A New Friend", "scores": {"i-Build": 65.0, "i-Read": 70.0, "i-Create (Dialogue Speaking)": 60.0}}}}, "7305::THO_26_OFF_CKPHON_CKPHONICS2_101": {"id": "7305", "name": "Khúc Đặng Gia Linh", "branch": "Scots English Tây Hồ", "region": "Vùng 1", "program": "CK Phonics", "syllabus": "CK Phonics 2", "classCode": "THO_26_OFF_CKPHON_CKPHONICS2_101", "lectures": {"1": {"lesson": "Unit 1 - Alphabet A-E", "scores": {"i-Build": 100.0, "i-Read": 100.0, "i-Listen": 100.0, "i-Imagine": 100.0, "i-Create": 100.0}}, "2": {"lesson": "Unit 2 - Alphabet F-J", "scores": {"i-Build": 80.0, "i-Read": 75.0, "i-Listen": 88.0, "i-Imagine": 90.0, "i-Create": 60.0}}}}, "7314::THO_26_OFF_CKPHON_CKPHONICS2_101": {"id": "7314", "name": "Lê Minh Trí", "branch": "Scots English Tây Hồ", "region": "Vùng 1", "program": "CK Phonics", "syllabus": "CK Phonics 2", "classCode": "THO_26_OFF_CKPHON_CKPHONICS2_101", "lectures": {"1": {"lesson": "Unit 1 - Alphabet A-E", "scores": {"i-Build": 60.0, "i-Read": 70.0, "i-Listen": 63.0, "i-Imagine": 67.0, "i-Create": 50.0}}}}};
+const students = __STUDENT_DATA__;
 
 const BASE_ACTIVITIES = ["i-Build","i-Imagine","i-Listen","i-Read"];
 const LOW_SCORE_THRESHOLD = 65;
@@ -437,7 +437,7 @@ function renderStudent(key){
 /* ===================== Khởi tạo ===================== */
 populateFilterOptions();
 document.getElementById('lastUpdated').textContent =
-  `${Object.keys(students).length.toLocaleString('vi-VN')} dòng học viên-lớp đã tải · Cập nhật lúc 15:51 15/07/2026`;
+  `${Object.keys(students).length.toLocaleString('vi-VN')} dòng học viên-lớp đã tải · Cập nhật lúc __BUILD_TIME__`;
 </script>
 
 </body>
