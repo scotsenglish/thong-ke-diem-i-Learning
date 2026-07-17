@@ -3,77 +3,145 @@
 <head>
 <meta charset="UTF-8">
 <title>i-Learning — Tra cứu điểm học viên</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#12213a; --navy-2:#1b2f4d; --accent:#2f8f7e; --accent-soft:#e4f3f0;
-    --ink:#1c2530; --muted:#6b7686; --line:#e3e7ee; --bg:#f5f7fa; --warn:#c7622a;
+    --bg:#f5f5f7; --surface:#ffffff; --surface-2:#fbfbfd; --fill:#f2f2f4;
+    --line:#e5e5ea; --line-soft:#eeeef0;
+    --blue:#0071e3; --blue-dim:#e8f1fd;
+    --text:#1d1d1f; --muted:#6e6e73; --muted-2:#a1a1a6;
+    --good:#248a3d; --good-soft:#eaf7ee;
+    --warn:#c5590a; --warn-soft:#fdf1e6;
+    --font: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif;
   }
   *{box-sizing:border-box;}
-  body{ margin:0; font-family:"Segoe UI",Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink); }
-  header{ background:var(--navy); color:#fff; padding:18px 28px; }
-  header h1{ margin:0; font-size:19px; font-weight:600; }
-  header .sub{ color:#9db4d4; font-size:12.5px; margin-top:4px; }
-  main{ max-width:1180px; margin:0 auto; padding:24px 28px 60px 28px; }
+  ::selection{ background:var(--blue-dim); color:var(--blue); }
+  body{
+    margin:0; font-family:var(--font); background:var(--bg); color:var(--text);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  header{
+    position:sticky; top:0; z-index:20;
+    background:rgba(255,255,255,.78); backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    padding:16px 32px; border-bottom:1px solid var(--line);
+  }
+  header h1{
+    margin:0; font-size:20px; font-weight:600; letter-spacing:-.01em; color:var(--text);
+  }
+  header h1 .tag{
+    font-size:11px; font-weight:600; color:var(--muted);
+    background:var(--fill); padding:3px 9px; border-radius:20px; margin-left:9px;
+    vertical-align:2px; letter-spacing:.2px;
+  }
+  header .sub{
+    color:var(--muted); font-size:12.5px; margin-top:5px;
+    display:flex; align-items:center; gap:7px;
+  }
+  .live-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--good); flex:none;
+    animation:pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; } 50%{ opacity:.35; }
+  }
+
+  main{ max-width:1220px; margin:0 auto; padding:28px 32px 64px 32px; }
 
   .filter-card{
-    background:#fff; border:1px solid var(--line); border-radius:10px;
-    padding:16px 20px; margin-bottom:20px; display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end;
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:20px;
+    padding:20px 22px; margin-bottom:24px; display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end;
+    box-shadow:0 1px 2px rgba(0,0,0,.03), 0 10px 30px -18px rgba(0,0,0,.08);
   }
-  .filter-group{ display:flex; flex-direction:column; gap:5px; min-width:170px; position:relative; }
-  .filter-group.grow{ min-width:220px; flex:1; }
-  .filter-group label{ font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px; }
-  .filter-group select, .filter-group input{ padding:9px 10px; border:1px solid var(--line); border-radius:7px; font-size:13.5px; }
-  .filter-group select:focus, .filter-group input:focus{ outline:none; border-color:var(--accent); }
-  .filter-clear{ background:transparent; border:1px solid var(--line); border-radius:7px; padding:9px 14px; font-size:13px; color:var(--muted); cursor:pointer; height:38px; }
-  .filter-clear:hover{ border-color:var(--warn); color:var(--warn); }
-  .filter-divider{ width:1px; background:var(--line); align-self:stretch; margin:0 2px; }
+  .filter-group{ display:flex; flex-direction:column; gap:7px; min-width:168px; position:relative; }
+  .filter-group.grow{ min-width:210px; flex:1; }
+  .filter-group label{
+    font-size:11.5px; font-weight:600; color:var(--muted); letter-spacing:.1px;
+  }
+  .filter-group select, .filter-group input{
+    padding:10px 12px; border:1px solid transparent; border-radius:12px; font-size:14px;
+    background:var(--fill); color:var(--text); font-family:var(--font);
+    transition:box-shadow .15s, background .15s;
+  }
+  .filter-group input::placeholder{ color:var(--muted-2); }
+  .filter-group select:focus, .filter-group input:focus{
+    outline:none; background:var(--surface); box-shadow:0 0 0 4px var(--blue-dim), 0 0 0 1px var(--blue);
+  }
+  .filter-clear{
+    background:var(--fill); border:none; border-radius:20px;
+    padding:10px 18px; font-size:13px; font-weight:600; color:var(--muted); cursor:pointer; height:40px;
+    transition:background .15s, color .15s;
+  }
+  .filter-clear:hover{ background:#fbe4d5; color:var(--warn); }
+  .filter-divider{ width:1px; background:var(--line); align-self:stretch; margin:0 4px; }
 
-  .suggest{ position:absolute; top:calc(100% + 4px); left:0; right:0; background:#fff; border:1px solid var(--line);
-    border-radius:8px; box-shadow:0 8px 24px rgba(20,30,50,.12); z-index:10; max-height:280px; overflow-y:auto; display:none; }
+  .suggest{
+    position:absolute; top:calc(100% + 6px); left:0; right:0; background:var(--surface);
+    border:1px solid var(--line-soft); border-radius:14px; box-shadow:0 20px 45px -15px rgba(0,0,0,.18);
+    z-index:30; max-height:280px; overflow-y:auto; display:none; padding:6px;
+  }
   .suggest.show{ display:block; }
-  .suggest-item{ padding:10px 14px; cursor:pointer; display:flex; justify-content:space-between; font-size:13.5px; }
-  .suggest-item:hover{ background:var(--accent-soft); }
+  .suggest-item{ padding:9px 12px; cursor:pointer; display:flex; justify-content:space-between; font-size:13.5px; border-radius:9px; }
+  .suggest-item:hover{ background:var(--blue-dim); }
   .suggest-item small{ color:var(--muted); }
 
-  .info-card{ background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px 22px; margin-bottom:18px;
-    display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; }
-  .info-card h2{ margin:0 0 4px 0; font-size:20px; }
-  .info-card .meta{ color:var(--muted); font-size:13.5px; }
-  .kpi-row{ display:flex; gap:22px; }
+  .info-card{
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:20px;
+    padding:22px 24px; margin-bottom:18px; display:flex; justify-content:space-between;
+    align-items:flex-start; flex-wrap:wrap; gap:16px;
+    box-shadow:0 1px 2px rgba(0,0,0,.03), 0 10px 30px -18px rgba(0,0,0,.08);
+  }
+  .info-card h2{ margin:0 0 4px 0; font-size:21px; font-weight:600; letter-spacing:-.01em; color:var(--text); }
+  .info-card .meta{ color:var(--muted); font-size:13px; }
+  .kpi-row{ display:flex; gap:28px; }
   .kpi{ text-align:right; }
-  .kpi .num{ font-size:22px; font-weight:700; color:var(--navy); }
+  .kpi .num{ font-size:26px; font-weight:700; color:var(--text); letter-spacing:-.01em; }
   .kpi.warn .num{ color:var(--warn); }
-  .kpi .label{ font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
+  .kpi .label{ font-size:11.5px; color:var(--muted); margin-top:3px; }
 
-  .panel{ background:#fff; border:1px solid var(--line); border-radius:10px; padding:20px 22px; margin-bottom:18px; }
-  .panel-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
-  .panel-head h3{ margin:0; font-size:15px; }
+  .panel{
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:20px;
+    padding:22px 24px; margin-bottom:18px;
+    box-shadow:0 1px 2px rgba(0,0,0,.03), 0 10px 30px -18px rgba(0,0,0,.08);
+  }
+  .panel-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+  .panel-head h3{ margin:0; font-size:15.5px; font-weight:600; color:var(--text); }
 
-  table{ width:100%; border-collapse:collapse; font-size:13.5px; }
-  th{ text-align:left; padding:10px 12px; background:var(--bg); color:var(--muted); font-weight:600; font-size:12px;
-    text-transform:uppercase; letter-spacing:.3px; border-bottom:1px solid var(--line); white-space:nowrap; }
-  td{ padding:10px 12px; border-bottom:1px solid var(--line); }
-  tr.row-click{ cursor:pointer; }
-  tr.row-click:hover{ background:var(--accent-soft); }
+  table{ width:100%; border-collapse:collapse; font-size:14px; }
+  th{
+    text-align:left; padding:11px 14px; color:var(--muted); font-weight:600; font-size:11.5px;
+    letter-spacing:.1px; border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  td{ padding:12px 14px; border-bottom:1px solid var(--line-soft); font-variant-numeric:tabular-nums; }
+  tr.row-click{ cursor:pointer; transition:background .1s; }
+  tr.row-click:hover{ background:var(--surface-2); }
   .score{ font-weight:600; }
   .score.low{ color:var(--warn); }
-  .score.empty{ color:#c3c9d3; font-weight:400; }
+  .score.empty{ color:var(--muted-2); font-weight:400; }
   th.sortable{ cursor:pointer; user-select:none; }
-  th.sortable:hover{ color:var(--navy); }
+  th.sortable:hover{ color:var(--blue); }
 
-  .table-wrap{ max-height:560px; overflow-y:auto; border:1px solid var(--line); border-radius:8px; }
-  .table-wrap thead th{ position:sticky; top:0; z-index:2; }
-  .lecture-num{ color:var(--muted); font-weight:600; white-space:nowrap; }
+  .table-wrap{ max-height:560px; overflow-y:auto; border:1px solid var(--line-soft); border-radius:14px; }
+  .table-wrap thead th{ position:sticky; top:0; z-index:2; background:var(--surface-2); }
+  .lecture-num{ color:var(--text); font-weight:600; white-space:nowrap; }
 
-  .hint{ text-align:center; color:var(--muted); font-size:13.5px; padding:40px 0; }
+  .hint{ text-align:center; color:var(--muted); font-size:14px; padding:44px 0; }
   .footnote{ color:var(--muted); font-size:12px; margin-top:6px; }
+
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{ background:#d2d2d7; border-radius:6px; border:2px solid var(--surface); }
+  ::-webkit-scrollbar-thumb:hover{ background:#b8b8bd; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>i-Learning — Tra cứu điểm học viên</h1>
-  <div class="sub" id="lastUpdated">Đang tải dữ liệu…</div>
+  <h1>i-Learning <span class="tag">Tra cứu điểm</span></h1>
+  <div class="sub"><span class="live-dot"></span><span id="lastUpdated">Đang tải dữ liệu…</span></div>
 </header>
 
 <main>
@@ -107,15 +175,20 @@
       <div class="suggest" id="suggestBox"></div>
     </div>
     <div class="filter-group grow">
-      <label>Tìm theo lớp</label>
+      <label>Tìm theo lớp (chọn có sẵn)</label>
       <select id="fClassSelect"><option value="">-- Chọn lớp --</option></select>
+    </div>
+    <div class="filter-group grow">
+      <label>Nhập mã lớp trực tiếp</label>
+      <input type="text" id="fClassCodeInput" placeholder="VD: AKH_26_OFF_CKENG_CKENGLISH2_424" autocomplete="off">
+      <div class="suggest" id="classCodeSuggestBox"></div>
     </div>
 
     <button class="filter-clear" id="clearFilters">Xóa bộ lọc</button>
   </div>
 
   <div id="resultArea">
-    <div class="hint">Nhập tên học viên hoặc chọn lớp để xem điểm chi tiết. Dùng các bộ lọc để thu hẹp phạm vi tìm kiếm.</div>
+    <div class="hint">Nhập tên học viên, chọn lớp, hoặc gõ thẳng mã lớp để xem điểm chi tiết.</div>
   </div>
 </main>
 
@@ -238,14 +311,58 @@ document.getElementById('clearFilters').addEventListener('click', ()=>{
   ['fVung','fChiNhanh','fChuongTrinh','fSyllabus','fLecture'].forEach(id=>document.getElementById(id).value = "");
   document.getElementById('fClassSelect').value = "";
   document.getElementById('fStudentName').value = "";
+  document.getElementById('fClassCodeInput').value = "";
   currentClassCode = null;
   refreshClassSelect();
-  document.getElementById('resultArea').innerHTML = '<div class="hint">Nhập tên học viên hoặc chọn lớp để xem điểm chi tiết. Dùng các bộ lọc để thu hẹp phạm vi tìm kiếm.</div>';
+  document.getElementById('resultArea').innerHTML = '<div class="hint">Nhập tên học viên, chọn lớp, hoặc gõ thẳng mã lớp để xem điểm chi tiết.</div>';
 });
 
 /* ===================== Tìm theo lớp ===================== */
 document.getElementById('fClassSelect').addEventListener('change', e=>{
   if(e.target.value) renderClassRoster(e.target.value);
+});
+
+/* ===================== Nhập mã lớp trực tiếp ===================== */
+const classCodeInput = document.getElementById('fClassCodeInput');
+const classCodeSuggestBox = document.getElementById('classCodeSuggestBox');
+
+function tryGoToClassCode(code){
+  const trimmed = code.trim();
+  if(!trimmed) return;
+  // Khớp chính xác (không phân biệt hoa/thường) trước, nếu không có thì khớp gần đúng đầu tiên
+  const exact = Object.keys(classRoster).find(c => c.toLowerCase() === trimmed.toLowerCase());
+  const partial = exact || Object.keys(classRoster).find(c => c.toLowerCase().includes(trimmed.toLowerCase()));
+  if(partial){
+    renderClassRoster(partial);
+    classCodeInput.value = partial;
+    classCodeSuggestBox.classList.remove('show');
+  } else {
+    document.getElementById('resultArea').innerHTML = `<div class="hint">Không tìm thấy mã lớp "${trimmed}". Kiểm tra lại chính tả hoặc thử chọn từ dropdown bên cạnh.</div>`;
+  }
+}
+
+classCodeInput.addEventListener('input', ()=>{
+  const q = classCodeInput.value.trim().toLowerCase();
+  if(!q){ classCodeSuggestBox.classList.remove('show'); return; }
+  const matches = Object.keys(classRoster).filter(c => c.toLowerCase().includes(q)).slice(0, 20);
+  if(matches.length){
+    classCodeSuggestBox.innerHTML = matches.map(c=>`<div class="suggest-item" data-code="${c}"><span>${c}</span></div>`).join('');
+    classCodeSuggestBox.classList.add('show');
+    classCodeSuggestBox.querySelectorAll('.suggest-item').forEach(item=>{
+      item.addEventListener('click', ()=> tryGoToClassCode(item.dataset.code));
+    });
+  } else {
+    classCodeSuggestBox.innerHTML = '<div class="suggest-item"><span>Không tìm thấy mã lớp phù hợp</span></div>';
+    classCodeSuggestBox.classList.add('show');
+  }
+});
+classCodeInput.addEventListener('keydown', e=>{
+  if(e.key === 'Enter'){ tryGoToClassCode(classCodeInput.value); }
+});
+document.addEventListener('click', e=>{
+  if(!classCodeInput.contains(e.target) && !classCodeSuggestBox.contains(e.target)){
+    classCodeSuggestBox.classList.remove('show');
+  }
 });
 
 /* ===================== Tìm theo tên học viên ===================== */
