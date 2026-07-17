@@ -1,34 +1,7 @@
 {
   "status": "in_progress",
-  "cycleStartedAt": "2026-07-17T13:33:21.567Z",
+  "cycleStartedAt": "2026-07-17T13:33:36.837Z",
   "totalClassesInCycle": 1252,
-  "remainingClasses": [
-    {
-      "Branch": "Scots English Vinhomes Smart City 2",
-      "Class": "VSC2_26_OFF_CKENG_CKENGLISH3_001",
-      "brch_id": 375,
-      "bsem_id": 66,
-      "cors_id": 1345,
-      "syl_id": 663,
-      "cls_id": 871,
-      "Program_LMS": "CK English",
-      "Syllabus_LMS": "CK English 3",
-      "Program_From_Plan": "CK English",
-      "Syllabus_From_Plan": "CK English 3"
-    },
-    {
-      "Branch": "Scots English Vinhomes Smart City 2",
-      "Class": "VSC2_26_OFF_CKENG_CKENGLISH3_002",
-      "brch_id": 375,
-      "bsem_id": 66,
-      "cors_id": 1345,
-      "syl_id": 663,
-      "cls_id": 1509,
-      "Program_LMS": "CK English",
-      "Syllabus_LMS": "CK English 3",
-      "Program_From_Plan": "CK English",
-      "Syllabus_From_Plan": "CK English 3"
-    }
-  ],
+  "remainingClasses": [],
   "cacheErrors": []
 }
