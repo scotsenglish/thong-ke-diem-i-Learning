@@ -18,7 +18,7 @@ DATA_DIR = os.path.join(ROOT, "data")
 RAW_SCORES_PATH = os.path.join(DATA_DIR, "raw_scores.json")
 BRANCH_MAP_PATH = os.path.join(DATA_DIR, "branch_region_map.json")
 TEMPLATE_PATH = os.path.join(ROOT, "template.html")
-OUTPUT_PATH = os.path.join(ROOT, "index.html")
+OUTPUT_PATH = os.path.join(ROOT, "dashboard.html")  # index.html giờ là trang chờ (landing page) tĩnh, không phải output của build.py
 
 
 def load_json(path, default):
