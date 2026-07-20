@@ -149,7 +149,7 @@ async function main() {
   const repoRoot = path.join(__dirname, "..");
   function gitCheckpointCommit(message) {
     try {
-      execSync("git add data/raw_scores.json data/run_log.json data/scrape_state.json", { cwd: repoRoot, stdio: "pipe" });
+      execSync("git add data/raw_scores.json data/run_log.json data/scrape_state.json data/class_calendar.json", { cwd: repoRoot, stdio: "pipe" });
       // Nếu không có gì thay đổi thì bỏ qua commit (tránh lỗi "nothing to commit")
       const hasChanges = execSync("git diff --cached --name-only", { cwd: repoRoot }).toString().trim().length > 0;
       if (!hasChanges) return;
@@ -164,12 +164,15 @@ async function main() {
   let classesForCycle;
   let allStudents;
   let allErrors = [];
+  let allCalendars;  // classCode -> { lectureNo: "YYYY-MM-DD" } — ngày dạy thật của từng lecture
   let totalClassesInCycle = 0;
+  const classCalendarPath = path.join(__dirname, "..", "data", "class_calendar.json");
 
   if (isResuming) {
     console.log(`== Đang TIẾP TỤC vòng quét dang dở: còn ${prevState.remainingClasses.length} lớp (bắt đầu vòng lúc ${prevState.cycleStartedAt}) ==`);
     classesForCycle = prevState.remainingClasses;
     allStudents = loadJsonSafe(rawScoresPath, []); // dữ liệu đã cào được ở các lần chạy trước trong vòng này
+    allCalendars = loadJsonSafe(classCalendarPath, {});
     totalClassesInCycle = prevState.totalClassesInCycle || prevState.remainingClasses.length;
   }
 
@@ -329,6 +332,7 @@ async function main() {
 
     classesForCycle = step1.cacheRows;
     allStudents = []; // vòng quét mới -> làm lại từ đầu, không giữ dữ liệu vòng cũ
+    allCalendars = {};
     totalClassesInCycle = classesForCycle.length;
 
     fs.writeFileSync(
@@ -348,8 +352,9 @@ async function main() {
   }
 
   // ================= Chuẩn bị ghi checkpoint + output =================
-  function saveOutputs(students, errors, meta) {
+  function saveOutputs(students, errors, calendars, meta) {
     fs.writeFileSync(path.join(outDir, "raw_scores.json"), JSON.stringify(students));
+    fs.writeFileSync(path.join(outDir, "class_calendar.json"), JSON.stringify(calendars));
     fs.writeFileSync(
       path.join(outDir, "run_log.json"),
       JSON.stringify(
@@ -373,10 +378,11 @@ async function main() {
   // tránh tích lũy dữ liệu khổng lồ trong RAM của tab Chrome gây bị kill giữa chừng.
   // Đồng thời cập nhật luôn file trạng thái resume (còn lại bao nhiêu lớp),
   // để nếu bị kill đột ngột thì lần chạy sau vẫn biết chính xác cần làm tiếp từ đâu.
-  await context.exposeFunction("__saveCheckpoint", (newStudentsBatch, newErrorsBatch, done, total) => {
+  await context.exposeFunction("__saveCheckpoint", (newStudentsBatch, newErrorsBatch, newCalendarBatch, done, total) => {
     allStudents = allStudents.concat(newStudentsBatch);
     allErrors = allErrors.concat(newErrorsBatch);
-    saveOutputs(allStudents, allErrors, {
+    Object.assign(allCalendars, newCalendarBatch);
+    saveOutputs(allStudents, allErrors, allCalendars, {
       checkpoint: true,
       progress: `${done}/${total}`
     });
@@ -477,11 +483,32 @@ async function main() {
       const rawScore = v => (v === null || v === undefined || v === "" ? "" : v);
 
       const students = new Map();
+      const classCalendars = new Map(); // classCode -> { lectureNo: "YYYY-MM-DD" }
       const errors = [];
       let done = 0;
 
+      async function fetchClassCalendar(item) {
+        try {
+          const journalRows = await post("CounClassInfoJournalList", { counn: { coun_cls_id: String(item.cls_id) } });
+          const calendar = {};
+          journalRows.forEach(r => {
+            const m = String(r.Lecture ?? "").match(/\d+/);
+            if (!m) return;
+            const lecNo = Number(m[0]);
+            const date = r.cjrn_classdate;
+            if (date && (!calendar[lecNo] || date < calendar[lecNo])) calendar[lecNo] = date;
+          });
+          if (Object.keys(calendar).length) {
+            classCalendars.set(`${item.Branch}||${item.Class}`, calendar);
+          }
+        } catch (err) {
+          // Không lấy được lịch học cũng không sao — build.py sẽ tự fallback nếu thiếu
+        }
+      }
+
       async function processClass(item) {
         try {
+          await fetchClassCalendar(item);
           const lectureRows = await post("CounRptLectureList", { counn: { cls_id: item.cls_id } });
           const lectures = lectureRows
             .map(x => ({
@@ -561,9 +588,11 @@ async function main() {
             // song song khác không bị mất dữ liệu nếu chúng ghi vào đúng lúc này.
             const batch = [...students.values()];
             const errBatch = [...errors];
+            const calBatch = Object.fromEntries(classCalendars);
             students.clear();
             errors.length = 0;
-            await window.__saveCheckpoint(batch, errBatch, done, classes.length);
+            classCalendars.clear();
+            await window.__saveCheckpoint(batch, errBatch, calBatch, done, classes.length);
           }
           await sleep(REQUEST_DELAY_MS);
         }
@@ -577,8 +606,8 @@ async function main() {
       );
 
       // Xả nốt phần chưa kịp checkpoint (nếu dừng không đúng mốc CHECKPOINT_EVERY)
-      if (students.size > 0 || errors.length > 0) {
-        await window.__saveCheckpoint([...students.values()], errors, done, classes.length);
+      if (students.size > 0 || errors.length > 0 || classCalendars.size > 0) {
+        await window.__saveCheckpoint([...students.values()], errors, Object.fromEntries(classCalendars), done, classes.length);
       }
 
       return { totalErrors: errors.length, stoppedEarly: index < classes.length, processedIndex: index };
@@ -614,7 +643,7 @@ async function main() {
   }
 
   // ================= Ghi file output cuối cùng (đầy đủ, không phải checkpoint) =================
-  saveOutputs(allStudents, allErrors, { checkpoint: !step2.stoppedEarly ? false : true });
+  saveOutputs(allStudents, allErrors, allCalendars, { checkpoint: !step2.stoppedEarly ? false : true });
 
   await browser.close();
   console.log("== Hoàn tất ==");

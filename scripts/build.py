@@ -17,6 +17,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(ROOT, "data")
 RAW_SCORES_PATH = os.path.join(DATA_DIR, "raw_scores.json")
 BRANCH_MAP_PATH = os.path.join(DATA_DIR, "branch_region_map.json")
+CLASS_CALENDAR_PATH = os.path.join(DATA_DIR, "class_calendar.json")
 TEMPLATE_PATH = os.path.join(ROOT, "template.html")
 OUTPUT_PATH = os.path.join(ROOT, "dashboard.html")  # index.html giờ là trang chờ (landing page) tĩnh, không phải output của build.py
 
@@ -121,15 +122,75 @@ def bucket_of(activity_name):
     return None  # VD "i-Boost" hoặc hoạt động lạ khác -> bỏ qua, không tính
 
 
-def build_legacy_stats(raw_rows, branch_region_map):
+def build_legacy_stats(raw_rows, branch_region_map, class_calendars):
     """
     Tính lại đúng cấu trúc CLASS_DATA / STUDENT_DATA của dashboard thống kê cũ
     (mỗi loại hoạt động có cặp Completed/Total), nhưng lấy thẳng từ dữ liệu
     raw_scores.json tự động thay vì phải upload file .xlsx export thủ công.
 
-    "Total" = số lượt hoạt động đã được LMS tạo ra cho học viên đó (dù đã chấm
-    điểm hay chưa). "Completed" = số lượt trong đó đã có điểm (khác rỗng).
+    "Total" chỉ tính tới lecture ĐÃ THỰC SỰ DẠY TỚI — xác định bằng NGÀY DẠY
+    THẬT lấy từ data/class_calendar.json (API CounClassInfoJournalList), so
+    với ngày build hiện tại. LMS tạo sẵn toàn bộ lecture của cả syllabus từ
+    đầu (kể cả lecture tương lai chưa dạy), nên KHÔNG thể dùng "lecture có
+    tồn tại trên LMS" để xác định tiến độ thật.
+
+    Nếu 1 lớp không có dữ liệu lịch (VD lần cào trước lỗi, hoặc lớp cũ chưa
+    kịp cào lại) -> fallback về cách cũ: coi lecture xa nhất có ít nhất 1
+    điểm khác rỗng là mốc "đã dạy tới" (kém chính xác hơn nhưng còn hơn không).
+
+    "Completed" = số lượt trong phạm vi đã dạy có điểm (khác rỗng).
     """
+    today_str = datetime.now(timezone(timedelta(hours=7))).strftime("%Y-%m-%d")
+
+    # ============ BƯỚC 1: xác định lecture xa nhất đã dạy, theo từng lớp ============
+    class_max_reached = {}       # (branch, class_name) -> lecture xa nhất đã dạy
+    classes_using_fallback = set()
+
+    for row in raw_rows:
+        class_code = str(row.get("Class", "")).strip()
+        branch = str(row.get("Branch", "")).strip()
+        if not class_code:
+            continue
+        key = (branch, class_code)
+        if key in class_max_reached:
+            continue  # đã tính lớp này rồi (từ 1 học viên khác), khỏi tính lại
+
+        calendar = class_calendars.get(f"{branch}||{class_code}")
+        if calendar:
+            # Có ngày dạy thật -> lecture xa nhất có ngày <= hôm nay
+            reached = [int(lec) for lec, date in calendar.items() if date and date <= today_str]
+            class_max_reached[key] = max(reached) if reached else 0
+        else:
+            # Fallback: không có lịch -> đoán qua điểm (như bản cũ)
+            classes_using_fallback.add(key)
+
+    if classes_using_fallback:
+        for row in raw_rows:
+            class_code = str(row.get("Class", "")).strip()
+            branch = str(row.get("Branch", "")).strip()
+            key = (branch, class_code)
+            if key not in classes_using_fallback:
+                continue
+            lectures_raw = row.get("lectures", {}) or {}
+            for lec_no_str, activities in lectures_raw.items():
+                has_any_score = any(
+                    score not in ("", None)
+                    for act_name, score in (activities or {}).items()
+                    if act_name != "_lessonName"
+                )
+                if not has_any_score:
+                    continue
+                try:
+                    lec_no = int(lec_no_str)
+                except (TypeError, ValueError):
+                    continue
+                if lec_no > class_max_reached.get(key, 0):
+                    class_max_reached[key] = lec_no
+
+        print(f"[CẢNH BÁO] {len(classes_using_fallback)} lớp chưa có dữ liệu lịch học thật "
+              f"(data/class_calendar.json) -> tạm dùng cách đoán qua điểm cho các lớp này.")
+
+    # ============ BƯỚC 2: tính Completed/Total, chỉ trong phạm vi đã dạy ============
     student_rows = []
 
     for row in raw_rows:
@@ -140,10 +201,18 @@ def build_legacy_stats(raw_rows, branch_region_map):
 
         branch = str(row.get("Branch", "")).strip()
         region = branch_region_map.get(branch, "Chưa xác định")
+        max_reached = class_max_reached.get((branch, class_code), 0)
 
         counts = {b: [0, 0] for b, _ in BUCKET_PREFIXES}  # [completed, total]
         lectures_raw = row.get("lectures", {}) or {}
-        for _lec_no_str, activities in lectures_raw.items():
+        for lec_no_str, activities in lectures_raw.items():
+            try:
+                lec_no = int(lec_no_str)
+            except (TypeError, ValueError):
+                continue
+            if lec_no > max_reached:
+                continue  # lecture chưa dạy tới (dù LMS đã tạo sẵn) -> bỏ qua
+
             for act_name, score in (activities or {}).items():
                 if act_name == "_lessonName":
                     continue
@@ -204,7 +273,9 @@ def main():
     students = build_student_dict(raw_rows, branch_region_map)
     print(f"Đã build {len(students)} dòng học viên-lớp (tab Tra cứu).")
 
-    legacy_class_rows, legacy_student_rows = build_legacy_stats(raw_rows, branch_region_map)
+    legacy_class_rows, legacy_student_rows = build_legacy_stats(
+        raw_rows, branch_region_map, load_json(CLASS_CALENDAR_PATH, {})
+    )
     print(f"Đã build {len(legacy_class_rows)} dòng lớp, {len(legacy_student_rows)} dòng học viên (tab Thống kê).")
 
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:

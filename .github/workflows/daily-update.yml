@@ -71,7 +71,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/raw_scores.json data/run_log.json data/scrape_state.json dashboard.html
+          git add data/raw_scores.json data/run_log.json data/scrape_state.json data/class_calendar.json dashboard.html
           git diff --quiet --cached || git commit -m "Auto update: $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
 
