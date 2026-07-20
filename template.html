@@ -6,6 +6,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
   :root{
     --bg:#f5f5f7; --surface:#ffffff; --surface-2:#fbfbfd; --fill:#f2f2f4;
@@ -135,16 +137,282 @@
   ::-webkit-scrollbar-track{ background:transparent; }
   ::-webkit-scrollbar-thumb{ background:#d2d2d7; border-radius:6px; border:2px solid var(--surface); }
   ::-webkit-scrollbar-thumb:hover{ background:#b8b8bd; }
+
+  /* ============ Tab Thống kê ============ */
+  .toptabs{ display:flex; gap:6px; margin-top:12px; }
+  .toptabs button{
+    padding:8px 16px; border-radius:20px; border:none; background:var(--fill);
+    color:var(--muted); font-size:13px; font-weight:600; cursor:pointer; transition:background .15s, color .15s;
+  }
+  .toptabs button.active{ background:var(--text); color:#fff; }
+  .toptabs button:not(.active):hover{ background:#e8e8ed; }
+  .hidden{ display:none !important; }
+
+  .subtabs{ display:flex; gap:8px; margin-bottom:18px; }
+  .tab-btn{
+    padding:9px 18px; border-radius:12px; border:1px solid var(--line-soft); background:var(--surface);
+    font-size:13px; font-weight:600; cursor:pointer; color:var(--muted); transition:background .15s, color .15s;
+  }
+  .tab-btn.active{ background:var(--text); color:#fff; border-color:var(--text); }
+
+  .section-label{ font-size:12px; font-weight:700; color:var(--muted); margin:6px 0 12px 2px; }
+
+  .kpi-row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px; margin-bottom:18px; }
+  .kpi-card{
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:18px; padding:18px 20px;
+    box-shadow:0 1px 2px rgba(0,0,0,.03), 0 10px 24px -18px rgba(0,0,0,.08);
+    border-left:4px solid #d2d2d7;
+  }
+  .kpi-card.ok{ border-left-color:#34c759; }
+  .kpi-card.ib{ border-left-color:#0071e3; }
+  .kpi-card.ir{ border-left-color:#5ac8fa; }
+  .kpi-card.il{ border-left-color:#34c759; }
+  .kpi-card.im{ border-left-color:#ff9500; }
+  .kpi-card.ic{ border-left-color:#af52de; }
+  .kpi-card.tot{ border-left-color:var(--text); }
+  .kpi-card .kpi-label{ font-size:11px; color:var(--muted); font-weight:600; margin-bottom:6px; }
+  .kpi-card .kpi-value{ font-size:22px; font-weight:700; color:var(--text); letter-spacing:-.01em; }
+  .kpi-card .kpi-sub{ font-size:11px; color:var(--muted); margin-top:2px; }
+
+  .chart-row{ display:grid; grid-template-columns:1.3fr 1fr; gap:16px; margin-bottom:18px; }
+  .chart-container{
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:18px; padding:20px 22px;
+    box-shadow:0 1px 2px rgba(0,0,0,.03), 0 10px 24px -18px rgba(0,0,0,.08);
+  }
+  .chart-container h3{ margin:0 0 4px 0; font-size:14.5px; font-weight:600; color:var(--text); }
+  .chart-container .hint{ font-size:11.5px; color:var(--muted); margin-bottom:12px; }
+  .chart-container canvas{ max-height:340px; }
+  .chart-canvas-wrap{ position:relative; height:320px; }
+  @media (max-width:900px){ .chart-row{ grid-template-columns:1fr; } .kpi-row{ grid-template-columns:repeat(2,1fr); } }
+
+  .heatmap-section{
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:18px; padding:20px 22px;
+    box-shadow:0 1px 2px rgba(0,0,0,.03), 0 10px 24px -18px rgba(0,0,0,.08);
+    margin-bottom:18px; overflow-x:auto;
+  }
+  .heatmap-section h3{ margin:0 0 4px 0; font-size:14.5px; font-weight:600; color:var(--text); }
+  .heatmap-section .hint{ font-size:11.5px; color:var(--muted); margin-bottom:12px; }
+  table.heatmap{ border-collapse:collapse; font-size:12.5px; width:100%; }
+  table.heatmap th{ padding:9px 10px; text-align:left; color:var(--muted); font-weight:600; white-space:nowrap; border-bottom:1px solid var(--line); }
+  table.heatmap td{ padding:7px 8px; text-align:center; white-space:nowrap; border-bottom:1px solid var(--line-soft); }
+  table.heatmap td.rowlabel{ text-align:left; font-weight:600; color:var(--text); }
+  .cell{ display:inline-flex; align-items:center; justify-content:center; min-width:46px; padding:4px 7px; border-radius:8px; font-weight:600; font-size:11.5px; color:#fff; }
+  .cell.na{ background:var(--fill); color:var(--muted-2); }
+
+  .table-section{
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:18px; padding:20px 22px;
+    box-shadow:0 1px 2px rgba(0,0,0,.03), 0 10px 24px -18px rgba(0,0,0,.08); overflow-x:auto;
+  }
+  .table-section h3{ margin:0 0 14px 0; font-size:14.5px; font-weight:600; color:var(--text); }
+  .table-controls{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px; }
+  .search-box{ padding:9px 12px; border:none; border-radius:10px; background:var(--fill); font-size:13.5px; min-width:260px; font-family:var(--font); }
+  .search-box:focus{ outline:none; box-shadow:0 0 0 4px var(--blue-dim); }
+  .row-count{ font-size:12.5px; color:var(--muted); }
+  .table-controls-right{ display:flex; align-items:center; gap:12px; }
+  .export-btn{
+    padding:8px 16px; border-radius:20px; border:none; background:var(--blue); color:#fff;
+    font-size:12.5px; cursor:pointer; font-weight:600; white-space:nowrap; transition:background .15s;
+  }
+  .export-btn:hover{ background:#0060c2; }
+  table.data-table{ width:100%; border-collapse:collapse; font-size:13px; }
+  .data-table thead th{
+    text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); color:var(--muted);
+    font-weight:600; font-size:10.5px; text-transform:uppercase; letter-spacing:.3px; cursor:pointer; white-space:nowrap;
+  }
+  .data-table thead th:hover{ color:var(--blue); }
+  .data-table tbody td{ padding:9px 8px; border-bottom:1px solid var(--line-soft); white-space:nowrap; }
+  .data-table tbody tr:hover{ background:var(--surface-2); }
+  .status-badge{ padding:3px 10px; border-radius:12px; font-size:10.5px; font-weight:700; color:#fff; display:inline-block; }
+  .pagination{ display:flex; gap:6px; justify-content:flex-end; margin-top:12px; align-items:center; font-size:12.5px; }
+  .pagination button{ border:none; background:var(--fill); border-radius:8px; padding:6px 12px; cursor:pointer; font-size:12.5px; }
+  .pagination button:disabled{ opacity:.4; cursor:default; }
+
+  .legend{ display:flex; gap:16px; font-size:12px; color:var(--muted); margin-top:10px; flex-wrap:wrap; }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+
+  .filters-row{
+    display:flex; gap:14px; flex-wrap:wrap; align-items:end;
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:20px;
+    padding:20px 22px 22px 22px; margin-bottom:22px;
+    box-shadow:0 1px 2px rgba(0,0,0,.03), 0 10px 30px -18px rgba(0,0,0,.08);
+  }
+  .filters-row .data-info-inline{ flex-basis:100%; font-size:12px; color:var(--muted); margin:-4px 0 6px 2px; }
+  .multiselect{ position:relative; }
+  .ms-toggle{
+    padding:9px 12px; border-radius:10px; border:none; background:var(--fill); color:var(--text);
+    font-size:13.5px; min-width:170px; text-align:left; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:8px;
+  }
+  .ms-toggle-label{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:150px; }
+  .ms-toggle:hover{ background:#e8e8ed; }
+  .ms-toggle .ms-count{ background:var(--blue); color:#fff; border-radius:10px; padding:1px 7px; font-size:11px; font-weight:700; }
+  .ms-panel{
+    position:absolute; top:calc(100% + 6px); left:0; z-index:500; background:var(--surface); color:var(--text);
+    border-radius:14px; box-shadow:0 20px 45px -15px rgba(0,0,0,.18); width:260px; padding:10px;
+    border:1px solid var(--line-soft);
+  }
+  .ms-panel.hidden{ display:none; }
+  .ms-search{ width:100%; padding:8px 10px; border:none; border-radius:8px; font-size:12.5px; margin-bottom:8px; background:var(--fill); font-family:var(--font); }
+  .ms-search:focus{ outline:none; box-shadow:0 0 0 3px var(--blue-dim); }
+  .ms-actions{ display:flex; gap:8px; margin-bottom:8px; }
+  .ms-actions button{ flex:1; font-size:11px; padding:6px 6px; border-radius:8px; border:none; background:var(--fill); cursor:pointer; color:var(--text); font-weight:600; }
+  .ms-actions button:hover{ background:#e8e8ed; }
+  .ms-options{ max-height:230px; overflow-y:auto; }
+  .ms-option{ display:flex; align-items:center; gap:8px; padding:6px 6px; font-size:12.5px; border-radius:8px; cursor:pointer; color:var(--text); }
+  .ms-option:hover{ background:var(--blue-dim); }
+  .ms-option input{ margin:0; }
+  .ms-empty{ font-size:12px; color:var(--muted); padding:8px 4px; text-align:center; }
+  .reset-btn{
+    padding:9px 16px; border-radius:20px; border:none; background:var(--fill); color:var(--muted);
+    font-size:13px; font-weight:600; cursor:pointer; height:40px; transition:background .15s, color .15s;
+  }
+  .reset-btn:hover{ background:#fbe4d5; color:var(--warn); }
+  .data-info{ font-size:12px; color:var(--muted); margin:-6px 0 14px 2px; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>i-Learning <span class="tag">Tra cứu điểm</span></h1>
+  <h1>i-Learning <span class="tag">Theo dõi & Tra cứu</span></h1>
   <div class="sub"><span class="live-dot"></span><span id="lastUpdated">Đang tải dữ liệu…</span></div>
+  <nav class="toptabs">
+    <button class="active" data-page="stats">Thống kê</button>
+    <button data-page="lookup">Tra cứu chi tiết</button>
+  </nav>
 </header>
 
 <main>
+
+<!-- ============ TRANG: THỐNG KÊ (dữ liệu tự động, thay cho upload file) ============ -->
+<div id="page-stats">
+  <div class="filters-row">
+    <div class="data-info-inline" id="data-info">Đang tải dữ liệu…</div>
+    <div class="filter-group"><label>Vùng</label><div class="multiselect" id="ms-region"></div></div>
+    <div class="filter-group"><label>Chi nhánh</label><div class="multiselect" id="ms-branch"></div></div>
+    <div class="filter-group"><label>Program</label><div class="multiselect" id="ms-program"></div></div>
+    <div class="filter-group"><label>Syllabus</label><div class="multiselect" id="ms-syllabus"></div></div>
+    <div class="filter-group"><label>Lớp</label><div class="multiselect" id="ms-class_name"></div></div>
+    <button class="reset-btn" id="reset-filters">↺ Xoá lọc</button>
+  </div>
+
+  <div class="subtabs">
+    <button class="tab-btn active" data-tab="classes">Theo Lớp</button>
+    <button class="tab-btn" data-tab="students">Theo Học viên</button>
+  </div>
+
+  <!-- ============ SUB-TAB: CLASSES ============ -->
+  <div id="tab-classes">
+    <div class="section-label">Tổng quan</div>
+    <section class="kpi-row">
+      <div class="kpi-card ok"><div class="kpi-label">Số lớp</div><div class="kpi-value" id="c-kpi-total">0</div><div class="kpi-sub" id="c-kpi-total-sub">trong phạm vi lọc</div></div>
+      <div class="kpi-card ib"><div class="kpi-label">% i-Build</div><div class="kpi-value" id="c-kpi-ib">0%</div></div>
+      <div class="kpi-card im"><div class="kpi-label">% i-Imagine</div><div class="kpi-value" id="c-kpi-im">0%</div></div>
+      <div class="kpi-card il"><div class="kpi-label">% i-Listen</div><div class="kpi-value" id="c-kpi-il">0%</div></div>
+      <div class="kpi-card ir"><div class="kpi-label">% i-Read</div><div class="kpi-value" id="c-kpi-ir">0%</div></div>
+      <div class="kpi-card ic"><div class="kpi-label">% i-Create</div><div class="kpi-value" id="c-kpi-ic">0%</div></div>
+      <div class="kpi-card tot"><div class="kpi-label">% Total</div><div class="kpi-value" id="c-kpi-tot">0%</div></div>
+    </section>
+
+    <section class="chart-row">
+      <div class="chart-container">
+        <h3>% Hoàn thành theo Vùng</h3>
+        <div class="hint">i-Build / i-Imagine / i-Listen / i-Read / i-Create (có trọng số theo số hoạt động)</div>
+        <div class="chart-canvas-wrap"><canvas id="chart-region"></canvas></div>
+      </div>
+      <div class="chart-container">
+        <h3>% Hoàn thành theo Program</h3>
+        <div class="hint">i-Build / i-Imagine / i-Listen / i-Read / i-Create</div>
+        <div class="chart-canvas-wrap"><canvas id="chart-program"></canvas></div>
+      </div>
+    </section>
+
+    <section class="heatmap-section">
+      <h3>Ma trận nhiệt: Chi nhánh × Loại hoạt động</h3>
+      <div class="hint">Xanh = tốt, cam = cần chú ý, đỏ = cần can thiệp gấp. Ô xám = chi nhánh không có hoạt động thuộc loại đó.</div>
+      <div id="heatmap-wrap"></div>
+      <div class="legend">
+        <span><span class="dot" style="background:#34c759"></span> ≥ 95%</span>
+        <span><span class="dot" style="background:#ff9500"></span> 50–95%</span>
+        <span><span class="dot" style="background:#ff3b30"></span> &lt; 50%</span>
+      </div>
+    </section>
+
+    <section class="chart-row">
+      <div class="chart-container" style="grid-column: span 2;">
+        <h3>Top 15 lớp có % hoàn thành thấp nhất (Total)</h3>
+        <div class="hint">Ưu tiên nhắc giáo viên phụ trách các lớp này</div>
+        <div class="chart-canvas-wrap"><canvas id="chart-class-risk"></canvas></div>
+      </div>
+    </section>
+
+    <section class="table-section">
+      <h3>Chi tiết theo Lớp</h3>
+      <div class="table-controls">
+        <input type="text" class="search-box" id="c-search" placeholder="Tìm theo chi nhánh, lớp, syllabus... (cách nhau bởi dấu phẩy để tìm nhiều)">
+        <div class="table-controls-right">
+          <button class="export-btn" id="c-export">⬇ Xuất Excel</button>
+          <div class="row-count" id="c-row-count">0 dòng</div>
+        </div>
+      </div>
+      <table class="data-table" id="c-table">
+        <thead><tr>
+          <th data-key="region">Vùng</th><th data-key="branch">Chi nhánh</th><th data-key="program">Program</th>
+          <th data-key="syllabus">Syllabus</th><th data-key="class_name">Lớp</th>
+          <th data-key="ib_rate">i-Build %</th><th data-key="im_rate">i-Imagine %</th>
+          <th data-key="il_rate">i-Listen %</th><th data-key="ir_rate">i-Read %</th>
+          <th data-key="ic_rate">i-Create %</th><th data-key="composite">Total %</th>
+          <th data-key="status">Trạng thái</th>
+        </tr></thead>
+        <tbody id="c-table-body"></tbody>
+      </table>
+      <div class="pagination">
+        <button id="c-prev">‹ Trước</button><span id="c-page-info">1/1</span><button id="c-next">Sau ›</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ SUB-TAB: STUDENTS ============ -->
+  <div id="tab-students" class="hidden">
+    <div class="section-label">Tổng quan</div>
+    <section class="kpi-row">
+      <div class="kpi-card ok"><div class="kpi-label">Số học viên</div><div class="kpi-value" id="s-kpi-total">0</div><div class="kpi-sub" id="s-kpi-total-sub">trong phạm vi lọc</div></div>
+      <div class="kpi-card ib"><div class="kpi-label">% i-Build</div><div class="kpi-value" id="s-kpi-ib">0%</div></div>
+      <div class="kpi-card im"><div class="kpi-label">% i-Imagine</div><div class="kpi-value" id="s-kpi-im">0%</div></div>
+      <div class="kpi-card il"><div class="kpi-label">% i-Listen</div><div class="kpi-value" id="s-kpi-il">0%</div></div>
+      <div class="kpi-card ir"><div class="kpi-label">% i-Read</div><div class="kpi-value" id="s-kpi-ir">0%</div></div>
+      <div class="kpi-card ic"><div class="kpi-label">% i-Create</div><div class="kpi-value" id="s-kpi-ic">0%</div></div>
+      <div class="kpi-card tot"><div class="kpi-label">% Total</div><div class="kpi-value" id="s-kpi-tot">0%</div></div>
+    </section>
+
+    <section class="table-section">
+      <h3>Chi tiết theo Học viên</h3>
+      <div class="table-controls">
+        <input type="text" class="search-box" id="s-search" placeholder="Tìm theo tên, mã HV, lớp... (cách nhau bởi dấu phẩy để tìm nhiều)">
+        <div class="table-controls-right">
+          <button class="export-btn" id="s-export">⬇ Xuất Excel</button>
+          <div class="row-count" id="s-row-count">0 dòng</div>
+        </div>
+      </div>
+      <table class="data-table" id="s-table">
+        <thead><tr>
+          <th data-key="region">Vùng</th><th data-key="branch">Chi nhánh</th><th data-key="program">Program</th>
+          <th data-key="class_name">Lớp</th><th data-key="student_id">Mã HV</th><th data-key="name">Tên HV</th>
+          <th data-key="ib_rate">i-Build %</th><th data-key="im_rate">i-Imagine %</th>
+          <th data-key="il_rate">i-Listen %</th><th data-key="ir_rate">i-Read %</th>
+          <th data-key="ic_rate">i-Create %</th><th data-key="composite">Total %</th>
+          <th data-key="status">Trạng thái</th>
+        </tr></thead>
+        <tbody id="s-table-body"></tbody>
+      </table>
+      <div class="pagination">
+        <button id="s-prev">‹ Trước</button><span id="s-page-info">1/1</span><button id="s-next">Sau ›</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ TRANG: TRA CỨU CHI TIẾT ============ -->
+<div id="page-lookup" class="hidden">
   <div class="filter-card">
     <div class="filter-group">
       <label>Vùng</label>
@@ -190,7 +458,439 @@
   <div id="resultArea">
     <div class="hint">Nhập tên học viên, chọn lớp, hoặc gõ thẳng mã lớp để xem điểm chi tiết.</div>
   </div>
+</div>
+
 </main>
+
+<script>
+/* ===================== TAB THỐNG KÊ — dữ liệu tự động do build.py nhúng ===================== */
+const LEGACY_CLASS_DATA = __LEGACY_CLASS_DATA__;
+const LEGACY_STUDENT_DATA = __LEGACY_STUDENT_DATA__;
+
+const LEGACY_COLORS = { done:'#34c759', mid:'#ff9500', bad:'#ff3b30', ib:'#0071e3', ir:'#5ac8fa', il:'#34c759', im:'#ff9500', ic:'#af52de' };
+
+function legacyRateColor(pct){
+  if (pct >= 95) return LEGACY_COLORS.done;
+  if (pct >= 50) return LEGACY_COLORS.mid;
+  return LEGACY_COLORS.bad;
+}
+function legacyStatusOf(pct){
+  if (pct >= 95) return 'Đã hoàn thành';
+  if (pct >= 50) return 'Còn thiếu';
+  return 'Cần can thiệp gấp';
+}
+function legacySafeDiv(a,b){ return b ? (a/b) : 0; }
+
+function legacyProcessRow(d){
+  const ib_rate = legacySafeDiv(d.ib_c, d.ib_t) * 100;
+  const im_rate = legacySafeDiv(d.im_c, d.im_t) * 100;
+  const il_rate = legacySafeDiv(d.il_c, d.il_t) * 100;
+  const ir_rate = legacySafeDiv(d.ir_c, d.ir_t) * 100;
+  const ic_rate = legacySafeDiv(d.ic_c, d.ic_t) * 100;
+  const composite = legacySafeDiv(d.tot_c, d.tot_t) * 100;
+  return {...d, ib_rate, im_rate, il_rate, ir_rate, ic_rate, composite, status: legacyStatusOf(composite)};
+}
+
+class LegacyMultiSelect{
+  static instances = [];
+  constructor(containerId, label, onChange){
+    this.container = document.getElementById(containerId);
+    this.label = label;
+    this.onChange = onChange;
+    this.options = [];
+    this.selected = new Set();
+    this.searchTerm = '';
+    this.isOpen = false;
+    this.render();
+    LegacyMultiSelect.instances.push(this);
+  }
+  static initOutsideClickHandler(){
+    if (LegacyMultiSelect._handlerInit) return;
+    LegacyMultiSelect._handlerInit = true;
+    document.addEventListener('click', (e) => {
+      LegacyMultiSelect.instances.forEach(m => { if (m.isOpen && !m.container.contains(e.target)) m.close(); });
+    });
+  }
+  render(){
+    this.container.innerHTML = `
+      <button type="button" class="ms-toggle"><span class="ms-toggle-label">Tất cả</span><span>▾</span></button>
+      <div class="ms-panel hidden">
+        <input type="text" class="ms-search" placeholder="Tìm...">
+        <div class="ms-actions">
+          <button type="button" class="ms-all">Chọn tất cả</button>
+          <button type="button" class="ms-none">Bỏ chọn</button>
+        </div>
+        <div class="ms-options"></div>
+      </div>`;
+    this.toggleBtn = this.container.querySelector('.ms-toggle');
+    this.toggleLabel = this.container.querySelector('.ms-toggle-label');
+    this.panel = this.container.querySelector('.ms-panel');
+    this.searchInput = this.container.querySelector('.ms-search');
+    this.optionsWrap = this.container.querySelector('.ms-options');
+    this.toggleBtn.addEventListener('click', (e) => { e.stopPropagation(); this.isOpen ? this.close() : this.open(); });
+    this.searchInput.addEventListener('click', e => e.stopPropagation());
+    this.searchInput.addEventListener('input', () => { this.searchTerm = this.searchInput.value.toLowerCase(); this.renderOptions(); });
+    this.container.querySelector('.ms-all').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.filteredOptions().forEach(v => this.selected.add(v));
+      this.renderOptions(); this.updateLabel(); this.onChange(this.selected);
+    });
+    this.container.querySelector('.ms-none').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.selected.clear();
+      this.renderOptions(); this.updateLabel(); this.onChange(this.selected);
+    });
+  }
+  filteredOptions(){
+    if (!this.searchTerm) return this.options;
+    return this.options.filter(o => String(o).toLowerCase().includes(this.searchTerm));
+  }
+  renderOptions(){
+    const opts = this.filteredOptions();
+    if (!opts.length){ this.optionsWrap.innerHTML = '<div class="ms-empty">Không có kết quả</div>'; return; }
+    this.optionsWrap.innerHTML = opts.map(o => {
+      const checked = this.selected.has(o) ? 'checked' : '';
+      const safe = String(o).replace(/"/g,'&quot;');
+      return `<label class="ms-option"><input type="checkbox" value="${safe}" ${checked}><span>${o}</span></label>`;
+    }).join('');
+    this.optionsWrap.querySelectorAll('input[type=checkbox]').forEach(cb => {
+      cb.addEventListener('click', e => e.stopPropagation());
+      cb.addEventListener('change', () => {
+        if (cb.checked) this.selected.add(cb.value); else this.selected.delete(cb.value);
+        this.updateLabel();
+        this.onChange(this.selected);
+      });
+    });
+  }
+  updateLabel(){
+    if (this.selected.size===0) this.toggleLabel.textContent = 'Tất cả';
+    else if (this.selected.size===1) this.toggleLabel.textContent = Array.from(this.selected)[0];
+    else this.toggleLabel.textContent = `${this.selected.size} đã chọn`;
+  }
+  setOptions(options){
+    this.options = options;
+    this.selected.forEach(v => { if (!options.includes(v)) this.selected.delete(v); });
+    this.renderOptions();
+    this.updateLabel();
+  }
+  clearSelection(){ this.selected.clear(); this.renderOptions(); this.updateLabel(); }
+  open(){
+    LegacyMultiSelect.instances.forEach(m => { if (m!==this) m.close(); });
+    this.isOpen = true; this.panel.classList.remove('hidden');
+    void this.panel.offsetHeight;
+    this.searchInput.value=''; this.searchTerm=''; this.renderOptions();
+    this.searchInput.focus();
+  }
+  close(){ this.isOpen = false; this.panel.classList.add('hidden'); }
+}
+LegacyMultiSelect.initOutsideClickHandler();
+
+class LegacyDashboard{
+  static FILTER_DIMS = ['region','branch','program','syllabus','class_name'];
+  constructor(classData, studentData){
+    this.classData = classData.map(legacyProcessRow);
+    this.studentData = studentData.map(legacyProcessRow);
+    this.filters = {};
+    LegacyDashboard.FILTER_DIMS.forEach(dim => { this.filters[dim] = new Set(); });
+    this.activeTab = 'classes';
+    this.cSort = { key:'composite', dir:'asc' }; this.cPage = 0; this.cPageSize = 15; this.cSearch = [];
+    this.sSort = { key:'composite', dir:'asc' }; this.sPage = 0; this.sPageSize = 15; this.sSearch = [];
+    this.charts = {};
+    this.init();
+  }
+  init(){
+    const info = document.getElementById('data-info');
+    if (info) info.textContent = `Nguồn dữ liệu: tự động cập nhật lúc __BUILD_TIME__ • ${this.classData.length.toLocaleString('vi-VN')} lớp, ${this.studentData.length.toLocaleString('vi-VN')} học viên`;
+    this.setupSubtabs();
+    this.setupFilters();
+    this.setupTableEvents();
+    this.render();
+  }
+  setupSubtabs(){
+    document.querySelectorAll('#page-stats .tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#page-stats .tab-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        this.activeTab = btn.dataset.tab;
+        document.getElementById('tab-classes').classList.toggle('hidden', this.activeTab !== 'classes');
+        document.getElementById('tab-students').classList.toggle('hidden', this.activeTab !== 'students');
+        this.render();
+      });
+    });
+  }
+  uniq(dataset, field, filterFn){
+    const set = new Set();
+    dataset.filter(filterFn).forEach(d => {
+      const v = d[field];
+      if (v !== undefined && v !== null && v !== '') set.add(String(v));
+    });
+    const arr = Array.from(set);
+    const allNumeric = arr.length>0 && arr.every(v => v!=='' && !isNaN(v));
+    return allNumeric ? arr.sort((a,b)=>Number(a)-Number(b)) : arr.sort((a,b)=>a.localeCompare(b,'vi'));
+  }
+  passesOthers(d, exceptKey){
+    const f = this.filters;
+    const check = (key) => key===exceptKey || f[key].size===0 || f[key].has(String(d[key]));
+    return LegacyDashboard.FILTER_DIMS.every(check);
+  }
+  refreshCascade(){
+    const base = this.classData;
+    LegacyDashboard.FILTER_DIMS.forEach(dim => {
+      this.ms[dim].setOptions(this.uniq(base, dim, d => this.passesOthers(d, dim)));
+    });
+  }
+  setupFilters(){
+    const labels = { region:'Vùng', branch:'Chi nhánh', program:'Program', syllabus:'Syllabus', class_name:'Lớp' };
+    const onChange = (key, selectedSet) => {
+      this.filters[key] = selectedSet;
+      this.refreshCascade();
+      this.cPage=0; this.sPage=0; this.render();
+    };
+    this.ms = {};
+    LegacyDashboard.FILTER_DIMS.forEach(dim => {
+      this.ms[dim] = new LegacyMultiSelect('ms-'+dim, labels[dim], (s)=>onChange(dim, s));
+    });
+    this.refreshCascade();
+    document.getElementById('reset-filters').addEventListener('click', () => {
+      LegacyDashboard.FILTER_DIMS.forEach(dim => { this.filters[dim] = new Set(); });
+      Object.values(this.ms).forEach(m => m.clearSelection());
+      this.refreshCascade(); this.cPage=0; this.sPage=0; this.render();
+    });
+  }
+  setupTableEvents(){
+    document.getElementById('c-search').addEventListener('input', e => { this.cSearch = e.target.value.toLowerCase().split(',').map(s=>s.trim()).filter(Boolean); this.cPage=0; this.renderClassTable(); });
+    document.getElementById('s-search').addEventListener('input', e => { this.sSearch = e.target.value.toLowerCase().split(',').map(s=>s.trim()).filter(Boolean); this.sPage=0; this.renderStudentTable(); });
+    document.querySelectorAll('#c-table thead th').forEach(th => th.addEventListener('click', () => {
+      if (this.cSort.key === th.dataset.key) this.cSort.dir = this.cSort.dir==='asc'?'desc':'asc';
+      else { this.cSort.key = th.dataset.key; this.cSort.dir='asc'; }
+      this.renderClassTable();
+    }));
+    document.querySelectorAll('#s-table thead th').forEach(th => th.addEventListener('click', () => {
+      if (this.sSort.key === th.dataset.key) this.sSort.dir = this.sSort.dir==='asc'?'desc':'asc';
+      else { this.sSort.key = th.dataset.key; this.sSort.dir='asc'; }
+      this.renderStudentTable();
+    }));
+    document.getElementById('c-prev').addEventListener('click', () => { if (this.cPage>0){ this.cPage--; this.renderClassTable(); }});
+    document.getElementById('c-next').addEventListener('click', () => {
+      const maxPage = Math.max(0, Math.ceil(this.getFilteredClasses().length / this.cPageSize) - 1);
+      if (this.cPage < maxPage){ this.cPage++; this.renderClassTable(); }
+    });
+    document.getElementById('s-prev').addEventListener('click', () => { if (this.sPage>0){ this.sPage--; this.renderStudentTable(); }});
+    document.getElementById('s-next').addEventListener('click', () => {
+      const maxPage = Math.max(0, Math.ceil(this.getFilteredStudents().length / this.sPageSize) - 1);
+      if (this.sPage < maxPage){ this.sPage++; this.renderStudentTable(); }
+    });
+    document.getElementById('c-export').addEventListener('click', () => this.exportClasses());
+    document.getElementById('s-export').addEventListener('click', () => this.exportStudents());
+  }
+  exportToExcel(rows, columns, filename){
+    if (!rows.length){ alert('Không có dữ liệu để xuất trong phạm vi lọc hiện tại.'); return; }
+    const data = rows.map(d => { const obj = {}; columns.forEach(c => { obj[c.header] = c.get(d); }); return obj; });
+    const ws = XLSX.utils.json_to_sheet(data);
+    ws['!cols'] = columns.map(c => ({ wch: Math.max(c.header.length, 12) }));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data');
+    XLSX.writeFile(wb, filename);
+  }
+  exportClasses(){
+    const data = this.getClassTableData();
+    const columns = [
+      { header:'Vùng', get:d=>d.region }, { header:'Chi nhánh', get:d=>d.branch }, { header:'Program', get:d=>d.program },
+      { header:'Syllabus', get:d=>d.syllabus }, { header:'Lớp', get:d=>d.class_name },
+      { header:'i-Build %', get:d=>Number(d.ib_rate.toFixed(2)) }, { header:'i-Imagine %', get:d=>Number(d.im_rate.toFixed(2)) },
+      { header:'i-Listen %', get:d=>Number(d.il_rate.toFixed(2)) }, { header:'i-Read %', get:d=>Number(d.ir_rate.toFixed(2)) },
+      { header:'i-Create %', get:d=>Number(d.ic_rate.toFixed(2)) }, { header:'Total %', get:d=>Number(d.composite.toFixed(2)) },
+      { header:'Trạng thái', get:d=>d.status },
+    ];
+    this.exportToExcel(data, columns, `i-Learning_theo_lop_${new Date().toISOString().slice(0,10)}.xlsx`);
+  }
+  exportStudents(){
+    const data = this.getStudentTableData();
+    const columns = [
+      { header:'Vùng', get:d=>d.region }, { header:'Chi nhánh', get:d=>d.branch }, { header:'Program', get:d=>d.program },
+      { header:'Lớp', get:d=>d.class_name }, { header:'Mã HV', get:d=>d.student_id }, { header:'Tên HV', get:d=>d.name },
+      { header:'i-Build %', get:d=>Number(d.ib_rate.toFixed(2)) }, { header:'i-Imagine %', get:d=>Number(d.im_rate.toFixed(2)) },
+      { header:'i-Listen %', get:d=>Number(d.il_rate.toFixed(2)) }, { header:'i-Read %', get:d=>Number(d.ir_rate.toFixed(2)) },
+      { header:'i-Create %', get:d=>Number(d.ic_rate.toFixed(2)) }, { header:'Total %', get:d=>Number(d.composite.toFixed(2)) },
+      { header:'Trạng thái', get:d=>d.status },
+    ];
+    this.exportToExcel(data, columns, `i-Learning_theo_hoc_vien_${new Date().toISOString().slice(0,10)}.xlsx`);
+  }
+  matchesFilter(d){
+    const f = this.filters;
+    return LegacyDashboard.FILTER_DIMS.every(key => f[key].size===0 || f[key].has(String(d[key])));
+  }
+  getFilteredClasses(){ return this.classData.filter(d => this.matchesFilter(d)); }
+  getFilteredStudents(){ return this.studentData.filter(d => this.matchesFilter(d)); }
+  render(){
+    if (this.activeTab === 'classes'){ this.renderClassKPIs(); this.renderClassCharts(); this.renderHeatmap(); this.renderClassTable(); }
+    else { this.renderStudentKPIs(); this.renderStudentTable(); }
+  }
+  weightedRate(rows, cField, tField){
+    let num=0, den=0;
+    rows.forEach(r => { num += r[cField]; den += r[tField]; });
+    return den ? (num/den*100) : 0;
+  }
+  renderClassKPIs(){
+    const data = this.getFilteredClasses();
+    document.getElementById('c-kpi-total').textContent = data.length.toLocaleString('vi-VN');
+    document.getElementById('c-kpi-total-sub').textContent = `${new Set(data.map(d=>d.branch)).size} chi nhánh`;
+    document.getElementById('c-kpi-ib').textContent = this.weightedRate(data,'ib_c','ib_t').toFixed(2)+'%';
+    document.getElementById('c-kpi-im').textContent = this.weightedRate(data,'im_c','im_t').toFixed(2)+'%';
+    document.getElementById('c-kpi-il').textContent = this.weightedRate(data,'il_c','il_t').toFixed(2)+'%';
+    document.getElementById('c-kpi-ir').textContent = this.weightedRate(data,'ir_c','ir_t').toFixed(2)+'%';
+    document.getElementById('c-kpi-ic').textContent = this.weightedRate(data,'ic_c','ic_t').toFixed(2)+'%';
+    document.getElementById('c-kpi-tot').textContent = this.weightedRate(data,'tot_c','tot_t').toFixed(2)+'%';
+  }
+  upsertChart(canvasId, type, data, extraOptions){
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    if (this.charts[canvasId]) this.charts[canvasId].destroy();
+    this.charts[canvasId] = new Chart(ctx, {
+      type, data,
+      options: Object.assign({ responsive:true, maintainAspectRatio:false, animation:false,
+        plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, font:{size:11} } } } }, extraOptions)
+    });
+  }
+  groupBy(data, field){
+    const agg = {};
+    data.forEach(d => { agg[d[field]] = agg[d[field]] || []; agg[d[field]].push(d); });
+    return agg;
+  }
+  renderClassCharts(){
+    const data = this.getFilteredClasses();
+    const regionAgg = this.groupBy(data, 'region');
+    const regionLabels = Object.keys(regionAgg).sort((a,b)=>a.localeCompare(b,'vi'));
+    this.upsertChart('chart-region', 'bar', {
+      labels: regionLabels,
+      datasets: [
+        { label:'i-Build', data: regionLabels.map(r=>this.weightedRate(regionAgg[r],'ib_c','ib_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ib },
+        { label:'i-Imagine', data: regionLabels.map(r=>this.weightedRate(regionAgg[r],'im_c','im_t').toFixed(2)), backgroundColor: LEGACY_COLORS.im },
+        { label:'i-Listen', data: regionLabels.map(r=>this.weightedRate(regionAgg[r],'il_c','il_t').toFixed(2)), backgroundColor: LEGACY_COLORS.il },
+        { label:'i-Read', data: regionLabels.map(r=>this.weightedRate(regionAgg[r],'ir_c','ir_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ir },
+        { label:'i-Create', data: regionLabels.map(r=>this.weightedRate(regionAgg[r],'ic_c','ic_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ic },
+      ]
+    }, { indexAxis:'y', scales:{ x:{ suggestedMax:100 } } });
+    const progAgg = this.groupBy(data, 'program');
+    const progLabels = Object.keys(progAgg);
+    this.upsertChart('chart-program', 'bar', {
+      labels: progLabels,
+      datasets: [
+        { label:'i-Build', data: progLabels.map(p=>this.weightedRate(progAgg[p],'ib_c','ib_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ib },
+        { label:'i-Imagine', data: progLabels.map(p=>this.weightedRate(progAgg[p],'im_c','im_t').toFixed(2)), backgroundColor: LEGACY_COLORS.im },
+        { label:'i-Listen', data: progLabels.map(p=>this.weightedRate(progAgg[p],'il_c','il_t').toFixed(2)), backgroundColor: LEGACY_COLORS.il },
+        { label:'i-Read', data: progLabels.map(p=>this.weightedRate(progAgg[p],'ir_c','ir_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ir },
+        { label:'i-Create', data: progLabels.map(p=>this.weightedRate(progAgg[p],'ic_c','ic_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ic },
+      ]
+    }, { scales:{ y:{ suggestedMax:100 } } });
+    const worst = [...data].sort((a,b)=>a.composite-b.composite).slice(0,15);
+    this.upsertChart('chart-class-risk', 'bar', {
+      labels: worst.map(d => `${d.branch.replace('Scots English ','')} · ${d.class_name}`),
+      datasets: [{ label:'% Total', data: worst.map(d=>d.composite.toFixed(2)), backgroundColor: worst.map(d=>legacyRateColor(d.composite)) }]
+    }, { indexAxis:'y', scales:{ x:{ suggestedMax:100 } }, plugins:{legend:{display:false}} });
+  }
+  renderHeatmap(){
+    const data = this.getFilteredClasses();
+    const branchAgg = this.groupBy(data, 'branch');
+    const branches = Object.keys(branchAgg).sort((a,b)=>a.localeCompare(b,'vi'));
+    const types = [
+      {label:'i-Build', cF:'ib_c', tF:'ib_t'}, {label:'i-Imagine', cF:'im_c', tF:'im_t'},
+      {label:'i-Listen', cF:'il_c', tF:'il_t'}, {label:'i-Read', cF:'ir_c', tF:'ir_t'}, {label:'i-Create', cF:'ic_c', tF:'ic_t'},
+    ];
+    let html = '<table class="heatmap"><thead><tr><th>Chi nhánh</th>';
+    types.forEach(t => html += `<th>${t.label}</th>`);
+    html += '</tr></thead><tbody>';
+    branches.forEach(b => {
+      html += `<tr><td class="rowlabel">${b}</td>`;
+      const rows = branchAgg[b];
+      types.forEach(t => {
+        const tot = rows.reduce((s,r)=>s+r[t.tF],0);
+        if (!tot){ html += `<td><span class="cell na">–</span></td>`; }
+        else { const v = this.weightedRate(rows, t.cF, t.tF); html += `<td><span class="cell" style="background:${legacyRateColor(v)}">${v.toFixed(2)}%</span></td>`; }
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    document.getElementById('heatmap-wrap').innerHTML = html;
+  }
+  sortRows(data, sortCfg){
+    const {key, dir} = sortCfg; const mult = dir==='asc'?1:-1;
+    return [...data].sort((a,b) => {
+      let va=a[key], vb=b[key];
+      if (va === null) va = -1; if (vb === null) vb = -1;
+      if (typeof va === 'string') return va.localeCompare(vb,'vi')*mult;
+      return ((va??0)-(vb??0))*mult;
+    });
+  }
+  getClassTableData(){
+    let data = this.getFilteredClasses();
+    if (this.cSearch.length) data = data.filter(d => { const hay = [d.branch,d.class_name,d.syllabus,d.program].join(' ').toLowerCase(); return this.cSearch.some(term => hay.includes(term)); });
+    return this.sortRows(data, this.cSort);
+  }
+  renderClassTable(){
+    const data = this.getClassTableData();
+    document.getElementById('c-row-count').textContent = `${data.length.toLocaleString('vi-VN')} dòng`;
+    const maxPage = Math.max(0, Math.ceil(data.length/this.cPageSize)-1);
+    if (this.cPage>maxPage) this.cPage=maxPage;
+    const page = data.slice(this.cPage*this.cPageSize, this.cPage*this.cPageSize+this.cPageSize);
+    document.getElementById('c-table-body').innerHTML = page.map(d => `
+      <tr><td>${d.region}</td><td>${d.branch}</td><td>${d.program}</td><td>${d.syllabus}</td><td>${d.class_name}</td>
+      <td>${d.ib_rate.toFixed(2)}%</td><td>${d.im_rate.toFixed(2)}%</td>
+      <td>${d.il_rate.toFixed(2)}%</td><td>${d.ir_rate.toFixed(2)}%</td>
+      <td>${d.ic_rate.toFixed(2)}%</td><td>${d.composite.toFixed(2)}%</td>
+      <td><span class="status-badge" style="background:${legacyRateColor(d.composite)}">${d.status}</span></td></tr>
+    `).join('');
+    document.getElementById('c-page-info').textContent = `${this.cPage+1}/${maxPage+1}`;
+    document.getElementById('c-prev').disabled = this.cPage===0;
+    document.getElementById('c-next').disabled = this.cPage>=maxPage;
+  }
+  renderStudentKPIs(){
+    const data = this.getFilteredStudents();
+    document.getElementById('s-kpi-total').textContent = data.length.toLocaleString('vi-VN');
+    document.getElementById('s-kpi-total-sub').textContent = `${new Set(data.map(d=>d.branch)).size} chi nhánh`;
+    document.getElementById('s-kpi-ib').textContent = this.weightedRate(data,'ib_c','ib_t').toFixed(2)+'%';
+    document.getElementById('s-kpi-im').textContent = this.weightedRate(data,'im_c','im_t').toFixed(2)+'%';
+    document.getElementById('s-kpi-il').textContent = this.weightedRate(data,'il_c','il_t').toFixed(2)+'%';
+    document.getElementById('s-kpi-ir').textContent = this.weightedRate(data,'ir_c','ir_t').toFixed(2)+'%';
+    document.getElementById('s-kpi-ic').textContent = this.weightedRate(data,'ic_c','ic_t').toFixed(2)+'%';
+    document.getElementById('s-kpi-tot').textContent = this.weightedRate(data,'tot_c','tot_t').toFixed(2)+'%';
+  }
+  getStudentTableData(){
+    let data = this.getFilteredStudents();
+    if (this.sSearch.length) data = data.filter(d => { const hay = [d.name,d.student_id,d.class_name,d.branch].join(' ').toLowerCase(); return this.sSearch.some(term => hay.includes(term)); });
+    return this.sortRows(data, this.sSort);
+  }
+  renderStudentTable(){
+    const data = this.getStudentTableData();
+    document.getElementById('s-row-count').textContent = `${data.length.toLocaleString('vi-VN')} dòng`;
+    const maxPage = Math.max(0, Math.ceil(data.length/this.sPageSize)-1);
+    if (this.sPage>maxPage) this.sPage=maxPage;
+    const page = data.slice(this.sPage*this.sPageSize, this.sPage*this.sPageSize+this.sPageSize);
+    document.getElementById('s-table-body').innerHTML = page.map(d => `
+      <tr><td>${d.region}</td><td>${d.branch}</td><td>${d.program}</td><td>${d.class_name}</td>
+      <td>${d.student_id}</td><td>${d.name}</td>
+      <td>${d.ib_rate.toFixed(2)}%</td><td>${d.im_rate.toFixed(2)}%</td>
+      <td>${d.il_rate.toFixed(2)}%</td><td>${d.ir_rate.toFixed(2)}%</td>
+      <td>${d.ic_rate.toFixed(2)}%</td><td>${d.composite.toFixed(2)}%</td>
+      <td><span class="status-badge" style="background:${legacyRateColor(d.composite)}">${d.status}</span></td></tr>
+    `).join('');
+    document.getElementById('s-page-info').textContent = `${this.sPage+1}/${maxPage+1}`;
+    document.getElementById('s-prev').disabled = this.sPage===0;
+    document.getElementById('s-next').disabled = this.sPage>=maxPage;
+  }
+}
+const legacyDashboard = new LegacyDashboard(LEGACY_CLASS_DATA, LEGACY_STUDENT_DATA);
+
+/* ===================== Chuyển đổi 2 trang cấp cao nhất ===================== */
+document.querySelectorAll('.toptabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.toptabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const page = btn.dataset.page;
+    document.getElementById('page-stats').classList.toggle('hidden', page !== 'stats');
+    document.getElementById('page-lookup').classList.toggle('hidden', page !== 'lookup');
+  });
+});
+</script>
 
 <script>
 /* ===================== Dữ liệu thật do build.py nhúng vào ===================== */

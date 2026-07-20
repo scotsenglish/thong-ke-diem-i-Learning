@@ -103,6 +103,96 @@ def build_student_dict(raw_rows, branch_region_map):
     return students
 
 
+BUCKET_PREFIXES = [
+    ("ib", "i-build"),
+    ("im", "i-imagine"),
+    ("il", "i-listen"),
+    ("ir", "i-read"),
+    ("ic", "i-create"),
+]  # Giữ đúng 5 loại của dashboard thống kê cũ. i-Boost KHÔNG tính vào đây
+   # (dashboard cũ chưa có khái niệm i-Boost) để giữ nguyên công thức % Total cũ.
+
+
+def bucket_of(activity_name):
+    key = activity_name.strip().lower()
+    for bucket, prefix in BUCKET_PREFIXES:
+        if key.startswith(prefix):
+            return bucket
+    return None  # VD "i-Boost" hoặc hoạt động lạ khác -> bỏ qua, không tính
+
+
+def build_legacy_stats(raw_rows, branch_region_map):
+    """
+    Tính lại đúng cấu trúc CLASS_DATA / STUDENT_DATA của dashboard thống kê cũ
+    (mỗi loại hoạt động có cặp Completed/Total), nhưng lấy thẳng từ dữ liệu
+    raw_scores.json tự động thay vì phải upload file .xlsx export thủ công.
+
+    "Total" = số lượt hoạt động đã được LMS tạo ra cho học viên đó (dù đã chấm
+    điểm hay chưa). "Completed" = số lượt trong đó đã có điểm (khác rỗng).
+    """
+    student_rows = []
+
+    for row in raw_rows:
+        sid_raw = str(row.get("ID", "")).strip()
+        class_code = str(row.get("Class", "")).strip()
+        if not sid_raw or not class_code:
+            continue
+
+        branch = str(row.get("Branch", "")).strip()
+        region = branch_region_map.get(branch, "Chưa xác định")
+
+        counts = {b: [0, 0] for b, _ in BUCKET_PREFIXES}  # [completed, total]
+        lectures_raw = row.get("lectures", {}) or {}
+        for _lec_no_str, activities in lectures_raw.items():
+            for act_name, score in (activities or {}).items():
+                if act_name == "_lessonName":
+                    continue
+                bucket = bucket_of(act_name)
+                if bucket is None:
+                    continue
+                counts[bucket][1] += 1  # total
+                if score not in ("", None):
+                    counts[bucket][0] += 1  # completed
+
+        tot_c = sum(c for c, _t in counts.values())
+        tot_t = sum(t for _c, t in counts.values())
+
+        student_rows.append({
+            "region": region,
+            "branch": branch,
+            "program": row.get("Program", ""),
+            "syllabus": row.get("Syllabus", ""),
+            "class_name": class_code,
+            "student_id": sid_raw,
+            "name": row.get("Name", ""),
+            "ib_c": counts["ib"][0], "ib_t": counts["ib"][1],
+            "im_c": counts["im"][0], "im_t": counts["im"][1],
+            "il_c": counts["il"][0], "il_t": counts["il"][1],
+            "ir_c": counts["ir"][0], "ir_t": counts["ir"][1],
+            "ic_c": counts["ic"][0], "ic_t": counts["ic"][1],
+            "tot_c": tot_c, "tot_t": tot_t,
+        })
+
+    # Gộp theo lớp (Branch + Class) để ra CLASS_DATA
+    class_groups = {}
+    for r in student_rows:
+        key = (r["branch"], r["class_name"])
+        if key not in class_groups:
+            class_groups[key] = {
+                "region": r["region"], "branch": r["branch"], "program": r["program"],
+                "syllabus": r["syllabus"], "class_name": r["class_name"],
+                "ib_c": 0, "ib_t": 0, "im_c": 0, "im_t": 0, "il_c": 0, "il_t": 0,
+                "ir_c": 0, "ir_t": 0, "ic_c": 0, "ic_t": 0, "tot_c": 0, "tot_t": 0,
+            }
+        g = class_groups[key]
+        for field in ("ib_c", "ib_t", "im_c", "im_t", "il_c", "il_t",
+                      "ir_c", "ir_t", "ic_c", "ic_t", "tot_c", "tot_t"):
+            g[field] += r[field]
+
+    class_rows = list(class_groups.values())
+    return class_rows, student_rows
+
+
 def main():
     raw_rows = load_json(RAW_SCORES_PATH, [])
     branch_region_map = load_json(BRANCH_MAP_PATH, {})
@@ -112,13 +202,18 @@ def main():
         return
 
     students = build_student_dict(raw_rows, branch_region_map)
-    print(f"Đã build {len(students)} dòng học viên-lớp.")
+    print(f"Đã build {len(students)} dòng học viên-lớp (tab Tra cứu).")
+
+    legacy_class_rows, legacy_student_rows = build_legacy_stats(raw_rows, branch_region_map)
+    print(f"Đã build {len(legacy_class_rows)} dòng lớp, {len(legacy_student_rows)} dòng học viên (tab Thống kê).")
 
     with open(TEMPLATE_PATH, "r", encoding="utf-8") as f:
         template = f.read()
 
     students_json = json.dumps(students, ensure_ascii=False)
     output_html = template.replace("__STUDENT_DATA__", students_json)
+    output_html = output_html.replace("__LEGACY_CLASS_DATA__", json.dumps(legacy_class_rows, ensure_ascii=False))
+    output_html = output_html.replace("__LEGACY_STUDENT_DATA__", json.dumps(legacy_student_rows, ensure_ascii=False))
 
     build_time_vn = datetime.now(timezone(timedelta(hours=7))).strftime("%H:%M %d/%m/%Y")
     output_html = output_html.replace("__BUILD_TIME__", build_time_vn)
