@@ -110,8 +110,9 @@ BUCKET_PREFIXES = [
     ("il", "i-listen"),
     ("ir", "i-read"),
     ("ic", "i-create"),
-]  # Giữ đúng 5 loại của dashboard thống kê cũ. i-Boost KHÔNG tính vào đây
-   # (dashboard cũ chưa có khái niệm i-Boost) để giữ nguyên công thức % Total cũ.
+    ("bo", "i-boost"),
+]  # i-Boost chỉ tồn tại từ CK English 2 trở lên -> các lớp/chương trình không có
+   # sẽ tự nhiên ra bo_t = 0 (giống cách các bucket khác xử lý khi thiếu dữ liệu).
 
 
 def bucket_of(activity_name):
@@ -119,7 +120,7 @@ def bucket_of(activity_name):
     for bucket, prefix in BUCKET_PREFIXES:
         if key.startswith(prefix):
             return bucket
-    return None  # VD "i-Boost" hoặc hoạt động lạ khác -> bỏ qua, không tính
+    return None  # hoạt động lạ khác ngoài 6 loại trên -> bỏ qua, không tính
 
 
 def build_legacy_stats(raw_rows, branch_region_map, class_calendars):
@@ -239,6 +240,7 @@ def build_legacy_stats(raw_rows, branch_region_map, class_calendars):
             "il_c": counts["il"][0], "il_t": counts["il"][1],
             "ir_c": counts["ir"][0], "ir_t": counts["ir"][1],
             "ic_c": counts["ic"][0], "ic_t": counts["ic"][1],
+            "bo_c": counts["bo"][0], "bo_t": counts["bo"][1],
             "tot_c": tot_c, "tot_t": tot_t,
         })
 
@@ -251,11 +253,12 @@ def build_legacy_stats(raw_rows, branch_region_map, class_calendars):
                 "region": r["region"], "branch": r["branch"], "program": r["program"],
                 "syllabus": r["syllabus"], "class_name": r["class_name"],
                 "ib_c": 0, "ib_t": 0, "im_c": 0, "im_t": 0, "il_c": 0, "il_t": 0,
-                "ir_c": 0, "ir_t": 0, "ic_c": 0, "ic_t": 0, "tot_c": 0, "tot_t": 0,
+                "ir_c": 0, "ir_t": 0, "ic_c": 0, "ic_t": 0, "bo_c": 0, "bo_t": 0,
+                "tot_c": 0, "tot_t": 0,
             }
         g = class_groups[key]
         for field in ("ib_c", "ib_t", "im_c", "im_t", "il_c", "il_t",
-                      "ir_c", "ir_t", "ic_c", "ic_t", "tot_c", "tot_t"):
+                      "ir_c", "ir_t", "ic_c", "ic_t", "bo_c", "bo_t", "tot_c", "tot_t"):
             g[field] += r[field]
 
     class_rows = list(class_groups.values())
