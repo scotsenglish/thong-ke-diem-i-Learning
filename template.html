@@ -169,6 +169,7 @@
   .kpi-card.il{ border-left-color:#34c759; }
   .kpi-card.im{ border-left-color:#ff9500; }
   .kpi-card.ic{ border-left-color:#af52de; }
+  .kpi-card.bo{ border-left-color:#ff2d55; }
   .kpi-card.tot{ border-left-color:var(--text); }
   .kpi-card .kpi-label{ font-size:11px; color:var(--muted); font-weight:600; margin-bottom:6px; }
   .kpi-card .kpi-value{ font-size:22px; font-weight:700; color:var(--text); letter-spacing:-.01em; }
@@ -310,6 +311,7 @@
       <div class="kpi-card il"><div class="kpi-label">% i-Listen</div><div class="kpi-value" id="c-kpi-il">0%</div></div>
       <div class="kpi-card ir"><div class="kpi-label">% i-Read</div><div class="kpi-value" id="c-kpi-ir">0%</div></div>
       <div class="kpi-card ic"><div class="kpi-label">% i-Create</div><div class="kpi-value" id="c-kpi-ic">0%</div></div>
+      <div class="kpi-card bo"><div class="kpi-label">% i-Boost</div><div class="kpi-value" id="c-kpi-bo">0%</div></div>
       <div class="kpi-card tot"><div class="kpi-label">% Total</div><div class="kpi-value" id="c-kpi-tot">0%</div></div>
     </section>
 
@@ -360,7 +362,7 @@
           <th data-key="syllabus">Syllabus</th><th data-key="class_name">Lớp</th>
           <th data-key="ib_rate">i-Build %</th><th data-key="im_rate">i-Imagine %</th>
           <th data-key="il_rate">i-Listen %</th><th data-key="ir_rate">i-Read %</th>
-          <th data-key="ic_rate">i-Create %</th><th data-key="composite">Total %</th>
+          <th data-key="ic_rate">i-Create %</th><th data-key="bo_rate">i-Boost %</th><th data-key="composite">Total %</th>
           <th data-key="status">Trạng thái</th>
         </tr></thead>
         <tbody id="c-table-body"></tbody>
@@ -381,6 +383,7 @@
       <div class="kpi-card il"><div class="kpi-label">% i-Listen</div><div class="kpi-value" id="s-kpi-il">0%</div></div>
       <div class="kpi-card ir"><div class="kpi-label">% i-Read</div><div class="kpi-value" id="s-kpi-ir">0%</div></div>
       <div class="kpi-card ic"><div class="kpi-label">% i-Create</div><div class="kpi-value" id="s-kpi-ic">0%</div></div>
+      <div class="kpi-card bo"><div class="kpi-label">% i-Boost</div><div class="kpi-value" id="s-kpi-bo">0%</div></div>
       <div class="kpi-card tot"><div class="kpi-label">% Total</div><div class="kpi-value" id="s-kpi-tot">0%</div></div>
     </section>
 
@@ -399,7 +402,7 @@
           <th data-key="class_name">Lớp</th><th data-key="student_id">Mã HV</th><th data-key="name">Tên HV</th>
           <th data-key="ib_rate">i-Build %</th><th data-key="im_rate">i-Imagine %</th>
           <th data-key="il_rate">i-Listen %</th><th data-key="ir_rate">i-Read %</th>
-          <th data-key="ic_rate">i-Create %</th><th data-key="composite">Total %</th>
+          <th data-key="ic_rate">i-Create %</th><th data-key="bo_rate">i-Boost %</th><th data-key="composite">Total %</th>
           <th data-key="status">Trạng thái</th>
         </tr></thead>
         <tbody id="s-table-body"></tbody>
@@ -467,7 +470,7 @@
 const LEGACY_CLASS_DATA = __LEGACY_CLASS_DATA__;
 const LEGACY_STUDENT_DATA = __LEGACY_STUDENT_DATA__;
 
-const LEGACY_COLORS = { done:'#34c759', mid:'#ff9500', bad:'#ff3b30', ib:'#0071e3', ir:'#5ac8fa', il:'#34c759', im:'#ff9500', ic:'#af52de' };
+const LEGACY_COLORS = { done:'#34c759', mid:'#ff9500', bad:'#ff3b30', ib:'#0071e3', ir:'#5ac8fa', il:'#34c759', im:'#ff9500', ic:'#af52de', bo:'#ff2d55' };
 
 function legacyRateColor(pct){
   if (pct >= 95) return LEGACY_COLORS.done;
@@ -487,8 +490,9 @@ function legacyProcessRow(d){
   const il_rate = legacySafeDiv(d.il_c, d.il_t) * 100;
   const ir_rate = legacySafeDiv(d.ir_c, d.ir_t) * 100;
   const ic_rate = legacySafeDiv(d.ic_c, d.ic_t) * 100;
+  const bo_rate = legacySafeDiv(d.bo_c, d.bo_t) * 100;
   const composite = legacySafeDiv(d.tot_c, d.tot_t) * 100;
-  return {...d, ib_rate, im_rate, il_rate, ir_rate, ic_rate, composite, status: legacyStatusOf(composite)};
+  return {...d, ib_rate, im_rate, il_rate, ir_rate, ic_rate, bo_rate, composite, status: legacyStatusOf(composite)};
 }
 
 class LegacyMultiSelect{
@@ -699,7 +703,7 @@ class LegacyDashboard{
       { header:'Syllabus', get:d=>d.syllabus }, { header:'Lớp', get:d=>d.class_name },
       { header:'i-Build %', get:d=>Number(d.ib_rate.toFixed(2)) }, { header:'i-Imagine %', get:d=>Number(d.im_rate.toFixed(2)) },
       { header:'i-Listen %', get:d=>Number(d.il_rate.toFixed(2)) }, { header:'i-Read %', get:d=>Number(d.ir_rate.toFixed(2)) },
-      { header:'i-Create %', get:d=>Number(d.ic_rate.toFixed(2)) }, { header:'Total %', get:d=>Number(d.composite.toFixed(2)) },
+      { header:'i-Create %', get:d=>Number(d.ic_rate.toFixed(2)) }, { header:'i-Boost %', get:d=>Number(d.bo_rate.toFixed(2)) }, { header:'Total %', get:d=>Number(d.composite.toFixed(2)) },
       { header:'Trạng thái', get:d=>d.status },
     ];
     this.exportToExcel(data, columns, `i-Learning_theo_lop_${new Date().toISOString().slice(0,10)}.xlsx`);
@@ -711,7 +715,7 @@ class LegacyDashboard{
       { header:'Lớp', get:d=>d.class_name }, { header:'Mã HV', get:d=>d.student_id }, { header:'Tên HV', get:d=>d.name },
       { header:'i-Build %', get:d=>Number(d.ib_rate.toFixed(2)) }, { header:'i-Imagine %', get:d=>Number(d.im_rate.toFixed(2)) },
       { header:'i-Listen %', get:d=>Number(d.il_rate.toFixed(2)) }, { header:'i-Read %', get:d=>Number(d.ir_rate.toFixed(2)) },
-      { header:'i-Create %', get:d=>Number(d.ic_rate.toFixed(2)) }, { header:'Total %', get:d=>Number(d.composite.toFixed(2)) },
+      { header:'i-Create %', get:d=>Number(d.ic_rate.toFixed(2)) }, { header:'i-Boost %', get:d=>Number(d.bo_rate.toFixed(2)) }, { header:'Total %', get:d=>Number(d.composite.toFixed(2)) },
       { header:'Trạng thái', get:d=>d.status },
     ];
     this.exportToExcel(data, columns, `i-Learning_theo_hoc_vien_${new Date().toISOString().slice(0,10)}.xlsx`);
@@ -740,6 +744,7 @@ class LegacyDashboard{
     document.getElementById('c-kpi-il').textContent = this.weightedRate(data,'il_c','il_t').toFixed(2)+'%';
     document.getElementById('c-kpi-ir').textContent = this.weightedRate(data,'ir_c','ir_t').toFixed(2)+'%';
     document.getElementById('c-kpi-ic').textContent = this.weightedRate(data,'ic_c','ic_t').toFixed(2)+'%';
+    document.getElementById('c-kpi-bo').textContent = this.weightedRate(data,'bo_c','bo_t').toFixed(2)+'%';
     document.getElementById('c-kpi-tot').textContent = this.weightedRate(data,'tot_c','tot_t').toFixed(2)+'%';
   }
   upsertChart(canvasId, type, data, extraOptions){
@@ -768,6 +773,7 @@ class LegacyDashboard{
         { label:'i-Listen', data: regionLabels.map(r=>this.weightedRate(regionAgg[r],'il_c','il_t').toFixed(2)), backgroundColor: LEGACY_COLORS.il },
         { label:'i-Read', data: regionLabels.map(r=>this.weightedRate(regionAgg[r],'ir_c','ir_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ir },
         { label:'i-Create', data: regionLabels.map(r=>this.weightedRate(regionAgg[r],'ic_c','ic_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ic },
+        { label:'i-Boost', data: regionLabels.map(r=>this.weightedRate(regionAgg[r],'bo_c','bo_t').toFixed(2)), backgroundColor: LEGACY_COLORS.bo },
       ]
     }, { indexAxis:'y', scales:{ x:{ suggestedMax:100 } } });
     const progAgg = this.groupBy(data, 'program');
@@ -780,6 +786,7 @@ class LegacyDashboard{
         { label:'i-Listen', data: progLabels.map(p=>this.weightedRate(progAgg[p],'il_c','il_t').toFixed(2)), backgroundColor: LEGACY_COLORS.il },
         { label:'i-Read', data: progLabels.map(p=>this.weightedRate(progAgg[p],'ir_c','ir_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ir },
         { label:'i-Create', data: progLabels.map(p=>this.weightedRate(progAgg[p],'ic_c','ic_t').toFixed(2)), backgroundColor: LEGACY_COLORS.ic },
+        { label:'i-Boost', data: progLabels.map(p=>this.weightedRate(progAgg[p],'bo_c','bo_t').toFixed(2)), backgroundColor: LEGACY_COLORS.bo },
       ]
     }, { scales:{ y:{ suggestedMax:100 } } });
     const worst = [...data].sort((a,b)=>a.composite-b.composite).slice(0,15);
@@ -795,6 +802,7 @@ class LegacyDashboard{
     const types = [
       {label:'i-Build', cF:'ib_c', tF:'ib_t'}, {label:'i-Imagine', cF:'im_c', tF:'im_t'},
       {label:'i-Listen', cF:'il_c', tF:'il_t'}, {label:'i-Read', cF:'ir_c', tF:'ir_t'}, {label:'i-Create', cF:'ic_c', tF:'ic_t'},
+      {label:'i-Boost', cF:'bo_c', tF:'bo_t'},
     ];
     let html = '<table class="heatmap"><thead><tr><th>Chi nhánh</th>';
     types.forEach(t => html += `<th>${t.label}</th>`);
@@ -826,6 +834,9 @@ class LegacyDashboard{
     if (this.cSearch.length) data = data.filter(d => { const hay = [d.branch,d.class_name,d.syllabus,d.program].join(' ').toLowerCase(); return this.cSearch.some(term => hay.includes(term)); });
     return this.sortRows(data, this.cSort);
   }
+  rateCell(rate, c, t){
+    return `${rate.toFixed(2)}% <small style="color:var(--muted-2); font-weight:400;">(${c}/${t})</small>`;
+  }
   renderClassTable(){
     const data = this.getClassTableData();
     document.getElementById('c-row-count').textContent = `${data.length.toLocaleString('vi-VN')} dòng`;
@@ -834,9 +845,9 @@ class LegacyDashboard{
     const page = data.slice(this.cPage*this.cPageSize, this.cPage*this.cPageSize+this.cPageSize);
     document.getElementById('c-table-body').innerHTML = page.map(d => `
       <tr><td>${d.region}</td><td>${d.branch}</td><td>${d.program}</td><td>${d.syllabus}</td><td>${d.class_name}</td>
-      <td>${d.ib_rate.toFixed(2)}%</td><td>${d.im_rate.toFixed(2)}%</td>
-      <td>${d.il_rate.toFixed(2)}%</td><td>${d.ir_rate.toFixed(2)}%</td>
-      <td>${d.ic_rate.toFixed(2)}%</td><td>${d.composite.toFixed(2)}%</td>
+      <td>${this.rateCell(d.ib_rate, d.ib_c, d.ib_t)}</td><td>${this.rateCell(d.im_rate, d.im_c, d.im_t)}</td>
+      <td>${this.rateCell(d.il_rate, d.il_c, d.il_t)}</td><td>${this.rateCell(d.ir_rate, d.ir_c, d.ir_t)}</td>
+      <td>${this.rateCell(d.ic_rate, d.ic_c, d.ic_t)}</td><td>${this.rateCell(d.bo_rate, d.bo_c, d.bo_t)}</td><td>${this.rateCell(d.composite, d.tot_c, d.tot_t)}</td>
       <td><span class="status-badge" style="background:${legacyRateColor(d.composite)}">${d.status}</span></td></tr>
     `).join('');
     document.getElementById('c-page-info').textContent = `${this.cPage+1}/${maxPage+1}`;
@@ -852,6 +863,7 @@ class LegacyDashboard{
     document.getElementById('s-kpi-il').textContent = this.weightedRate(data,'il_c','il_t').toFixed(2)+'%';
     document.getElementById('s-kpi-ir').textContent = this.weightedRate(data,'ir_c','ir_t').toFixed(2)+'%';
     document.getElementById('s-kpi-ic').textContent = this.weightedRate(data,'ic_c','ic_t').toFixed(2)+'%';
+    document.getElementById('s-kpi-bo').textContent = this.weightedRate(data,'bo_c','bo_t').toFixed(2)+'%';
     document.getElementById('s-kpi-tot').textContent = this.weightedRate(data,'tot_c','tot_t').toFixed(2)+'%';
   }
   getStudentTableData(){
@@ -868,9 +880,9 @@ class LegacyDashboard{
     document.getElementById('s-table-body').innerHTML = page.map(d => `
       <tr><td>${d.region}</td><td>${d.branch}</td><td>${d.program}</td><td>${d.class_name}</td>
       <td>${d.student_id}</td><td>${d.name}</td>
-      <td>${d.ib_rate.toFixed(2)}%</td><td>${d.im_rate.toFixed(2)}%</td>
-      <td>${d.il_rate.toFixed(2)}%</td><td>${d.ir_rate.toFixed(2)}%</td>
-      <td>${d.ic_rate.toFixed(2)}%</td><td>${d.composite.toFixed(2)}%</td>
+      <td>${this.rateCell(d.ib_rate, d.ib_c, d.ib_t)}</td><td>${this.rateCell(d.im_rate, d.im_c, d.im_t)}</td>
+      <td>${this.rateCell(d.il_rate, d.il_c, d.il_t)}</td><td>${this.rateCell(d.ir_rate, d.ir_c, d.ir_t)}</td>
+      <td>${this.rateCell(d.ic_rate, d.ic_c, d.ic_t)}</td><td>${this.rateCell(d.bo_rate, d.bo_c, d.bo_t)}</td><td>${this.rateCell(d.composite, d.tot_c, d.tot_t)}</td>
       <td><span class="status-badge" style="background:${legacyRateColor(d.composite)}">${d.status}</span></td></tr>
     `).join('');
     document.getElementById('s-page-info').textContent = `${this.sPage+1}/${maxPage+1}`;
