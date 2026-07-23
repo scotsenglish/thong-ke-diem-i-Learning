@@ -154,7 +154,20 @@ async function main() {
       const hasChanges = execSync("git diff --cached --name-only", { cwd: repoRoot }).toString().trim().length > 0;
       if (!hasChanges) return;
       execSync(`git commit -m "${message.replace(/"/g, "'")}"`, { cwd: repoRoot, stdio: "pipe" });
-      execSync("git push", { cwd: repoRoot, stdio: "pipe" });
+
+      // Thử push tối đa 3 lần, tự pull --rebase nếu bị từ chối (remote có commit
+      // mới hơn) — tránh mất checkpoint giữa chừng chỉ vì 1 lần push bị lệch.
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          execSync("git push", { cwd: repoRoot, stdio: "pipe" });
+          return;
+        } catch (pushErr) {
+          if (attempt === 3) throw pushErr;
+          console.log(`[Checkpoint] Push bị từ chối (lần ${attempt}), đang pull --rebase rồi thử lại...`);
+          execSync("git fetch origin", { cwd: repoRoot, stdio: "pipe" });
+          execSync("git rebase origin/main", { cwd: repoRoot, stdio: "pipe" });
+        }
+      }
     } catch (err) {
       // Không để lỗi git làm crash cả tiến trình cào dữ liệu — chỉ log lại để biết
       console.log("[CẢNH BÁO] Commit/push checkpoint thất bại:", String(err?.message ?? err).slice(0, 300));
