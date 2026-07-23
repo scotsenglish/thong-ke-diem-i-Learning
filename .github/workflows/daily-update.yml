@@ -1,23 +1,23 @@
-name: Cập nhật điểm i-Learning tự động
+name: Scrape & Build i-Learning Dashboard
 
+# Tự động chạy 3 lần/ngày theo giờ Việt Nam (UTC+7): ~06:00, ~12:00, ~18:00
+# Lệch phút (không phải phút 0) để né giờ cao điểm GitHub Actions, tránh bị
+# trễ/bỏ lịch — cùng nguyên tắc với dashboard Attendance.
+# = 23:13 (hôm trước), 05:27, 11:42 giờ UTC.
+# Cũng có thể chạy tay từ tab "Actions" trên GitHub (nút "Run workflow").
 on:
   schedule:
-    # Giờ UTC — tương ứng 6:00, 12:00, 18:00 giờ Việt Nam (UTC+7)
-    # 3 mốc này chỉ để BẮT ĐẦU 1 VÒNG QUÉT MỚI (lấy dữ liệu mới nhất).
-    # Nếu 1 vòng đang dang dở, workflow tự kích hoạt chạy tiếp ngay (xem bước
-    # cuối cùng), không cần chờ tới mốc giờ kế tiếp.
-    - cron: "0 23 * * *"   # 6:00 sáng VN
-    - cron: "0 5 * * *"    # 12:00 trưa VN
-    - cron: "0 11 * * *"   # 18:00 tối VN
+    - cron: "13 23 * * *"  # ~06:13 giờ VN
+    - cron: "27 5 * * *"   # ~12:27 giờ VN
+    - cron: "42 11 * * *"  # ~18:42 giờ VN
   workflow_dispatch: {}     # cho phép bấm chạy tay để test
 
 permissions:
   contents: write
-  actions: write   # cần để workflow có thể tự kích hoạt lại chính nó
+  actions: write   # cần để workflow có thể tự kích hoạt lại chính nó (resume vòng quét dang dở)
 
-# Đảm bảo chỉ 1 lần chạy tại 1 thời điểm — nếu lịch 12h/18h trùng lúc đang tự
-# chạy tiếp 1 vòng dang dở, lần mới sẽ xếp hàng chờ thay vì chạy chồng lên,
-# tránh 2 tiến trình cùng ghi đè data/scrape_state.json.
+# Nếu job trước còn đang chạy (VD do resume checkpoint) thì job mới không chạy
+# chồng lên, tránh 2 job cùng ghi vào data/raw_scores.json.
 concurrency:
   group: ilearning-scrape
   cancel-in-progress: false
@@ -56,24 +56,39 @@ jobs:
           LMS_LOGIN_PASSWORD: ${{ secrets.LMS_LOGIN_PASSWORD }}
         run: node scripts/scrape.js
 
-      - name: Upload ảnh debug nếu đăng nhập thất bại
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: debug-login-failure
-          path: debug/
-          retention-days: 7
-
       - name: Build dashboard (build.py)
         run: python3 scripts/build.py
 
-      - name: Commit & push kết quả
+      - name: Commit và push kết quả
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/raw_scores.json data/run_log.json data/scrape_state.json data/class_calendar.json dashboard.html
-          git diff --quiet --cached || git commit -m "Auto update: $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+          git diff --staged --quiet && echo "Không có thay đổi để commit" || git commit -m "Auto update: $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+          # Nếu remote đã có commit mới hơn (VD job tự-kích-hoạt trước đó vừa
+          # push xong) thì push thẳng sẽ bị từ chối. Tự động pull --rebase rồi
+          # thử lại vài lần thay vì để lỗi bắt phải chạy lại tay.
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "Push thành công."
+              break
+            fi
+            echo "Push bị từ chối (lần $i) — đang pull --rebase rồi thử lại..."
+            git fetch origin main
+            if ! git rebase origin/main; then
+              echo "Rebase bị xung đột thật sự — dùng phương án an toàn: giữ nguyên" \
+                   "dữ liệu vừa build (các file này tự sinh ra, không cần giữ lịch sử chi tiết)."
+              git rebase --abort
+              git reset --hard origin/main
+              git add data/raw_scores.json data/run_log.json data/scrape_state.json data/class_calendar.json dashboard.html
+              git diff --staged --quiet && echo "Không có gì khác để commit" || git commit -m "Auto update: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            fi
+            if [ "$i" -eq 5 ]; then
+              echo "Đã thử 5 lần vẫn không push được — dừng lại, cần kiểm tra thủ công."
+              exit 1
+            fi
+          done
 
       - name: Tự kích hoạt chạy tiếp nếu vòng quét chưa xong
         env:
@@ -90,3 +105,54 @@ jobs:
           else
             echo "Chưa có data/scrape_state.json -> bỏ qua."
           fi
+
+      - name: Gửi email thông báo chạy THẤT BẠI
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: i-Learning Dashboard Bot
+          to: ${{ secrets.MAIL_TO }}
+          subject: "❌ i-Learning Dashboard chạy THẤT BẠI"
+          body: |
+            Workflow "Scrape & Build i-Learning Dashboard" vừa chạy bị lỗi, cần kiểm tra.
+
+            Xem log chi tiết tại: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      - name: Upload state (checkpoint) nếu job bị lỗi giữa chừng (để debug)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ilearning-checkpoint
+          path: |
+            data/scrape_state.json
+            data/run_log.json
+          if-no-files-found: ignore
+
+      - name: Upload ảnh/HTML debug nếu đăng nhập LMS thất bại
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ilearning-login-debug
+          path: debug/
+          if-no-files-found: ignore
+
+      - name: Gửi email thông báo chạy thành công
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: i-Learning Dashboard Bot
+          to: ${{ secrets.MAIL_TO }}
+          subject: "✅ i-Learning Dashboard đã cập nhật thành công"
+          body: |
+            Workflow "Scrape & Build i-Learning Dashboard" vừa chạy xong thành công.
+
+            Xem dashboard tại: https://scotsenglish.github.io/ilearning-tra-cuu-diem/
+            Chi tiết log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
