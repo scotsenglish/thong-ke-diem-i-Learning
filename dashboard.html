@@ -322,7 +322,7 @@
 <div id="page-stats">
   <div class="data-info-line">
     <span id="data-info">Đang tải dữ liệu…</span>
-    <label class="backup-upload-link" for="backup-upload" id="upload-status" title="Tải file backup .xlsx (xuất từ Google Drive) để xem lại — chỉ áp dụng cho tab Tra cứu chi tiết, trong phiên xem hiện tại">📂 Tải file backup</label>
+    <label class="backup-upload-link" for="backup-upload" id="upload-status" title="Tải file backup .xlsx (xuất từ Google Drive) để xem lại — cập nhật cả tab Thống kê lẫn Tra cứu chi tiết, chỉ trong phiên xem hiện tại">📂 Tải file backup</label>
     <input type="file" id="backup-upload" accept=".xlsx" style="display:none;">
   </div>
 
@@ -634,11 +634,26 @@ class LegacyDashboard{
   }
   init(){
     const info = document.getElementById('data-info');
-    if (info) info.textContent = `Nguồn dữ liệu: tự động cập nhật lúc 15:27 30/07/2026 • ${this.classData.length.toLocaleString('vi-VN')} lớp, ${this.studentData.length.toLocaleString('vi-VN')} học viên`;
+    if (info) info.textContent = `Nguồn dữ liệu: tự động cập nhật lúc 17:02 30/07/2026 • ${this.classData.length.toLocaleString('vi-VN')} lớp, ${this.studentData.length.toLocaleString('vi-VN')} học viên`;
     this.setupSubtabs();
     this.setupFilters();
     this.setupTableEvents();
     this.render();
+  }
+  // Thay toàn bộ classData/studentData bằng dữ liệu tính lại từ file backup
+  // .xlsx upload lên (xem computeLegacyStatsFromStudents ở cuối file) — dùng
+  // khi người dùng tải file backup, để tab Thống kê cũng cập nhật theo, không
+  // chỉ riêng tab Tra cứu chi tiết.
+  swapData(classRows, studentRows, statusText){
+    this.classData = classRows.map(legacyProcessRow);
+    this.studentData = studentRows.map(legacyProcessRow);
+    LegacyDashboard.FILTER_DIMS.forEach(dim => { this.filters[dim] = new Set(); });
+    Object.values(this.ms).forEach(m => m.clearSelection());
+    this.refreshCascade();
+    this.cPage = 0; this.sPage = 0;
+    this.render();
+    const info = document.getElementById('data-info');
+    if (info) info.textContent = statusText;
   }
   setupSubtabs(){
     document.querySelectorAll('#page-stats .tab-btn').forEach(btn => {
@@ -1346,18 +1361,24 @@ function renderStudent(key){
    buổi. Việc này CHỈ thay dữ liệu trong bộ nhớ trình duyệt (biến `students`),
    không ghi gì lên GitHub/Drive — tải lại trang sẽ quay về dữ liệu tự động mới
    nhất do build.py nhúng sẵn. */
+// Trả về cả `scores` (chỉ hoạt động ĐÃ có điểm, dùng cho tab Tra cứu chi tiết)
+// lẫn `keys` (TẤT CẢ hoạt động tồn tại trong buổi đó dù đã chấm hay chưa,
+// dùng để tính lại đúng mẫu số "Total" cho tab Thống kê — xem
+// computeLegacyStatsFromStudents bên dưới).
 function parseActivityString(str){
   const scores = {};
+  const keys = [];
   String(str || '').split('|').map(s=>s.trim()).filter(Boolean).forEach(part=>{
     const eq = part.indexOf('=');
-    if (eq === -1) return;
-    const key = part.slice(0, eq).trim();
-    const val = part.slice(eq + 1).trim();
+    const key = (eq === -1 ? part : part.slice(0, eq)).trim();
     if (!key) return;
+    keys.push(key);
+    if (eq === -1) return;
+    const val = part.slice(eq + 1).trim();
     const num = parseFloat(val);
     if (!Number.isNaN(num)) scores[key] = num;
   });
-  return scores;
+  return { scores, keys };
 }
 
 function studentsFromBackupRows(headerRow, dataRows){
@@ -1378,17 +1399,112 @@ function studentsFromBackupRows(headerRow, dataRows){
     const lectures = {};
     lectureCols.forEach(({ n, lessonIdx, scoreIdx }) => {
       const lesson = row[lessonIdx] || '';
-      const scores = parseActivityString(row[scoreIdx]);
-      if (lesson || Object.keys(scores).length) lectures[n] = { lesson, scores };
+      const { scores, keys } = parseActivityString(row[scoreIdx]);
+      if (lesson || keys.length) lectures[n] = { lesson, scores, keys };
     });
+    // "Buổi đã dạy tới" do backup-drive.js tính sẵn từ lịch dạy thật
+    // (data/class_calendar.json) — dùng để tính % chính xác như dashboard tự
+    // động, xem computeLegacyStatsFromStudents bên dưới. File backup cũ (tải
+    // trước khi có cột này) sẽ không có -> để undefined, tự động fallback qua
+    // cách đoán qua điểm.
+    const maxReachedRaw = row[idx['Buổi đã dạy tới']];
+    const maxReached = (maxReachedRaw === undefined || maxReachedRaw === '') ? undefined : Number(maxReachedRaw);
+
     out[key] = {
       id, name: row[idx['Tên học viên']] || '',
       branch: row[idx['Chi nhánh']] || '', region: row[idx['Vùng']] || '',
       program: row[idx['Program']] || '', syllabus: row[idx['Syllabus']] || '',
-      classCode, lectures,
+      classCode, lectures, maxReached,
     };
   });
   return out;
+}
+
+/* ===================== Tính lại số liệu cho tab Thống kê từ file backup =====================
+   Port lại đúng logic build_legacy_stats() trong scripts/build.py. Nếu file
+   backup có cột "Buổi đã dạy tới" (backup-drive.js tính sẵn từ lịch dạy thật
+   data/class_calendar.json) thì dùng thẳng giá trị đó -> % khớp CHÍNH XÁC với
+   dashboard tự động. File backup cũ hơn (chưa có cột này) sẽ tự fallback qua
+   cách đoán "lecture xa nhất có hoạt động nào đó được ghi nhận", có thể chênh
+   nhẹ so với dashboard tự động. */
+const LEGACY_BUCKET_PREFIXES = [
+  ['ib','i-build'], ['im','i-imagine'], ['il','i-listen'], ['ir','i-read'], ['ic','i-create'], ['bo','i-boost'],
+];
+function legacyBucketOf(activityName){
+  const key = String(activityName || '').trim().toLowerCase();
+  for (const [bucket, prefix] of LEGACY_BUCKET_PREFIXES){
+    if (key.startsWith(prefix)) return bucket;
+  }
+  return null;
+}
+function computeLegacyStatsFromStudents(studentsObj){
+  // Lớp nào có "Buổi đã dạy tới" thật (từ cột backup, không phải undefined)
+  // thì ưu tiên dùng đúng giá trị đó; chỉ đoán qua điểm cho lớp thiếu cột này
+  // (file backup cũ hơn).
+  const classRealMaxReached = {}; // key: "<branch>||<classCode>" -> giá trị thật từ backup
+  Object.values(studentsObj).forEach(s=>{
+    if (s.maxReached !== undefined && !Number.isNaN(s.maxReached)){
+      const key = `${s.branch}||${s.classCode}`;
+      if (!(key in classRealMaxReached)) classRealMaxReached[key] = s.maxReached;
+    }
+  });
+
+  const classMaxReached = {}; // key: "<branch>||<classCode>" -> lecture xa nhất được dùng để tính %
+  Object.values(studentsObj).forEach(s=>{
+    const key = `${s.branch}||${s.classCode}`;
+    if (key in classRealMaxReached) { classMaxReached[key] = classRealMaxReached[key]; return; }
+    if (key in classMaxReached) return; // đã tính fallback cho lớp này rồi
+    let maxLec = 0;
+    Object.values(studentsObj).forEach(s2=>{
+      if (`${s2.branch}||${s2.classCode}` !== key) return;
+      Object.entries(s2.lectures || {}).forEach(([lecNoStr, lec])=>{
+        const lecNo = Number(lecNoStr);
+        const hasAnyActivity = (lec.keys && lec.keys.length) || (lec.scores && Object.keys(lec.scores).length);
+        if (hasAnyActivity && lecNo > maxLec) maxLec = lecNo;
+      });
+    });
+    classMaxReached[key] = maxLec;
+  });
+
+  const studentRows = [];
+  Object.values(studentsObj).forEach(s=>{
+    const maxReached = classMaxReached[`${s.branch}||${s.classCode}`] || 0;
+    const counts = {}; LEGACY_BUCKET_PREFIXES.forEach(([b])=>{ counts[b] = [0, 0]; });
+    Object.entries(s.lectures || {}).forEach(([lecNoStr, lec])=>{
+      if (Number(lecNoStr) > maxReached) return;
+      const keys = (lec.keys && lec.keys.length) ? lec.keys : Object.keys(lec.scores || {});
+      keys.forEach(actName=>{
+        const bucket = legacyBucketOf(actName);
+        if (!bucket) return;
+        counts[bucket][1] += 1;
+        if (lec.scores && lec.scores[actName] !== undefined) counts[bucket][0] += 1;
+      });
+    });
+    let totC = 0, totT = 0;
+    LEGACY_BUCKET_PREFIXES.forEach(([b])=>{ totC += counts[b][0]; totT += counts[b][1]; });
+    studentRows.push({
+      region: s.region, branch: s.branch, program: s.program, syllabus: s.syllabus,
+      class_name: s.classCode, student_id: s.id, name: s.name,
+      ib_c: counts.ib[0], ib_t: counts.ib[1], im_c: counts.im[0], im_t: counts.im[1],
+      il_c: counts.il[0], il_t: counts.il[1], ir_c: counts.ir[0], ir_t: counts.ir[1],
+      ic_c: counts.ic[0], ic_t: counts.ic[1], bo_c: counts.bo[0], bo_t: counts.bo[1],
+      tot_c: totC, tot_t: totT,
+    });
+  });
+
+  const classGroups = {};
+  const sumFields = ['ib_c','ib_t','im_c','im_t','il_c','il_t','ir_c','ir_t','ic_c','ic_t','bo_c','bo_t','tot_c','tot_t'];
+  studentRows.forEach(r=>{
+    const key = `${r.branch}||${r.class_name}`;
+    if (!classGroups[key]){
+      classGroups[key] = { region: r.region, branch: r.branch, program: r.program, syllabus: r.syllabus, class_name: r.class_name };
+      sumFields.forEach(f=>{ classGroups[key][f] = 0; });
+    }
+    const g = classGroups[key];
+    sumFields.forEach(f=>{ g[f] += r[f]; });
+  });
+
+  return { classRows: Object.values(classGroups), studentRows };
 }
 
 function rebuildAfterDataSwap(statusLabel){
@@ -1428,7 +1544,16 @@ document.getElementById('backup-upload').addEventListener('change', (e) => {
       Object.keys(students).forEach(k => delete students[k]);
       Object.assign(students, newStudents);
       rebuildAfterDataSwap(`đang xem file backup "${file.name}"`);
-      status.textContent = `✓ Đang xem "${file.name}" (tab Tra cứu chi tiết) — tải lại trang để về mới nhất`;
+
+      // Tính lại số liệu % cho tab Thống kê từ CHÍNH file backup vừa upload,
+      // để cả 2 tab cùng cập nhật theo file backup thay vì chỉ tab Tra cứu.
+      const { classRows, studentRows } = computeLegacyStatsFromStudents(newStudents);
+      const hasRealCalendar = Object.values(newStudents).some(s => s.maxReached !== undefined && !Number.isNaN(s.maxReached));
+      const calendarNote = hasRealCalendar ? '(dùng đúng lịch dạy thật, khớp dashboard tự động)' : '(% ước tính qua điểm đã có, file backup này chưa có cột "Buổi đã dạy tới")';
+      legacyDashboard.swapData(classRows, studentRows,
+        `Đang xem file backup "${file.name}" • ${classRows.length.toLocaleString('vi-VN')} lớp, ${studentRows.length.toLocaleString('vi-VN')} học viên ${calendarNote}`);
+
+      status.textContent = `✓ Đang xem "${file.name}" (cả 2 tab) — tải lại trang để về mới nhất`;
     } catch (err) {
       status.textContent = `⚠ Lỗi đọc file: ${err.message}`;
     } finally {
@@ -1441,7 +1566,7 @@ document.getElementById('backup-upload').addEventListener('change', (e) => {
 /* ===================== Khởi tạo ===================== */
 populateFilterOptions();
 document.getElementById('lastUpdated').textContent =
-  `${Object.keys(students).length.toLocaleString('vi-VN')} dòng học viên-lớp đã tải · Cập nhật lúc 15:27 30/07/2026`;
+  `${Object.keys(students).length.toLocaleString('vi-VN')} dòng học viên-lớp đã tải · Cập nhật lúc 17:02 30/07/2026`;
 </script>
 
 </body>
