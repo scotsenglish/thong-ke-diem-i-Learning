@@ -949,15 +949,42 @@ Object.entries(students).forEach(([key,s])=>{
   (classRoster[s.classCode] ||= []).push(key);
 });
 
-function distinctFilterValues(){
-  const vung=new Set(), branch=new Set(), program=new Set(), syllabus=new Set();
+/* Kiểm tra 1 học viên có khớp các bộ lọc vị trí/chương trình HIỆN TẠI hay
+   không, TRỪ đúng 1 chiều đang muốn tính lại danh sách option (exceptKey) —
+   nhờ vậy chọn Vùng sẽ thu hẹp Chi nhánh, và ngược lại chọn Chi nhánh cũng
+   thu hẹp lại Vùng, thay vì mỗi ô lọc liệt kê cứng toàn bộ dữ liệu. */
+function passesOtherLocationFilters(s, exceptKey){
+  const checks = {
+    vung: () => !filters.vung || s.region === filters.vung,
+    branch: () => !filters.branch || s.branch === filters.branch,
+    program: () => !filters.program || s.program === filters.program,
+    syllabus: () => !filters.syllabus || s.syllabus === filters.syllabus,
+  };
+  return Object.keys(checks).every(key => key === exceptKey || checks[key]());
+}
+
+function distinctValuesExcept(getField, exceptKey){
+  const set = new Set();
   Object.values(students).forEach(s=>{
-    if(s.region) vung.add(s.region);
-    if(s.branch) branch.add(s.branch);
-    if(s.program) program.add(s.program);
-    if(s.syllabus) syllabus.add(s.syllabus);
+    if(!passesOtherLocationFilters(s, exceptKey)) return;
+    const v = getField(s);
+    if(v) set.add(v);
   });
-  return { vung:[...vung].sort(), branch:[...branch].sort(), program:[...program].sort(), syllabus:[...syllabus].sort() };
+  return [...set].sort((a,b)=>a.localeCompare(b,'vi'));
+}
+
+function refreshCascadeFilters(){
+  fillSelect('fVung', distinctValuesExcept(s=>s.region, 'vung'));
+  fillSelect('fChiNhanh', distinctValuesExcept(s=>s.branch, 'branch'));
+  fillSelect('fChuongTrinh', distinctValuesExcept(s=>s.program, 'program'));
+  fillSelect('fSyllabus', distinctValuesExcept(s=>s.syllabus, 'syllabus'));
+  // fillSelect có thể tự reset select về "Tất cả" nếu lựa chọn cũ không còn
+  // hợp lệ sau khi thu hẹp — đồng bộ lại state filters theo đúng giá trị
+  // thực tế đang hiện trên UI để tránh lệch giữa UI và dữ liệu đang lọc.
+  filters.vung = document.getElementById('fVung').value;
+  filters.branch = document.getElementById('fChiNhanh').value;
+  filters.program = document.getElementById('fChuongTrinh').value;
+  filters.syllabus = document.getElementById('fSyllabus').value;
 }
 
 function maxLectureNumber(){
@@ -989,11 +1016,7 @@ const filters = { vung:"", branch:"", program:"", syllabus:"", lecture:"" };
 let currentClassCode = null;
 
 function populateFilterOptions(){
-  const opts = distinctFilterValues();
-  fillSelect('fVung', opts.vung);
-  fillSelect('fChiNhanh', opts.branch);
-  fillSelect('fChuongTrinh', opts.program);
-  fillSelect('fSyllabus', opts.syllabus);
+  refreshCascadeFilters();
 
   const fLecture = document.getElementById('fLecture');
   const maxLec = maxLectureNumber();
@@ -1035,14 +1058,32 @@ function refreshClassSelect(){
 }
 
 function onLocationFilterChange(){
+  refreshCascadeFilters();
   refreshClassSelect();
   if(currentClassCode && filteredClassCodes().includes(currentClassCode)){
     renderClassRoster(currentClassCode);
   }
 }
 
+// 1 chi nhánh chỉ thuộc đúng 1 Vùng -> tra ngược ra Vùng của chi nhánh vừa chọn
+function regionOfBranch(branch){
+  for(const s of Object.values(students)){
+    if(s.branch === branch) return s.region || "";
+  }
+  return "";
+}
+
 document.getElementById('fVung').addEventListener('change', e=>{ filters.vung = e.target.value; onLocationFilterChange(); });
-document.getElementById('fChiNhanh').addEventListener('change', e=>{ filters.branch = e.target.value; onLocationFilterChange(); });
+document.getElementById('fChiNhanh').addEventListener('change', e=>{
+  filters.branch = e.target.value;
+  if(filters.branch){
+    // Chọn thẳng Chi nhánh (chưa chọn Vùng) -> tự set Vùng tương ứng luôn,
+    // không chỉ thu hẹp option như trước.
+    filters.vung = regionOfBranch(filters.branch);
+    document.getElementById('fVung').value = filters.vung;
+  }
+  onLocationFilterChange();
+});
 document.getElementById('fChuongTrinh').addEventListener('change', e=>{ filters.program = e.target.value; onLocationFilterChange(); });
 document.getElementById('fSyllabus').addEventListener('change', e=>{ filters.syllabus = e.target.value; onLocationFilterChange(); });
 document.getElementById('fLecture').addEventListener('change', e=>{
@@ -1051,7 +1092,11 @@ document.getElementById('fLecture').addEventListener('change', e=>{
 });
 document.getElementById('clearFilters').addEventListener('click', ()=>{
   filters.vung = filters.branch = filters.program = filters.syllabus = filters.lecture = "";
+  // Đặt DOM value về "" TRƯỚC khi gọi refreshCascadeFilters — fillSelect() giữ
+  // nguyên lựa chọn hiện tại nếu nó vẫn còn hợp lệ trong danh sách đầy đủ, nên
+  // phải reset value trước để không bị "dính" lại lựa chọn cũ.
   ['fVung','fChiNhanh','fChuongTrinh','fSyllabus','fLecture'].forEach(id=>document.getElementById(id).value = "");
+  refreshCascadeFilters(); // trả 4 ô Vùng/Chi nhánh/Chương trình/Syllabus về đầy đủ option
   document.getElementById('fClassSelect').value = "";
   document.getElementById('fStudentName').value = "";
   document.getElementById('fClassCodeInput').value = "";
