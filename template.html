@@ -24,9 +24,10 @@
   }
 
   header{
-    position:sticky; top:0; z-index:20;
     background:linear-gradient(120deg, var(--brand-navy) 55%, #0f5f8c 100%);
     border-bottom:3px solid var(--brand-teal);
+    border-radius:14px;
+    width:calc(100% - 64px); max-width:1220px; margin:20px auto 16px auto;
     padding:16px 32px; display:flex; justify-content:space-between; align-items:center;
     flex-wrap:wrap; gap:14px;
   }
@@ -158,7 +159,7 @@
 
   /* ============ Tab Thống kê ============ */
   .toptabs{
-    display:flex; gap:8px; max-width:1220px; margin:16px auto 0 auto; padding:0 32px;
+    display:flex; gap:8px; max-width:1220px; margin:0 auto; padding:0 32px;
   }
   .toptabs button{
     display:inline-flex; align-items:center; gap:7px;
