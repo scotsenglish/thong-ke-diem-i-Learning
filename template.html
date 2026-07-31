@@ -1277,7 +1277,11 @@ function refreshCascadeFilters(){
   // đổi được sang vùng khác nếu chưa xoá Chi nhánh về "Tất cả".
   fillSelect('fVung', distinctValuesExcept(s=>s.region, ['vung','branch']));
   fillSelect('fChiNhanh', distinctValuesExcept(s=>s.branch, 'branch'));
-  fillSelect('fChuongTrinh', distinctValuesExcept(s=>s.program, 'program'));
+  // Syllabus -> Program cũng là quan hệ 1-1 (mỗi syllabus chỉ thuộc đúng 1
+  // program) giống hệt Chi nhánh -> Vùng, nên áp dụng cùng cách: option
+  // Chương trình bỏ qua luôn điều kiện lọc theo Syllabus (chọn Syllabus tự
+  // set Program — xem listener fSyllabus bên dưới).
+  fillSelect('fChuongTrinh', distinctValuesExcept(s=>s.program, ['program','syllabus']));
   fillSelect('fSyllabus', distinctValuesExcept(s=>s.syllabus, 'syllabus'));
   // fillSelect có thể tự reset select về "Tất cả" nếu lựa chọn cũ không còn
   // hợp lệ sau khi thu hẹp — đồng bộ lại state filters theo đúng giá trị
@@ -1373,6 +1377,13 @@ function regionOfBranch(branch){
   }
   return "";
 }
+// 1 syllabus chỉ thuộc đúng 1 Program -> tra ngược ra Program của syllabus vừa chọn
+function programOfSyllabus(syllabus){
+  for(const s of Object.values(students)){
+    if(s.syllabus === syllabus) return s.program || "";
+  }
+  return "";
+}
 
 document.getElementById('fVung').addEventListener('change', e=>{
   filters.vung = e.target.value;
@@ -1394,8 +1405,26 @@ document.getElementById('fChiNhanh').addEventListener('change', e=>{
   }
   onLocationFilterChange();
 });
-document.getElementById('fChuongTrinh').addEventListener('change', e=>{ filters.program = e.target.value; onLocationFilterChange(); });
-document.getElementById('fSyllabus').addEventListener('change', e=>{ filters.syllabus = e.target.value; onLocationFilterChange(); });
+document.getElementById('fChuongTrinh').addEventListener('change', e=>{
+  filters.program = e.target.value;
+  // Đổi sang Chương trình khác trong khi Syllabus đang chọn không còn thuộc
+  // chương trình đó nữa -> bỏ chọn Syllabus cũ, tránh 2 ô lọc lệch nhau.
+  if(filters.syllabus && filters.program && programOfSyllabus(filters.syllabus) !== filters.program){
+    filters.syllabus = "";
+    document.getElementById('fSyllabus').value = "";
+  }
+  onLocationFilterChange();
+});
+document.getElementById('fSyllabus').addEventListener('change', e=>{
+  filters.syllabus = e.target.value;
+  if(filters.syllabus){
+    // Chọn thẳng Syllabus (chưa chọn Chương trình) -> tự set Chương trình
+    // tương ứng luôn, không chỉ thu hẹp option như trước.
+    filters.program = programOfSyllabus(filters.syllabus);
+    document.getElementById('fChuongTrinh').value = filters.program;
+  }
+  onLocationFilterChange();
+});
 document.getElementById('fLecture').addEventListener('change', e=>{
   filters.lecture = e.target.value;
   if(currentClassCode) renderClassRoster(currentClassCode);
