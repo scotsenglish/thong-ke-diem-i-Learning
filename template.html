@@ -190,14 +190,20 @@
      vào nút tab (cả tab thật lẫn dock icon nổi) — dùng thuần CSS :hover nên
      không cần JS để đóng/mở. */
   .tab-trigger-wrap{ position:relative; display:inline-flex; }
+  /* .tab-jump-menu chạm SÁT nút tab (top:100%, không có khoảng hở) rồi dùng
+     padding trong suốt để "bắc cầu" sang phần thẻ hiện (.tab-jump-menu-inner)
+     — nhờ vậy khi rê chuột từ nút xuống menu, con trỏ luôn nằm trong vùng
+     :hover liên tục, không bị hở khiến menu biến mất giữa chừng. */
   .tab-jump-menu{
-    position:absolute; top:calc(100% + 6px); left:0; min-width:236px;
-    background:var(--surface); border:1px solid var(--line-soft); border-radius:12px;
-    box-shadow:0 20px 45px -15px rgba(0,0,0,.22); padding:6px; z-index:35;
-    opacity:0; pointer-events:none; transform:translateY(-4px);
+    position:absolute; top:100%; left:0; padding-top:10px; min-width:236px;
+    z-index:35; opacity:0; pointer-events:none; transform:translateY(-4px);
     transition:opacity .15s ease, transform .15s ease;
   }
   .tab-trigger-wrap:hover .tab-jump-menu{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  .tab-jump-menu-inner{
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:12px;
+    box-shadow:0 20px 45px -15px rgba(0,0,0,.22); padding:6px;
+  }
   .tab-jump-item{
     padding:9px 12px; border-radius:8px; font-size:13px; font-weight:500;
     color:var(--text); cursor:pointer; white-space:nowrap;
@@ -206,7 +212,8 @@
 
   .tab-fab-wrap{ position:relative; }
   .tab-fab-wrap .tab-jump-menu{
-    top:50%; left:auto; right:calc(100% + 10px); transform:translateY(-50%) translateX(6px);
+    top:50%; left:auto; right:100%; padding-top:0; padding-right:10px;
+    transform:translateY(-50%) translateX(6px);
   }
   .tab-fab-wrap:hover .tab-jump-menu{ transform:translateY(-50%) translateX(0); }
 
@@ -390,12 +397,14 @@
   <div class="tab-trigger-wrap">
     <button class="tab-trigger active" data-tab="classes"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>Theo Lớp</button>
     <div class="tab-jump-menu">
-      <div class="tab-jump-item" data-jump="c-overview">Tổng quan</div>
-      <div class="tab-jump-item" data-jump="class-region-section">Theo Vùng</div>
-      <div class="tab-jump-item" data-jump="c-charts-region-program">% Hoàn thành theo Vùng / Program</div>
-      <div class="tab-jump-item" data-jump="c-heatmap">Chi nhánh × Loại hoạt động</div>
-      <div class="tab-jump-item" data-jump="c-risk-chart">Top 15 lớp rủi ro</div>
-      <div class="tab-jump-item" data-jump="c-table-section">Chi tiết theo Lớp</div>
+      <div class="tab-jump-menu-inner">
+        <div class="tab-jump-item" data-jump="c-overview">Tổng quan</div>
+        <div class="tab-jump-item" data-jump="class-region-section">Theo Vùng</div>
+        <div class="tab-jump-item" data-jump="c-charts-region-program">% Hoàn thành theo Vùng / Program</div>
+        <div class="tab-jump-item" data-jump="c-heatmap">Chi nhánh × Loại hoạt động</div>
+        <div class="tab-jump-item" data-jump="c-risk-chart">Top 15 lớp rủi ro</div>
+        <div class="tab-jump-item" data-jump="c-table-section">Chi tiết theo Lớp</div>
+      </div>
     </div>
   </div>
   <button class="tab-trigger" data-tab="students"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Theo Học viên</button>
@@ -412,12 +421,14 @@
       <span class="tab-fab-tooltip">Theo Lớp</span>
     </button>
     <div class="tab-jump-menu">
-      <div class="tab-jump-item" data-jump="c-overview">Tổng quan</div>
-      <div class="tab-jump-item" data-jump="class-region-section">Theo Vùng</div>
-      <div class="tab-jump-item" data-jump="c-charts-region-program">% Hoàn thành theo Vùng / Program</div>
-      <div class="tab-jump-item" data-jump="c-heatmap">Chi nhánh × Loại hoạt động</div>
-      <div class="tab-jump-item" data-jump="c-risk-chart">Top 15 lớp rủi ro</div>
-      <div class="tab-jump-item" data-jump="c-table-section">Chi tiết theo Lớp</div>
+      <div class="tab-jump-menu-inner">
+        <div class="tab-jump-item" data-jump="c-overview">Tổng quan</div>
+        <div class="tab-jump-item" data-jump="class-region-section">Theo Vùng</div>
+        <div class="tab-jump-item" data-jump="c-charts-region-program">% Hoàn thành theo Vùng / Program</div>
+        <div class="tab-jump-item" data-jump="c-heatmap">Chi nhánh × Loại hoạt động</div>
+        <div class="tab-jump-item" data-jump="c-risk-chart">Top 15 lớp rủi ro</div>
+        <div class="tab-jump-item" data-jump="c-table-section">Chi tiết theo Lớp</div>
+      </div>
     </div>
   </div>
   <button type="button" class="tab-fab tab-trigger" data-tab="students" aria-label="Theo Học viên">
