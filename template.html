@@ -753,6 +753,9 @@ class LegacyDashboard{
         document.getElementById('header-filters').classList.toggle('hidden', tab === 'tracuu');
         document.getElementById('stats-data-info-line').classList.toggle('hidden', tab === 'tracuu');
         if (tab === 'classes' || tab === 'students') this.render();
+        // Đổi tab (kể cả bấm từ dock icon lúc đang cuộn sâu) -> luôn cuộn về
+        // đầu trang để thấy đúng phần đầu của tab vừa chuyển sang.
+        window.scrollTo(0, 0);
       });
     });
 
