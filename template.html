@@ -1245,23 +1245,24 @@ Object.entries(students).forEach(([key,s])=>{
 });
 
 /* Kiểm tra 1 học viên có khớp các bộ lọc vị trí/chương trình HIỆN TẠI hay
-   không, TRỪ đúng 1 chiều đang muốn tính lại danh sách option (exceptKey) —
+   không, TRỪ những chiều đang muốn tính lại danh sách option (exceptKeys) —
    nhờ vậy chọn Vùng sẽ thu hẹp Chi nhánh, và ngược lại chọn Chi nhánh cũng
    thu hẹp lại Vùng, thay vì mỗi ô lọc liệt kê cứng toàn bộ dữ liệu. */
-function passesOtherLocationFilters(s, exceptKey){
+function passesOtherLocationFilters(s, exceptKeys){
+  const except = new Set(Array.isArray(exceptKeys) ? exceptKeys : [exceptKeys]);
   const checks = {
     vung: () => !filters.vung || s.region === filters.vung,
     branch: () => !filters.branch || s.branch === filters.branch,
     program: () => !filters.program || s.program === filters.program,
     syllabus: () => !filters.syllabus || s.syllabus === filters.syllabus,
   };
-  return Object.keys(checks).every(key => key === exceptKey || checks[key]());
+  return Object.keys(checks).every(key => except.has(key) || checks[key]());
 }
 
-function distinctValuesExcept(getField, exceptKey){
+function distinctValuesExcept(getField, exceptKeys){
   const set = new Set();
   Object.values(students).forEach(s=>{
-    if(!passesOtherLocationFilters(s, exceptKey)) return;
+    if(!passesOtherLocationFilters(s, exceptKeys)) return;
     const v = getField(s);
     if(v) set.add(v);
   });
@@ -1269,7 +1270,12 @@ function distinctValuesExcept(getField, exceptKey){
 }
 
 function refreshCascadeFilters(){
-  fillSelect('fVung', distinctValuesExcept(s=>s.region, 'vung'));
+  // Chi nhánh -> Vùng là quan hệ 1-1 và chọn Chi nhánh đã TỰ SET Vùng tương
+  // ứng (xem listener fChiNhanh bên dưới), nên danh sách option của Vùng
+  // luôn phải đủ TẤT CẢ các vùng (bỏ luôn cả điều kiện lọc theo branch) —
+  // nếu không, sau khi chọn Chi nhánh thì Vùng chỉ còn đúng 1 option, không
+  // đổi được sang vùng khác nếu chưa xoá Chi nhánh về "Tất cả".
+  fillSelect('fVung', distinctValuesExcept(s=>s.region, ['vung','branch']));
   fillSelect('fChiNhanh', distinctValuesExcept(s=>s.branch, 'branch'));
   fillSelect('fChuongTrinh', distinctValuesExcept(s=>s.program, 'program'));
   fillSelect('fSyllabus', distinctValuesExcept(s=>s.syllabus, 'syllabus'));
@@ -1368,7 +1374,16 @@ function regionOfBranch(branch){
   return "";
 }
 
-document.getElementById('fVung').addEventListener('change', e=>{ filters.vung = e.target.value; onLocationFilterChange(); });
+document.getElementById('fVung').addEventListener('change', e=>{
+  filters.vung = e.target.value;
+  // Đổi sang Vùng khác trong khi Chi nhánh đang chọn không còn thuộc vùng
+  // đó nữa -> bỏ chọn Chi nhánh cũ (đã hết hợp lệ), tránh 2 ô lọc lệch nhau.
+  if(filters.branch && filters.vung && regionOfBranch(filters.branch) !== filters.vung){
+    filters.branch = "";
+    document.getElementById('fChiNhanh').value = "";
+  }
+  onLocationFilterChange();
+});
 document.getElementById('fChiNhanh').addEventListener('change', e=>{
   filters.branch = e.target.value;
   if(filters.branch){
