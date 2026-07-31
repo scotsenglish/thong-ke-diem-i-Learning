@@ -186,6 +186,33 @@
 
   .tab-icon{ display:inline-flex; flex:none; }
 
+  /* Menu nhảy nhanh tới từng hạng mục trong tab "Theo Lớp", hiện khi hover
+     vào nút tab (cả tab thật lẫn dock icon nổi) — dùng thuần CSS :hover nên
+     không cần JS để đóng/mở. */
+  .tab-trigger-wrap{ position:relative; display:inline-flex; }
+  .tab-jump-menu{
+    position:absolute; top:calc(100% + 6px); left:0; min-width:236px;
+    background:var(--surface); border:1px solid var(--line-soft); border-radius:12px;
+    box-shadow:0 20px 45px -15px rgba(0,0,0,.22); padding:6px; z-index:35;
+    opacity:0; pointer-events:none; transform:translateY(-4px);
+    transition:opacity .15s ease, transform .15s ease;
+  }
+  .tab-trigger-wrap:hover .tab-jump-menu{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  .tab-jump-item{
+    padding:9px 12px; border-radius:8px; font-size:13px; font-weight:500;
+    color:var(--text); cursor:pointer; white-space:nowrap;
+  }
+  .tab-jump-item:hover{ background:var(--blue-dim); color:var(--blue); }
+
+  .tab-fab-wrap{ position:relative; }
+  .tab-fab-wrap .tab-jump-menu{
+    top:50%; left:auto; right:calc(100% + 10px); transform:translateY(-50%) translateX(6px);
+  }
+  .tab-fab-wrap:hover .tab-jump-menu{ transform:translateY(-50%) translateX(0); }
+
+  #c-overview, #class-region-section, #c-charts-region-program, #c-heatmap,
+  #c-risk-chart, #c-table-section{ scroll-margin-top:130px; }
+
   .tab-fab-dock{
     position:fixed; right:22px; top:50%; transform:translateY(-50%) translateX(14px);
     display:flex; flex-direction:column; gap:10px; z-index:40;
@@ -360,7 +387,17 @@
 </div>
 
 <nav class="toptabs" id="main-tabs">
-  <button class="tab-trigger active" data-tab="classes"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>Theo Lớp</button>
+  <div class="tab-trigger-wrap">
+    <button class="tab-trigger active" data-tab="classes"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>Theo Lớp</button>
+    <div class="tab-jump-menu">
+      <div class="tab-jump-item" data-jump="c-overview">Tổng quan</div>
+      <div class="tab-jump-item" data-jump="class-region-section">Theo Vùng</div>
+      <div class="tab-jump-item" data-jump="c-charts-region-program">% Hoàn thành theo Vùng / Program</div>
+      <div class="tab-jump-item" data-jump="c-heatmap">Chi nhánh × Loại hoạt động</div>
+      <div class="tab-jump-item" data-jump="c-risk-chart">Top 15 lớp rủi ro</div>
+      <div class="tab-jump-item" data-jump="c-table-section">Chi tiết theo Lớp</div>
+    </div>
+  </div>
   <button class="tab-trigger" data-tab="students"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Theo Học viên</button>
   <button class="tab-trigger" data-tab="tracuu"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>Tra cứu</button>
 </nav>
@@ -369,10 +406,20 @@
      trên — bấm vào hoạt động y hệt nút tab thật (cùng class "tab-trigger"),
      đỡ phải cuộn lên để đổi tab. -->
 <div class="tab-fab-dock" id="tab-fab-dock">
-  <button type="button" class="tab-fab tab-trigger active" data-tab="classes" aria-label="Theo Lớp">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    <span class="tab-fab-tooltip">Theo Lớp</span>
-  </button>
+  <div class="tab-fab-wrap">
+    <button type="button" class="tab-fab tab-trigger active" data-tab="classes" aria-label="Theo Lớp">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span class="tab-fab-tooltip">Theo Lớp</span>
+    </button>
+    <div class="tab-jump-menu">
+      <div class="tab-jump-item" data-jump="c-overview">Tổng quan</div>
+      <div class="tab-jump-item" data-jump="class-region-section">Theo Vùng</div>
+      <div class="tab-jump-item" data-jump="c-charts-region-program">% Hoàn thành theo Vùng / Program</div>
+      <div class="tab-jump-item" data-jump="c-heatmap">Chi nhánh × Loại hoạt động</div>
+      <div class="tab-jump-item" data-jump="c-risk-chart">Top 15 lớp rủi ro</div>
+      <div class="tab-jump-item" data-jump="c-table-section">Chi tiết theo Lớp</div>
+    </div>
+  </div>
   <button type="button" class="tab-fab tab-trigger" data-tab="students" aria-label="Theo Học viên">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     <span class="tab-fab-tooltip">Theo Học viên</span>
@@ -394,7 +441,7 @@
   <!-- ============ SUB-TAB: CLASSES ============ -->
   <div id="tab-classes">
     <div class="section-label">Tổng quan</div>
-    <section class="kpi-grid">
+    <section class="kpi-grid" id="c-overview">
       <div class="kpi-card ok"><div class="kpi-label">Số lớp</div><div class="kpi-value" id="c-kpi-total">0</div><div class="kpi-sub" id="c-kpi-total-sub">trong phạm vi lọc</div></div>
       <div class="kpi-card ib"><div class="kpi-label">% i-Build</div><div class="kpi-value" id="c-kpi-ib">0%</div></div>
       <div class="kpi-card im"><div class="kpi-label">% i-Imagine</div><div class="kpi-value" id="c-kpi-im">0%</div></div>
@@ -412,7 +459,7 @@
       </section>
     </div>
 
-    <section class="chart-row">
+    <section class="chart-row" id="c-charts-region-program">
       <div class="chart-container">
         <h3>% Hoàn thành theo Vùng</h3>
         <div class="hint">i-Build / i-Imagine / i-Listen / i-Read / i-Create (có trọng số theo số hoạt động)</div>
@@ -425,7 +472,7 @@
       </div>
     </section>
 
-    <section class="heatmap-section">
+    <section class="heatmap-section" id="c-heatmap">
       <h3>Chi nhánh × Loại hoạt động</h3>
       <div class="hint">Xanh = tốt, cam = cần chú ý, đỏ = cần can thiệp gấp. Ô xám = chi nhánh không có hoạt động thuộc loại đó.</div>
       <div id="heatmap-wrap"></div>
@@ -436,7 +483,7 @@
       </div>
     </section>
 
-    <section class="chart-row">
+    <section class="chart-row" id="c-risk-chart">
       <div class="chart-container" style="grid-column: span 2;">
         <h3>Top 15 lớp có % hoàn thành thấp nhất (Total)</h3>
         <div class="hint">Ưu tiên nhắc giáo viên phụ trách các lớp này</div>
@@ -444,7 +491,7 @@
       </div>
     </section>
 
-    <section class="table-section">
+    <section class="table-section" id="c-table-section">
       <h3>Chi tiết theo Lớp</h3>
       <div class="table-controls">
         <input type="text" class="search-box" id="c-search" placeholder="Tìm theo chi nhánh, lớp, syllabus... (cách nhau bởi dấu phẩy để tìm nhiều)">
@@ -569,6 +616,19 @@
       <button type="button" class="modal-close" id="cdm-close">✕</button>
     </div>
     <div class="modal-body" id="cdm-body"></div>
+  </div>
+</div>
+
+<div id="student-detail-modal" class="modal-overlay hidden">
+  <div class="modal-box" style="max-width:1000px;">
+    <div class="modal-header">
+      <div>
+        <h3 id="sdm-title">Chi tiết học viên</h3>
+        <p class="hint" id="sdm-subtitle"></p>
+      </div>
+      <button type="button" class="modal-close" id="sdm-close">✕</button>
+    </div>
+    <div class="modal-body" id="sdm-body"></div>
   </div>
 </div>
 
@@ -846,17 +906,16 @@ class LegacyDashboard{
     document.getElementById('class-detail-modal').addEventListener('click', (e) => {
       if (e.target.id === 'class-detail-modal') this.closeClassDetailModal();
     });
-    // Click 1 dòng học viên trong modal -> đóng modal, chuyển sang tab "Tra
-    // cứu" và hiện điểm chi tiết từng lecture của học viên đó (dùng chung
-    // hàm renderStudent() đã có sẵn của tab Tra cứu, đọc từ `students`
-    // — dữ liệu điểm thô theo buổi, khác với this.studentData chỉ có %).
+    // Click 1 dòng học viên trong modal -> hiện điểm chi tiết từng lecture
+    // của học viên đó trong 1 pop-up riêng ĐÈ LÊN TRÊN modal lớp (dùng chung
+    // hàm renderStudent(), đọc từ `students` — dữ liệu điểm thô theo buổi,
+    // khác với this.studentData chỉ có %). Không đóng modal lớp / đổi tab
+    // nữa — đóng pop-up học viên là quay lại đúng modal lớp đang xem.
     document.getElementById('cdm-body').addEventListener('click', (e) => {
       const tr = e.target.closest('tr[data-student-key]');
       if (!tr) return;
       const key = tr.dataset.studentKey;
       if (!students[key]) return;
-      this.closeClassDetailModal();
-      document.querySelector('.toptabs button[data-tab="tracuu"]').click();
       renderStudent(key);
     });
     document.addEventListener('keydown', (e) => {
@@ -1132,6 +1191,19 @@ class LegacyDashboard{
   }
 }
 const legacyDashboard = new LegacyDashboard(LEGACY_CLASS_DATA, LEGACY_STUDENT_DATA);
+
+// Menu nhảy nhanh khi hover tab "Theo Lớp" (cả nút tab thật lẫn dock icon
+// nổi) -> chuyển sang tab "Theo Lớp" nếu chưa active, rồi cuộn tới đúng
+// section tương ứng.
+document.querySelectorAll('.tab-jump-item').forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const targetId = item.dataset.jump;
+    const classesBtn = document.querySelector('.toptabs button[data-tab="classes"]');
+    if (!classesBtn.classList.contains('active')) classesBtn.click();
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'auto', block: 'start' });
+  });
+});
 </script>
 
 <script>
@@ -1485,6 +1557,10 @@ function drawRosterTable(classCode, rows){
 }
 
 /* ===================== Render: chi tiết học viên theo lecture ===================== */
+// Hiện chi tiết điểm từng lecture của 1 học viên dưới dạng POP-UP (modal),
+// đè lên trên bất kỳ view nào đang xem (danh sách lớp trong tab Tra cứu,
+// hoặc modal "Chi tiết lớp" ở tab Theo Lớp) — không điều hướng sang trang/tab
+// khác, nên đóng modal là quay lại đúng chỗ đang xem, không cần nút "Quay lại".
 function renderStudent(key){
   const s = students[key];
   if(!s) return;
@@ -1497,35 +1573,22 @@ function renderStudent(key){
   });
   const avg = count ? sum/count : null;
 
-  document.getElementById('resultArea').innerHTML = `
-    <div class="info-card">
-      <div>
-        <h2>${s.name}</h2>
-        <div class="meta">${s.id} · ${s.branch} · ${s.region} · ${s.program} · ${s.syllabus} · Lớp ${s.classCode}</div>
-        <button type="button" class="back-link-btn" id="backToClassBtn">← Quay lại lớp ${s.classCode}</button>
-      </div>
-      <div class="kpi-row">
-        <div class="kpi">
-          <div class="num">${avg !== null ? avg.toFixed(1) : '—'}</div>
-          <div class="label">Điểm TB các hoạt động</div>
-        </div>
-      </div>
-    </div>
+  document.getElementById('sdm-title').textContent = s.name;
+  document.getElementById('sdm-subtitle').textContent =
+    `${s.id} · ${s.branch} · ${s.region} · ${s.program} · ${s.syllabus} · Lớp ${s.classCode} · Điểm TB các hoạt động: ${avg !== null ? avg.toFixed(1) : '—'}`;
 
-    <div class="panel">
-      <div class="panel-head"><h3>Điểm chi tiết theo từng lecture</h3></div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th class="lecture-num">Lecture</th>
-              <th>Bài học</th>
-              ${columns.map(c=>`<th>${c}</th>`).join('')}
-            </tr>
-          </thead>
-          <tbody id="lectureBody"></tbody>
-        </table>
-      </div>
+  document.getElementById('sdm-body').innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="lecture-num">Lecture</th>
+            <th>Bài học</th>
+            ${columns.map(c=>`<th>${c}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody id="lectureBody"></tbody>
+      </table>
     </div>
   `;
 
@@ -1538,14 +1601,18 @@ function renderStudent(key){
     }).join('')}</tr>`;
   }).join('');
 
-  // Quay lại đúng lớp của học viên này ở tab "Theo Lớp" (mở lại modal chi
-  // tiết lớp) — tiện cho luồng bấm từ modal sang xem 1 học viên rồi muốn
-  // quay về ngay, không phải tìm lại lớp từ đầu.
-  document.getElementById('backToClassBtn').addEventListener('click', () => {
-    document.querySelector('.toptabs button[data-tab="classes"]').click();
-    legacyDashboard.openClassDetailModal(s.classCode, s.branch);
-  });
+  document.getElementById('student-detail-modal').classList.remove('hidden');
 }
+function closeStudentModal(){
+  document.getElementById('student-detail-modal').classList.add('hidden');
+}
+document.getElementById('sdm-close').addEventListener('click', closeStudentModal);
+document.getElementById('student-detail-modal').addEventListener('click', (e) => {
+  if (e.target.id === 'student-detail-modal') closeStudentModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeStudentModal();
+});
 
 /* ===================== Tải file backup .xlsx (chỉ áp dụng phiên xem hiện tại) =====================
    Đọc lại đúng định dạng bảng do apps-script/Code.gs xuất ra (cùng cột với
