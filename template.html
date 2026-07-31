@@ -186,6 +186,29 @@
 
   .tab-icon{ display:inline-flex; flex:none; }
 
+  .tab-fab-dock{
+    position:fixed; right:22px; top:50%; transform:translateY(-50%) translateX(14px);
+    display:flex; flex-direction:column; gap:10px; z-index:40;
+    opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease;
+  }
+  .tab-fab-dock.show{ opacity:1; pointer-events:auto; transform:translateY(-50%) translateX(0); }
+  .tab-fab{
+    position:relative; width:44px; height:44px; border-radius:50%;
+    border:1px solid var(--line-soft); background:var(--surface); color:var(--muted);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    box-shadow:0 6px 18px -4px rgba(0,0,0,.2); transition:background .15s, color .15s, border-color .15s;
+  }
+  .tab-fab:hover{ background:var(--fill); }
+  .tab-fab.active{ background:var(--blue); color:#fff; border-color:var(--blue); }
+  .tab-fab.active:hover{ background:#0060c2; }
+  .tab-fab-tooltip{
+    position:absolute; right:calc(100% + 10px); top:50%; transform:translateY(-50%);
+    background:var(--text); color:#fff; font-size:12px; font-weight:600; white-space:nowrap;
+    padding:6px 10px; border-radius:6px; opacity:0; pointer-events:none; transition:opacity .15s;
+  }
+  .tab-fab:hover .tab-fab-tooltip{ opacity:1; }
+  @media (max-width:640px){ .tab-fab-dock{ display:none; } }
+
   .section-label{ font-size:12px; font-weight:700; color:var(--muted); margin:6px 0 12px 2px; }
 
   .kpi-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:18px; }
@@ -337,10 +360,28 @@
 </div>
 
 <nav class="toptabs" id="main-tabs">
-  <button class="active" data-tab="classes"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>Theo Lớp</button>
-  <button data-tab="students"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Theo Học viên</button>
-  <button data-tab="tracuu"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>Tra cứu</button>
+  <button class="tab-trigger active" data-tab="classes"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>Theo Lớp</button>
+  <button class="tab-trigger" data-tab="students"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Theo Học viên</button>
+  <button class="tab-trigger" data-tab="tracuu"><span class="tab-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>Tra cứu</button>
 </nav>
+
+<!-- Dock icon nổi bên phải, chỉ hiện khi cuộn qua khỏi thanh tab chính ở
+     trên — bấm vào hoạt động y hệt nút tab thật (cùng class "tab-trigger"),
+     đỡ phải cuộn lên để đổi tab. -->
+<div class="tab-fab-dock" id="tab-fab-dock">
+  <button type="button" class="tab-fab tab-trigger active" data-tab="classes" aria-label="Theo Lớp">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    <span class="tab-fab-tooltip">Theo Lớp</span>
+  </button>
+  <button type="button" class="tab-fab tab-trigger" data-tab="students" aria-label="Theo Học viên">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <span class="tab-fab-tooltip">Theo Học viên</span>
+  </button>
+  <button type="button" class="tab-fab tab-trigger" data-tab="tracuu" aria-label="Tra cứu">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <span class="tab-fab-tooltip">Tra cứu</span>
+  </button>
+</div>
 
 <main>
 
@@ -697,12 +738,14 @@ class LegacyDashboard{
   // chi tiết) — không còn tab bọc ngoài "Thống kê" nữa. Bộ lọc trên header
   // (Vùng/Chi nhánh/...) và dòng "Nguồn dữ liệu" chỉ có ý nghĩa với 2 tab
   // Theo Lớp/Theo Học viên nên ẩn đi khi chuyển sang Tra cứu chi tiết.
+  // ".tab-trigger" gắn trên CẢ nút tab thật (nav.toptabs) LẪN dock icon nổi
+  // (#tab-fab-dock) — dùng chung 1 selector để 2 bộ nút luôn đồng bộ trạng
+  // thái active với nhau, không phải viết 2 lần logic chuyển tab.
   setupSubtabs(){
-    document.querySelectorAll('.toptabs button').forEach(btn => {
+    document.querySelectorAll('.tab-trigger').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.toptabs button').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
         const tab = btn.dataset.tab;
+        document.querySelectorAll('.tab-trigger').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
         this.activeTab = tab;
         document.getElementById('tab-classes').classList.toggle('hidden', tab !== 'classes');
         document.getElementById('tab-students').classList.toggle('hidden', tab !== 'students');
@@ -712,6 +755,16 @@ class LegacyDashboard{
         if (tab === 'classes' || tab === 'students') this.render();
       });
     });
+
+    // Dock icon nổi chỉ hiện khi cuộn qua khỏi thanh tab thật (nav.toptabs) —
+    // dùng IntersectionObserver thay vì lắng nghe sự kiện scroll cho nhẹ.
+    const fabDock = document.getElementById('tab-fab-dock');
+    const realTabs = document.querySelector('nav.toptabs');
+    if (fabDock && realTabs && 'IntersectionObserver' in window){
+      new IntersectionObserver(entries => {
+        entries.forEach(entry => fabDock.classList.toggle('show', !entry.isIntersecting));
+      }, { threshold: 0 }).observe(realTabs);
+    }
   }
   uniq(dataset, field, filterFn){
     const set = new Set();
