@@ -215,10 +215,9 @@
     top:50%; left:auto; right:100%; padding-top:0; padding-right:10px;
     transform:translateY(-50%) translateX(6px);
   }
-  .tab-fab-wrap:hover .tab-jump-menu{ transform:translateY(-50%) translateX(0); }
-
-  #c-overview, #class-region-section, #c-charts-region-program, #c-heatmap,
-  #c-risk-chart, #c-table-section{ scroll-margin-top:130px; }
+  .tab-fab-wrap:hover .tab-jump-menu{
+    opacity:1; pointer-events:auto; transform:translateY(-50%) translateX(0);
+  }
 
   .tab-fab-dock{
     position:fixed; right:22px; top:50%; transform:translateY(-50%) translateX(14px);
@@ -451,17 +450,19 @@
 
   <!-- ============ SUB-TAB: CLASSES ============ -->
   <div id="tab-classes">
-    <div class="section-label">Tổng quan</div>
-    <section class="kpi-grid" id="c-overview">
-      <div class="kpi-card ok"><div class="kpi-label">Số lớp</div><div class="kpi-value" id="c-kpi-total">0</div><div class="kpi-sub" id="c-kpi-total-sub">trong phạm vi lọc</div></div>
-      <div class="kpi-card ib"><div class="kpi-label">% i-Build</div><div class="kpi-value" id="c-kpi-ib">0%</div></div>
-      <div class="kpi-card im"><div class="kpi-label">% i-Imagine</div><div class="kpi-value" id="c-kpi-im">0%</div></div>
-      <div class="kpi-card il"><div class="kpi-label">% i-Listen</div><div class="kpi-value" id="c-kpi-il">0%</div></div>
-      <div class="kpi-card ir"><div class="kpi-label">% i-Read</div><div class="kpi-value" id="c-kpi-ir">0%</div></div>
-      <div class="kpi-card ic"><div class="kpi-label">% i-Create</div><div class="kpi-value" id="c-kpi-ic">0%</div></div>
-      <div class="kpi-card bo"><div class="kpi-label">% i-Boost</div><div class="kpi-value" id="c-kpi-bo">0%</div></div>
-      <div class="kpi-card tot"><div class="kpi-label">% Total</div><div class="kpi-value" id="c-kpi-tot">0%</div></div>
-    </section>
+    <div id="c-overview">
+      <div class="section-label">Tổng quan</div>
+      <section class="kpi-grid">
+        <div class="kpi-card ok"><div class="kpi-label">Số lớp</div><div class="kpi-value" id="c-kpi-total">0</div><div class="kpi-sub" id="c-kpi-total-sub">trong phạm vi lọc</div></div>
+        <div class="kpi-card ib"><div class="kpi-label">% i-Build</div><div class="kpi-value" id="c-kpi-ib">0%</div></div>
+        <div class="kpi-card im"><div class="kpi-label">% i-Imagine</div><div class="kpi-value" id="c-kpi-im">0%</div></div>
+        <div class="kpi-card il"><div class="kpi-label">% i-Listen</div><div class="kpi-value" id="c-kpi-il">0%</div></div>
+        <div class="kpi-card ir"><div class="kpi-label">% i-Read</div><div class="kpi-value" id="c-kpi-ir">0%</div></div>
+        <div class="kpi-card ic"><div class="kpi-label">% i-Create</div><div class="kpi-value" id="c-kpi-ic">0%</div></div>
+        <div class="kpi-card bo"><div class="kpi-label">% i-Boost</div><div class="kpi-value" id="c-kpi-bo">0%</div></div>
+        <div class="kpi-card tot"><div class="kpi-label">% Total</div><div class="kpi-value" id="c-kpi-tot">0%</div></div>
+      </section>
+    </div>
 
     <div id="class-region-section">
       <div class="section-label">Theo Vùng</div>
@@ -470,18 +471,21 @@
       </section>
     </div>
 
-    <section class="chart-row" id="c-charts-region-program">
-      <div class="chart-container">
-        <h3>% Hoàn thành theo Vùng</h3>
-        <div class="hint">i-Build / i-Imagine / i-Listen / i-Read / i-Create (có trọng số theo số hoạt động)</div>
-        <div class="chart-canvas-wrap"><canvas id="chart-region"></canvas></div>
-      </div>
-      <div class="chart-container">
-        <h3>% Hoàn thành theo Program</h3>
-        <div class="hint">i-Build / i-Imagine / i-Listen / i-Read / i-Create</div>
-        <div class="chart-canvas-wrap"><canvas id="chart-program"></canvas></div>
-      </div>
-    </section>
+    <div id="c-charts-region-program">
+      <div class="section-label">% Hoàn thành theo Vùng / Program</div>
+      <section class="chart-row">
+        <div class="chart-container">
+          <h3>% Hoàn thành theo Vùng</h3>
+          <div class="hint">i-Build / i-Imagine / i-Listen / i-Read / i-Create (có trọng số theo số hoạt động)</div>
+          <div class="chart-canvas-wrap"><canvas id="chart-region"></canvas></div>
+        </div>
+        <div class="chart-container">
+          <h3>% Hoàn thành theo Program</h3>
+          <div class="hint">i-Build / i-Imagine / i-Listen / i-Read / i-Create</div>
+          <div class="chart-canvas-wrap"><canvas id="chart-program"></canvas></div>
+        </div>
+      </section>
+    </div>
 
     <section class="heatmap-section" id="c-heatmap">
       <h3>Chi nhánh × Loại hoạt động</h3>
@@ -494,13 +498,16 @@
       </div>
     </section>
 
-    <section class="chart-row" id="c-risk-chart">
-      <div class="chart-container" style="grid-column: span 2;">
-        <h3>Top 15 lớp có % hoàn thành thấp nhất (Total)</h3>
-        <div class="hint">Ưu tiên nhắc giáo viên phụ trách các lớp này</div>
-        <div class="chart-canvas-wrap"><canvas id="chart-class-risk"></canvas></div>
-      </div>
-    </section>
+    <div id="c-risk-chart">
+      <div class="section-label">Top 15 lớp rủi ro</div>
+      <section class="chart-row">
+        <div class="chart-container" style="grid-column: span 2;">
+          <h3>Top 15 lớp có % hoàn thành thấp nhất (Total)</h3>
+          <div class="hint">Ưu tiên nhắc giáo viên phụ trách các lớp này</div>
+          <div class="chart-canvas-wrap"><canvas id="chart-class-risk"></canvas></div>
+        </div>
+      </section>
+    </div>
 
     <section class="table-section" id="c-table-section">
       <h3>Chi tiết theo Lớp</h3>
@@ -1205,14 +1212,20 @@ const legacyDashboard = new LegacyDashboard(LEGACY_CLASS_DATA, LEGACY_STUDENT_DA
 
 // Menu nhảy nhanh khi hover tab "Theo Lớp" (cả nút tab thật lẫn dock icon
 // nổi) -> chuyển sang tab "Theo Lớp" nếu chưa active, rồi cuộn tới đúng
-// section tương ứng.
+// section tương ứng. Tự tính chiều cao header sticky ngay lúc bấm (thay vì
+// scroll-margin-top cố định) vì header co giãn theo bề rộng màn hình — bộ
+// lọc có thể xuống 2 dòng ở màn hẹp, làm sai lệch offset nếu hard-code.
 document.querySelectorAll('.tab-jump-item').forEach(item => {
   item.addEventListener('click', (e) => {
     e.stopPropagation();
     const targetId = item.dataset.jump;
     const classesBtn = document.querySelector('.toptabs button[data-tab="classes"]');
     if (!classesBtn.classList.contains('active')) classesBtn.click();
-    document.getElementById(targetId)?.scrollIntoView({ behavior: 'auto', block: 'start' });
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    const headerH = document.querySelector('.header-sticky').getBoundingClientRect().height;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerH - 16;
+    window.scrollTo({ top, behavior: 'auto' });
   });
 });
 </script>
