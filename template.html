@@ -920,6 +920,16 @@ class LegacyDashboard{
       if (!tr) return;
       this.openClassDetailModal(tr.dataset.class, tr.dataset.branch);
     });
+    // Click 1 dòng học viên trong tab "Theo Học viên" -> mở pop-up chi tiết
+    // điểm từng lecture của học viên đó, y hệt cách tab "Theo Lớp" làm (dùng
+    // chung renderStudent(), đọc từ `students` — dữ liệu điểm thô theo buổi).
+    document.getElementById('s-table-body').addEventListener('click', (e) => {
+      const tr = e.target.closest('tr[data-student-key]');
+      if (!tr) return;
+      const key = tr.dataset.studentKey;
+      if (!students[key]) return;
+      renderStudent(key);
+    });
     document.getElementById('cdm-close').addEventListener('click', () => this.closeClassDetailModal());
     document.getElementById('class-detail-modal').addEventListener('click', (e) => {
       if (e.target.id === 'class-detail-modal') this.closeClassDetailModal();
@@ -1196,7 +1206,7 @@ class LegacyDashboard{
     if (this.sPage>maxPage) this.sPage=maxPage;
     const page = data.slice(this.sPage*this.sPageSize, this.sPage*this.sPageSize+this.sPageSize);
     document.getElementById('s-table-body').innerHTML = page.map(d => `
-      <tr><td>${d.region}</td><td>${d.branch}</td><td>${d.program}</td><td>${d.class_name}</td>
+      <tr class="row-click" data-student-key="${String(d.student_id).replace(/"/g,'&quot;')}::${String(d.class_name).replace(/"/g,'&quot;')}"><td>${d.region}</td><td>${d.branch}</td><td>${d.program}</td><td>${d.class_name}</td>
       <td>${d.student_id}</td><td>${d.name}</td>
       <td>${this.rateCell(d.ib_rate, d.ib_c, d.ib_t)}</td><td>${this.rateCell(d.im_rate, d.im_c, d.im_t)}</td>
       <td>${this.rateCell(d.il_rate, d.il_c, d.il_t)}</td><td>${this.rateCell(d.ir_rate, d.ir_c, d.ir_t)}</td>
