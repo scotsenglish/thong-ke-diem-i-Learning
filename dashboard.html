@@ -827,7 +827,7 @@ class LegacyDashboard{
   }
   init(){
     const info = document.getElementById('data-info');
-    if (info) info.textContent = `Nguồn dữ liệu: tự động cập nhật lúc 16:23 04/08/2026 • ${this.classData.length.toLocaleString('vi-VN')} lớp, ${this.studentData.length.toLocaleString('vi-VN')} học viên`;
+    if (info) info.textContent = `Nguồn dữ liệu: tự động cập nhật lúc 16:44 04/08/2026 • ${this.classData.length.toLocaleString('vi-VN')} lớp, ${this.studentData.length.toLocaleString('vi-VN')} học viên`;
     this.setupSubtabs();
     this.setupFilters();
     this.setupTableEvents();
@@ -1732,10 +1732,57 @@ document.addEventListener('keydown', (e) => {
    Dữ liệu tra cứu tĩnh (KHÔNG tự tính từ điểm) — chép nguyên văn từ file
    "Hướng dẫn xem điểm i-Learning trên LMS.xlsx" do vận hành cung cấp. Có 2
    dạng: (a) bảng tra cố định "khoảng buổi CRM -> Lecture" cho các syllabus
-   theo book/lesson; (b) syllabus theo lesson/day có quy tắc lùi buổi vì
-   Midterm Test (Phonics Kids, English 2 & 3) — giữ nguyên văn quy tắc thay vì
-   tự suy ra công thức, tránh tính sai ở các mốc đặc biệt. Nếu quy trình thay
-   đổi, sửa trực tiếp object LECTURE_GUIDE này (không có nguồn tự động khác). */
+   theo book/lesson, chép nguyên văn từng dòng; (b) syllabus theo lesson/day
+   có QUY TẮC lùi buổi vì Midterm Test (Phonics Kids, English 2 & 3 & 4) —
+   những syllabus này KHÔNG chép tay từng dòng mà tự sinh đủ bảng bằng công
+   thức đúng theo mô tả trong file (xem buildPhonicsKidsGuideRows /
+   buildEnglish234GuideRows bên dưới), số buổi tối đa lấy động theo dữ liệu
+   thật đang có (maxLectureForSyllabusGroup) để tự đủ khi có thêm lecture
+   mới, không hard-code. Nếu quy trình thay đổi, sửa trực tiếp object
+   LECTURE_GUIDE/2 hàm buildXxxRows này (không có nguồn tự động khác). */
+
+// Lecture lớn nhất đang có trong dữ liệu thật của 1 nhóm syllabus — dùng để
+// biết sinh bảng hướng dẫn tới đâu là đủ (KHÔNG hard-code số buổi tối đa).
+function maxLectureForSyllabusGroup(syllabusNames){
+  let max = 0;
+  Object.values(students).forEach(s=>{
+    if(!syllabusNames.includes(s.syllabus)) return;
+    Object.keys(s.lectures||{}).forEach(n=>{ const v=Number(n); if(v>max) max=v; });
+  });
+  return max;
+}
+
+// CK Phonics Kids: "1 lesson trên LMS = 1 buổi CRM" -> Lecture N ứng với
+// buổi N (N<=24), hoặc buổi N+1 (N>=25, vì buổi 25 là Midterm Test chen vào
+// giữa, không có Lecture riêng) — đúng theo mô tả trong file hướng dẫn.
+function buildPhonicsKidsGuideRows(maxLecture){
+  const rows = [];
+  for(let n=1;n<=maxLecture;n++){
+    if(n===25) rows.push(["25","Midterm Test","—"]);
+    const buoi = n<=24 ? n : n+1;
+    rows.push([String(buoi), `Lesson ${n}`, `Lecture ${n}`]);
+  }
+  return rows;
+}
+
+// CK English 2 & 3 & 4: "1 lesson = 2 buổi CRM (Day 1 + Day 2), Lecture chọn
+// theo buổi ĐẦU của cặp" -> Lecture của lesson thứ k luôn là số lẻ 2k-1;
+// buổi bắt đầu cặp là 2k-1 với 12 lesson đầu (buổi 1-24), rồi lùi thêm 1 từ
+// lesson 13 trở đi vì buổi 25 là Midterm Test chen vào giữa — đúng theo mô
+// tả + ví dụ "buổi 26 & 27 -> Lecture 25" trong file hướng dẫn.
+function buildEnglish234GuideRows(maxLecture){
+  const rows = [];
+  const maxLesson = Math.ceil((maxLecture + 1) / 2);
+  for(let k=1;k<=maxLesson;k++){
+    if(k===13) rows.push(["25","Midterm Test","—"]);
+    const start = k<=12 ? 2*k-1 : 2*k;
+    const lecture = 2*k-1;
+    rows.push([String(start), `Lesson ${k} / Day 1`, `Lecture ${lecture}`]);
+    rows.push([String(start+1), `Lesson ${k} / Day 2`, `Lecture ${lecture}`]);
+  }
+  return rows;
+}
+
 const LECTURE_GUIDE = {
   "CK Phonics 1A": { rows: [
     ["1-4","Book 1 / Lesson 1","Lecture 1"],
@@ -1780,15 +1827,9 @@ const LECTURE_GUIDE = {
     ["42-45","Lesson 10","Lecture 41"],
   ]},
   "CK Phonics Kids": {
-    note: "2 lesson = 1 tuần học trên LMS.",
-    rule: "- Từ buổi 1 - 24 trên CRM: số buổi tương ứng với lecture trên LMS.\n- Từ buổi 26 trở đi: Lecture trên LMS sẽ lùi đi 1 buổi so với buổi trên CRM.\n  Ví dụ: buổi 26 trên CRM → xem Lecture 25 trên LMS.",
-    rows: [
-      ["1","Lesson 1",""],
-      ["2","Lesson 2",""],
-      ["3","Lesson 3",""],
-      ["4","Lesson 4",""],
-    ],
-    rowsNote: "Tương tự các cặp lesson còn lại.",
+    note: "1 lesson trên LMS = 1 buổi học trên CRM.",
+    rule: "- Từ buổi 1 - 24 trên CRM: số buổi tương ứng với lecture trên LMS.\n- Từ buổi 26 trở đi: Lecture trên LMS sẽ lùi đi 1 buổi so với buổi trên CRM (buổi 25 là Midterm Test, không có Lecture).\n  Ví dụ: buổi 26 trên CRM → xem Lecture 25 trên LMS.",
+    rowsFn: () => buildPhonicsKidsGuideRows(maxLectureForSyllabusGroup(["CK Phonics Kids"]) || 48),
   },
   "CK English 1": { rows: [
     ["1-3","Theme 1: My Family / Lesson 1","Lecture 1"],
@@ -1809,15 +1850,9 @@ const LECTURE_GUIDE = {
     ["47-49","Theme 2: People Around Town / Lesson 8","Lecture 46"],
   ]},
   "CK English 2 & 3": {
-    note: "1 lesson = 2 buổi trên CRM. Ví dụ: Lesson 1 = buổi 1 & 2.",
-    rule: "- Buổi 1-24: chọn Lecture trên LMS theo buổi ĐẦU TIÊN của cặp buổi trên CRM.\n  Ví dụ: buổi 4 & 5 → chọn Lecture 4.\n- Từ buổi 25 trở đi: do có Midterm Test, Lecture trên LMS sẽ lùi 1 buổi so với buổi trên CRM.\n  Ví dụ: buổi 26 & 27 → chọn Lecture 25.",
-    rows: [
-      ["1","Lesson 1 / Day 1",""],
-      ["2","Lesson 1 / Day 2",""],
-      ["3","Lesson 2 / Day 1",""],
-      ["4","Lesson 2 / Day 2",""],
-    ],
-    rowsNote: "Tương tự cho các lesson còn lại.",
+    note: "1 lesson = 2 buổi trên CRM. Ví dụ: Lesson 1 = buổi 1 & 2. (Áp dụng chung cho cả CK English 2, 3, 4.)",
+    rule: "- Buổi 1-24: chọn Lecture trên LMS theo buổi ĐẦU TIÊN của cặp buổi trên CRM.\n  Ví dụ: buổi 4 & 5 → chọn Lecture 4.\n- Từ buổi 25 trở đi: do có Midterm Test, Lecture trên LMS sẽ lùi 1 buổi so với buổi trên CRM (buổi 25 là Midterm Test, không có Lecture).\n  Ví dụ: buổi 26 & 27 → chọn Lecture 25.",
+    rowsFn: () => buildEnglish234GuideRows(maxLectureForSyllabusGroup(["CK English 2","CK English 3","CK English 4"]) || 47),
   },
 };
 // Syllabus trong dữ liệu thật tách nhỏ hơn nhóm trong tài liệu hướng dẫn (VD
@@ -1851,13 +1886,15 @@ function renderLectureGuide(activeKey){
   if(g.note || g.rule){
     bodyHtml += `<div class="lg-rule">${[g.note, g.rule].filter(Boolean).join('\n\n')}</div>`;
   }
+  const rows = g.rowsFn ? g.rowsFn() : g.rows;
   bodyHtml += `
-    <table class="data-table"><thead><tr>
-      <th>Buổi (CRM)</th><th>Chủ đề theo CRM</th><th>Lecture (LMS)</th>
-    </tr></thead><tbody>
-      ${g.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]||'—'}</td></tr>`).join('')}
-    </tbody></table>
-    ${g.rowsNote ? `<div class="hint" style="padding:14px 0 0;">${g.rowsNote}</div>` : ''}
+    <div class="table-wrap" style="max-height:420px;">
+      <table class="data-table"><thead><tr>
+        <th>Buổi (CRM)</th><th>Chủ đề theo CRM</th><th>Lecture (LMS)</th>
+      </tr></thead><tbody>
+        ${rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]||'—'}</td></tr>`).join('')}
+      </tbody></table>
+    </div>
   `;
 
   document.getElementById('lgm-body').innerHTML = `<div class="lg-tabs">${tabsHtml}</div>${bodyHtml}`;
@@ -2103,7 +2140,7 @@ document.getElementById('backup-upload').addEventListener('change', (e) => {
 /* ===================== Khởi tạo ===================== */
 populateFilterOptions();
 document.getElementById('lastUpdated').textContent =
-  `${Object.keys(students).length.toLocaleString('vi-VN')} dòng học viên-lớp đã tải · Cập nhật lúc 16:23 04/08/2026`;
+  `${Object.keys(students).length.toLocaleString('vi-VN')} dòng học viên-lớp đã tải · Cập nhật lúc 16:44 04/08/2026`;
 </script>
 
 </body>
