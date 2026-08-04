@@ -90,6 +90,27 @@
   .filter-group select:focus, .filter-group input:focus{
     outline:none; background:var(--surface); box-shadow:0 0 0 4px var(--blue-dim), 0 0 0 1px var(--blue);
   }
+  .lecture-guide-btn{
+    border:none; background:none; padding:0; margin-left:2px; cursor:pointer;
+    font-size:12px; line-height:1; vertical-align:middle; opacity:.75;
+    transition:opacity .15s;
+  }
+  .lecture-guide-btn:hover{ opacity:1; }
+
+  /* ============ Modal hướng dẫn chọn Lecture theo buổi CRM ============ */
+  .lg-tabs{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+  .lg-tab{
+    padding:7px 14px; border-radius:20px; border:1px solid var(--line-soft); background:var(--fill);
+    color:var(--muted); font-size:12.5px; font-weight:600; cursor:pointer;
+    transition:background .15s, color .15s, border-color .15s;
+  }
+  .lg-tab.active{ background:var(--blue); color:#fff; border-color:var(--blue); }
+  .lg-tab:not(.active):hover{ background:#e8e8ed; }
+  .lg-rule{
+    background:var(--fill); border-radius:12px; padding:14px 16px; margin-bottom:16px;
+    font-size:13px; line-height:1.6; color:var(--text); white-space:pre-line;
+  }
+  .lg-empty{ text-align:center; color:var(--muted); font-size:13.5px; padding:24px 0; }
   .filter-clear{
     background:var(--fill); border:none; border-radius:20px;
     padding:10px 18px; font-size:13px; font-weight:600; color:var(--muted); cursor:pointer; height:40px;
@@ -595,7 +616,9 @@
       <select id="fSyllabus"><option value="">Tất cả</option></select>
     </div>
     <div class="filter-group">
-      <label>Lecture</label>
+      <label>Lecture
+        <button type="button" class="lecture-guide-btn" id="lectureGuideBtn" title="Cách chọn Lecture đúng theo buổi CRM" aria-label="Hướng dẫn chọn Lecture">ℹ️</button>
+      </label>
       <select id="fLecture"><option value="">Tất cả các lecture</option></select>
     </div>
 
@@ -647,6 +670,19 @@
       <button type="button" class="modal-close" id="sdm-close">✕</button>
     </div>
     <div class="modal-body" id="sdm-body"></div>
+  </div>
+</div>
+
+<div id="lecture-guide-modal" class="modal-overlay hidden">
+  <div class="modal-box" style="max-width:900px;">
+    <div class="modal-header">
+      <div>
+        <h3>Cách chọn Lecture đúng theo buổi CRM</h3>
+        <p class="hint" id="lgm-subtitle">Chọn Syllabus bên dưới để xem buổi trên CRM tương ứng Lecture nào trên LMS</p>
+      </div>
+      <button type="button" class="modal-close" id="lgm-close">✕</button>
+    </div>
+    <div class="modal-body" id="lgm-body"></div>
   </div>
 </div>
 
@@ -1690,6 +1726,158 @@ document.getElementById('student-detail-modal').addEventListener('click', (e) =>
 });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeStudentModal();
+});
+
+/* ===================== Hướng dẫn chọn Lecture đúng theo buổi CRM =====================
+   Dữ liệu tra cứu tĩnh (KHÔNG tự tính từ điểm) — chép nguyên văn từ file
+   "Hướng dẫn xem điểm i-Learning trên LMS.xlsx" do vận hành cung cấp. Có 2
+   dạng: (a) bảng tra cố định "khoảng buổi CRM -> Lecture" cho các syllabus
+   theo book/lesson; (b) syllabus theo lesson/day có quy tắc lùi buổi vì
+   Midterm Test (Phonics Kids, English 2 & 3) — giữ nguyên văn quy tắc thay vì
+   tự suy ra công thức, tránh tính sai ở các mốc đặc biệt. Nếu quy trình thay
+   đổi, sửa trực tiếp object LECTURE_GUIDE này (không có nguồn tự động khác). */
+const LECTURE_GUIDE = {
+  "CK Phonics 1A": { rows: [
+    ["1-4","Book 1 / Lesson 1","Week 1","Lecture 1"],
+    ["5-8","Book 1 / Lesson 2","Week 3","Lecture 5"],
+    ["11-14","Book 2 / Lesson 1","Week 6","Lecture 11"],
+    ["15-18","Book 2 / Lesson 2","Week 8","Lecture 15"],
+    ["21-24","Book 3 / Lesson 1","Week 11","Lecture 21"],
+    ["27-30","Book 3 / Lesson 2","Week 13","Lecture 25"],
+    ["33-36","Book 4 / Lesson 1","Week 16","Lecture 31"],
+    ["37-40","Book 4 / Lesson 2","Week 18","Lecture 35"],
+  ]},
+  "CK Phonics 1": { rows: [
+    ["1-4","Book 1 / Lesson 1","Week 1","Lecture 1"],
+    ["5-8","Book 1 / Lesson 2","Week 3","Lecture 5"],
+    ["14-17","Book 2 / Lesson 1","Week 7","Lecture 14"],
+    ["18-21","Book 2 / Lesson 2","Week 9","Lecture 18"],
+    ["28-31","Book 3 / Lesson 1","Week 14","Lecture 27"],
+    ["32-35","Book 3 / Lesson 2","Week 16","Lecture 31"],
+    ["41-44","Book 4 / Lesson 1","Week 20","Lecture 40"],
+    ["45-48","Book 4 / Lesson 2","Week 22","Lecture 44"],
+  ]},
+  "CK Phonics 2 & 3": { rows: [
+    ["1-4","Lesson 1","Week 1","Lecture 1"],
+    ["5-8","Lesson 2","Week 3","Lecture 5"],
+    ["9-12","Lesson 3","Week 5","Lecture 9"],
+    ["13-16","Lesson 4","Week 7","Lecture 13"],
+    ["17-20","Lesson 5","Week 9","Lecture 17"],
+    ["26-29","Lesson 6","Week 13","Lecture 25"],
+    ["30-33","Lesson 7","Week 15","Lecture 29"],
+    ["34-37","Lesson 8","Week 17","Lecture 33"],
+    ["38-41","Lesson 9","Week 19","Lecture 37"],
+    ["42-45","Lesson 10","Week 21","Lecture 41"],
+  ]},
+  "CK Phonics Kids": {
+    note: "2 lesson = 1 tuần (Week) học trên LMS.",
+    rule: "- Từ buổi 1 - 24 trên CRM: số buổi tương ứng với lecture trên LMS.\n- Từ buổi 26 trở đi: Lecture trên LMS sẽ lùi đi 1 buổi so với buổi trên CRM.\n  Ví dụ: buổi 26 trên CRM → xem Lecture 25 trên LMS.",
+    rows: [
+      ["1","Lesson 1","Week 1",""],
+      ["2","Lesson 2","",""],
+      ["3","Lesson 3","Week 2",""],
+      ["4","Lesson 4","",""],
+    ],
+    rowsNote: "Tương tự các cặp lesson còn lại.",
+  },
+  "CK English 1": { rows: [
+    ["1-3","Theme 1: My Family / Lesson 1","Week 1","Lecture 1"],
+    ["4-6","Theme 1: My Family / Lesson 2","Week 2","Lecture 4"],
+    ["7-9","Theme 1: My Family / Lesson 3","Week 4","Lecture 7"],
+    ["10-12","Theme 1: My Family / Lesson 4","Week 5","Lecture 10"],
+    ["13-15","Theme 2: My Good Friends / Lesson 5","Week 7","Lecture 13"],
+    ["16-18","Theme 2: My Good Friends / Lesson 6","Week 8","Lecture 16"],
+    ["19-21","Theme 2: My Good Friends / Lesson 7","Week 10","Lecture 19"],
+    ["22-24","Theme 2: My Good Friends / Lesson 8","Week 11","Lecture 22"],
+    ["26-28","Theme 1: Let's learn / Lesson 1","Week 13","Lecture 25"],
+    ["29-31","Theme 1: Let's learn / Lesson 2","Week 14","Lecture 28"],
+    ["32-34","Theme 1: Let's learn / Lesson 3","Week 16","Lecture 31"],
+    ["35-37","Theme 1: Let's learn / Lesson 4","Week 17","Lecture 34"],
+    ["38-40","Theme 2: People Around Town / Lesson 5","Week 19","Lecture 37"],
+    ["41-43","Theme 2: People Around Town / Lesson 6","Week 20","Lecture 40"],
+    ["44-46","Theme 2: People Around Town / Lesson 7","Week 22","Lecture 43"],
+    ["47-49","Theme 2: People Around Town / Lesson 8","Week 23","Lecture 46"],
+  ]},
+  "CK English 2 & 3": {
+    note: "1 lesson = 2 buổi trên CRM. Ví dụ: Lesson 1 = buổi 1 & 2.",
+    rule: "- Buổi 1-24: chọn Lecture trên LMS theo buổi ĐẦU TIÊN của cặp buổi trên CRM.\n  Ví dụ: buổi 4 & 5 → chọn Lecture 4.\n- Từ buổi 25 trở đi: do có Midterm Test, Lecture trên LMS sẽ lùi 1 buổi so với buổi trên CRM.\n  Ví dụ: buổi 26 & 27 → chọn Lecture 25.",
+    rows: [
+      ["1","Lesson 1 / Day 1","Week 1",""],
+      ["2","Lesson 1 / Day 2","",""],
+      ["3","Lesson 2 / Day 1","Week 2",""],
+      ["4","Lesson 2 / Day 2","",""],
+    ],
+    rowsNote: "Tương tự cho các lesson còn lại.",
+  },
+};
+// Syllabus trong dữ liệu thật tách nhỏ hơn nhóm trong tài liệu hướng dẫn (VD
+// "CK Phonics 2" và "CK Phonics 3" dùng chung 1 bảng "CK Phonics 2 & 3") ->
+// ánh xạ về đúng key của LECTURE_GUIDE. Các biến thể "(New)" của Phonics 1/1A
+// CHƯA xác nhận có dùng chung bảng gốc hay không nên cố tình để trống, không
+// đoán — sẽ hiện thông báo chưa có hướng dẫn thay vì chỉ sai.
+const LECTURE_GUIDE_ALIAS = {
+  "CK Phonics 2": "CK Phonics 2 & 3",
+  "CK Phonics 3": "CK Phonics 2 & 3",
+  "CK English 2": "CK English 2 & 3",
+  "CK English 3": "CK English 2 & 3",
+  "CK English 4": "CK English 2 & 3",
+};
+function lectureGuideKeyFor(syllabus){
+  if(!syllabus) return null;
+  if(LECTURE_GUIDE[syllabus]) return syllabus;
+  if(LECTURE_GUIDE_ALIAS[syllabus]) return LECTURE_GUIDE_ALIAS[syllabus];
+  return null;
+}
+
+function renderLectureGuide(activeKey){
+  const keys = Object.keys(LECTURE_GUIDE);
+  if(!activeKey || !LECTURE_GUIDE[activeKey]) activeKey = keys[0];
+  const g = LECTURE_GUIDE[activeKey];
+
+  const tabsHtml = keys.map(k => `<div class="lg-tab${k===activeKey ? ' active' : ''}" data-key="${k}">${k}</div>`).join('');
+
+  let bodyHtml = '';
+  if(g.note || g.rule){
+    bodyHtml += `<div class="lg-rule">${[g.note, g.rule].filter(Boolean).join('\n\n')}</div>`;
+  }
+  bodyHtml += `
+    <table class="data-table"><thead><tr>
+      <th>Buổi (CRM)</th><th>Chủ đề theo CRM</th><th>Week (LMS)</th><th>Lecture (LMS)</th>
+    </tr></thead><tbody>
+      ${g.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]||'—'}</td><td>${r[3]||'—'}</td></tr>`).join('')}
+    </tbody></table>
+    ${g.rowsNote ? `<div class="hint" style="padding:14px 0 0;">${g.rowsNote}</div>` : ''}
+  `;
+
+  document.getElementById('lgm-body').innerHTML = `<div class="lg-tabs">${tabsHtml}</div>${bodyHtml}`;
+  document.querySelectorAll('.lg-tab').forEach(tab => {
+    tab.addEventListener('click', () => renderLectureGuide(tab.dataset.key));
+  });
+}
+
+function openLectureGuide(){
+  const matchedKey = lectureGuideKeyFor(filters.syllabus);
+  const subtitle = document.getElementById('lgm-subtitle');
+  if(filters.syllabus && !matchedKey){
+    subtitle.textContent = `Chưa có hướng dẫn riêng cho syllabus "${filters.syllabus}" — tham khảo tạm các syllabus dưới đây hoặc hỏi quản lý.`;
+  } else if(matchedKey){
+    subtitle.textContent = `Đang xem theo Syllabus đang lọc: ${filters.syllabus}${matchedKey !== filters.syllabus ? ` (dùng chung bảng "${matchedKey}")` : ''}.`;
+  } else {
+    subtitle.textContent = 'Chọn Syllabus bên dưới để xem buổi trên CRM tương ứng Lecture nào trên LMS.';
+  }
+  renderLectureGuide(matchedKey);
+  document.getElementById('lecture-guide-modal').classList.remove('hidden');
+}
+function closeLectureGuide(){
+  document.getElementById('lecture-guide-modal').classList.add('hidden');
+}
+document.getElementById('lectureGuideBtn').addEventListener('click', openLectureGuide);
+document.getElementById('lgm-close').addEventListener('click', closeLectureGuide);
+document.getElementById('lecture-guide-modal').addEventListener('click', (e) => {
+  if (e.target.id === 'lecture-guide-modal') closeLectureGuide();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLectureGuide();
 });
 
 /* ===================== Tải file backup .xlsx (chỉ áp dụng phiên xem hiện tại) =====================
