@@ -827,7 +827,7 @@ class LegacyDashboard{
   }
   init(){
     const info = document.getElementById('data-info');
-    if (info) info.textContent = `Nguồn dữ liệu: tự động cập nhật lúc 16:11 04/08/2026 • ${this.classData.length.toLocaleString('vi-VN')} lớp, ${this.studentData.length.toLocaleString('vi-VN')} học viên`;
+    if (info) info.textContent = `Nguồn dữ liệu: tự động cập nhật lúc 16:21 04/08/2026 • ${this.classData.length.toLocaleString('vi-VN')} lớp, ${this.studentData.length.toLocaleString('vi-VN')} học viên`;
     this.setupSubtabs();
     this.setupFilters();
     this.setupTableEvents();
@@ -1738,86 +1738,97 @@ document.addEventListener('keydown', (e) => {
    đổi, sửa trực tiếp object LECTURE_GUIDE này (không có nguồn tự động khác). */
 const LECTURE_GUIDE = {
   "CK Phonics 1A": { rows: [
-    ["1-4","Book 1 / Lesson 1","Week 1","Lecture 1"],
-    ["5-8","Book 1 / Lesson 2","Week 3","Lecture 5"],
-    ["11-14","Book 2 / Lesson 1","Week 6","Lecture 11"],
-    ["15-18","Book 2 / Lesson 2","Week 8","Lecture 15"],
-    ["21-24","Book 3 / Lesson 1","Week 11","Lecture 21"],
-    ["27-30","Book 3 / Lesson 2","Week 13","Lecture 25"],
-    ["33-36","Book 4 / Lesson 1","Week 16","Lecture 31"],
-    ["37-40","Book 4 / Lesson 2","Week 18","Lecture 35"],
+    ["1-4","Book 1 / Lesson 1","Lecture 1"],
+    ["5-8","Book 1 / Lesson 2","Lecture 5"],
+    ["11-14","Book 2 / Lesson 1","Lecture 11"],
+    ["15-18","Book 2 / Lesson 2","Lecture 15"],
+    ["21-24","Book 3 / Lesson 1","Lecture 21"],
+    ["27-30","Book 3 / Lesson 2","Lecture 25"],
+    ["33-36","Book 4 / Lesson 1","Lecture 31"],
+    ["37-40","Book 4 / Lesson 2","Lecture 35"],
+  ]},
+  "CK Phonics 1A (New)": { rows: [
+    ["1-4","Book 1 / Lesson 1","Lecture 1"],
+    ["5-8","Book 1 / Lesson 2","Lecture 5"],
+    ["11-14","Book 2 / Lesson 1","Lecture 11"],
+    ["15-18","Book 2 / Lesson 2","Lecture 15"],
+    ["21-24","Book 3 / Lesson 1","Lecture 21"],
+    ["27-30","Book 3 / Lesson 2","Lecture 26"],
+    ["33-36","Book 4 / Lesson 1","Lecture 32"],
+    ["37-40","Book 4 / Lesson 2","Lecture 36"],
   ]},
   "CK Phonics 1": { rows: [
-    ["1-4","Book 1 / Lesson 1","Week 1","Lecture 1"],
-    ["5-8","Book 1 / Lesson 2","Week 3","Lecture 5"],
-    ["14-17","Book 2 / Lesson 1","Week 7","Lecture 14"],
-    ["18-21","Book 2 / Lesson 2","Week 9","Lecture 18"],
-    ["28-31","Book 3 / Lesson 1","Week 14","Lecture 27"],
-    ["32-35","Book 3 / Lesson 2","Week 16","Lecture 31"],
-    ["41-44","Book 4 / Lesson 1","Week 20","Lecture 40"],
-    ["45-48","Book 4 / Lesson 2","Week 22","Lecture 44"],
+    ["1-4","Book 1 / Lesson 1","Lecture 1"],
+    ["5-8","Book 1 / Lesson 2","Lecture 5"],
+    ["14-17","Book 2 / Lesson 1","Lecture 14"],
+    ["18-21","Book 2 / Lesson 2","Lecture 18"],
+    ["28-31","Book 3 / Lesson 1","Lecture 27"],
+    ["32-35","Book 3 / Lesson 2","Lecture 31"],
+    ["41-44","Book 4 / Lesson 1","Lecture 40"],
+    ["45-48","Book 4 / Lesson 2","Lecture 44"],
   ]},
   "CK Phonics 2 & 3": { rows: [
-    ["1-4","Lesson 1","Week 1","Lecture 1"],
-    ["5-8","Lesson 2","Week 3","Lecture 5"],
-    ["9-12","Lesson 3","Week 5","Lecture 9"],
-    ["13-16","Lesson 4","Week 7","Lecture 13"],
-    ["17-20","Lesson 5","Week 9","Lecture 17"],
-    ["26-29","Lesson 6","Week 13","Lecture 25"],
-    ["30-33","Lesson 7","Week 15","Lecture 29"],
-    ["34-37","Lesson 8","Week 17","Lecture 33"],
-    ["38-41","Lesson 9","Week 19","Lecture 37"],
-    ["42-45","Lesson 10","Week 21","Lecture 41"],
+    ["1-4","Lesson 1","Lecture 1"],
+    ["5-8","Lesson 2","Lecture 5"],
+    ["9-12","Lesson 3","Lecture 9"],
+    ["13-16","Lesson 4","Lecture 13"],
+    ["17-20","Lesson 5","Lecture 17"],
+    ["26-29","Lesson 6","Lecture 25"],
+    ["30-33","Lesson 7","Lecture 29"],
+    ["34-37","Lesson 8","Lecture 33"],
+    ["38-41","Lesson 9","Lecture 37"],
+    ["42-45","Lesson 10","Lecture 41"],
   ]},
   "CK Phonics Kids": {
-    note: "2 lesson = 1 tuần (Week) học trên LMS.",
+    note: "2 lesson = 1 tuần học trên LMS.",
     rule: "- Từ buổi 1 - 24 trên CRM: số buổi tương ứng với lecture trên LMS.\n- Từ buổi 26 trở đi: Lecture trên LMS sẽ lùi đi 1 buổi so với buổi trên CRM.\n  Ví dụ: buổi 26 trên CRM → xem Lecture 25 trên LMS.",
     rows: [
-      ["1","Lesson 1","Week 1",""],
-      ["2","Lesson 2","",""],
-      ["3","Lesson 3","Week 2",""],
-      ["4","Lesson 4","",""],
+      ["1","Lesson 1",""],
+      ["2","Lesson 2",""],
+      ["3","Lesson 3",""],
+      ["4","Lesson 4",""],
     ],
     rowsNote: "Tương tự các cặp lesson còn lại.",
   },
   "CK English 1": { rows: [
-    ["1-3","Theme 1: My Family / Lesson 1","Week 1","Lecture 1"],
-    ["4-6","Theme 1: My Family / Lesson 2","Week 2","Lecture 4"],
-    ["7-9","Theme 1: My Family / Lesson 3","Week 4","Lecture 7"],
-    ["10-12","Theme 1: My Family / Lesson 4","Week 5","Lecture 10"],
-    ["13-15","Theme 2: My Good Friends / Lesson 5","Week 7","Lecture 13"],
-    ["16-18","Theme 2: My Good Friends / Lesson 6","Week 8","Lecture 16"],
-    ["19-21","Theme 2: My Good Friends / Lesson 7","Week 10","Lecture 19"],
-    ["22-24","Theme 2: My Good Friends / Lesson 8","Week 11","Lecture 22"],
-    ["26-28","Theme 1: Let's learn / Lesson 1","Week 13","Lecture 25"],
-    ["29-31","Theme 1: Let's learn / Lesson 2","Week 14","Lecture 28"],
-    ["32-34","Theme 1: Let's learn / Lesson 3","Week 16","Lecture 31"],
-    ["35-37","Theme 1: Let's learn / Lesson 4","Week 17","Lecture 34"],
-    ["38-40","Theme 2: People Around Town / Lesson 5","Week 19","Lecture 37"],
-    ["41-43","Theme 2: People Around Town / Lesson 6","Week 20","Lecture 40"],
-    ["44-46","Theme 2: People Around Town / Lesson 7","Week 22","Lecture 43"],
-    ["47-49","Theme 2: People Around Town / Lesson 8","Week 23","Lecture 46"],
+    ["1-3","Theme 1: My Family / Lesson 1","Lecture 1"],
+    ["4-6","Theme 1: My Family / Lesson 2","Lecture 4"],
+    ["7-9","Theme 1: My Family / Lesson 3","Lecture 7"],
+    ["10-12","Theme 1: My Family / Lesson 4","Lecture 10"],
+    ["13-15","Theme 2: My Good Friends / Lesson 5","Lecture 13"],
+    ["16-18","Theme 2: My Good Friends / Lesson 6","Lecture 16"],
+    ["19-21","Theme 2: My Good Friends / Lesson 7","Lecture 19"],
+    ["22-24","Theme 2: My Good Friends / Lesson 8","Lecture 22"],
+    ["26-28","Theme 1: Let's learn / Lesson 1","Lecture 25"],
+    ["29-31","Theme 1: Let's learn / Lesson 2","Lecture 28"],
+    ["32-34","Theme 1: Let's learn / Lesson 3","Lecture 31"],
+    ["35-37","Theme 1: Let's learn / Lesson 4","Lecture 34"],
+    ["38-40","Theme 2: People Around Town / Lesson 5","Lecture 37"],
+    ["41-43","Theme 2: People Around Town / Lesson 6","Lecture 40"],
+    ["44-46","Theme 2: People Around Town / Lesson 7","Lecture 43"],
+    ["47-49","Theme 2: People Around Town / Lesson 8","Lecture 46"],
   ]},
   "CK English 2 & 3": {
     note: "1 lesson = 2 buổi trên CRM. Ví dụ: Lesson 1 = buổi 1 & 2.",
     rule: "- Buổi 1-24: chọn Lecture trên LMS theo buổi ĐẦU TIÊN của cặp buổi trên CRM.\n  Ví dụ: buổi 4 & 5 → chọn Lecture 4.\n- Từ buổi 25 trở đi: do có Midterm Test, Lecture trên LMS sẽ lùi 1 buổi so với buổi trên CRM.\n  Ví dụ: buổi 26 & 27 → chọn Lecture 25.",
     rows: [
-      ["1","Lesson 1 / Day 1","Week 1",""],
-      ["2","Lesson 1 / Day 2","",""],
-      ["3","Lesson 2 / Day 1","Week 2",""],
-      ["4","Lesson 2 / Day 2","",""],
+      ["1","Lesson 1 / Day 1",""],
+      ["2","Lesson 1 / Day 2",""],
+      ["3","Lesson 2 / Day 1",""],
+      ["4","Lesson 2 / Day 2",""],
     ],
     rowsNote: "Tương tự cho các lesson còn lại.",
   },
 };
 // Syllabus trong dữ liệu thật tách nhỏ hơn nhóm trong tài liệu hướng dẫn (VD
 // "CK Phonics 2" và "CK Phonics 3" dùng chung 1 bảng "CK Phonics 2 & 3") ->
-// ánh xạ về đúng key của LECTURE_GUIDE. Các biến thể "(New)" của Phonics 1/1A
-// CHƯA xác nhận có dùng chung bảng gốc hay không nên cố tình để trống, không
-// đoán — sẽ hiện thông báo chưa có hướng dẫn thay vì chỉ sai.
+// ánh xạ về đúng key của LECTURE_GUIDE. "CK Phonics 1 (New)" đã xác nhận
+// dùng chung logic với "CK Phonics 1" (không phải bản 1A) — còn "CK Phonics
+// 1A (New)" có bảng riêng ở trên vì lệch với bản 1A gốc từ buổi 27 trở đi.
 const LECTURE_GUIDE_ALIAS = {
   "CK Phonics 2": "CK Phonics 2 & 3",
   "CK Phonics 3": "CK Phonics 2 & 3",
+  "CK Phonics 1 (New)": "CK Phonics 1",
   "CK English 2": "CK English 2 & 3",
   "CK English 3": "CK English 2 & 3",
   "CK English 4": "CK English 2 & 3",
@@ -1842,9 +1853,9 @@ function renderLectureGuide(activeKey){
   }
   bodyHtml += `
     <table class="data-table"><thead><tr>
-      <th>Buổi (CRM)</th><th>Chủ đề theo CRM</th><th>Week (LMS)</th><th>Lecture (LMS)</th>
+      <th>Buổi (CRM)</th><th>Chủ đề theo CRM</th><th>Lecture (LMS)</th>
     </tr></thead><tbody>
-      ${g.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]||'—'}</td><td>${r[3]||'—'}</td></tr>`).join('')}
+      ${g.rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]||'—'}</td></tr>`).join('')}
     </tbody></table>
     ${g.rowsNote ? `<div class="hint" style="padding:14px 0 0;">${g.rowsNote}</div>` : ''}
   `;
@@ -2092,7 +2103,7 @@ document.getElementById('backup-upload').addEventListener('change', (e) => {
 /* ===================== Khởi tạo ===================== */
 populateFilterOptions();
 document.getElementById('lastUpdated').textContent =
-  `${Object.keys(students).length.toLocaleString('vi-VN')} dòng học viên-lớp đã tải · Cập nhật lúc 16:11 04/08/2026`;
+  `${Object.keys(students).length.toLocaleString('vi-VN')} dòng học viên-lớp đã tải · Cập nhật lúc 16:21 04/08/2026`;
 </script>
 
 </body>
