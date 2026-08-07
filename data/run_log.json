@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-08-07T11:09:25.290Z",
+  "run_at": "2026-08-07T11:14:33.296Z",
   "classes_total": 1377,
   "cache_errors": [],
-  "students_total": 17267,
+  "students_total": 17937,
   "score_errors": [
     {
       "Branch": "Scots English Phúc Yên",
@@ -16,5 +16,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1300/1377"
+  "progress": "1350/1377"
 }
