@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-08-19T14:45:40.183Z",
+  "run_at": "2026-08-19T14:45:45.027Z",
   "classes_total": 1418,
   "cache_errors": [],
   "students_total": 18799,
@@ -20,6 +20,5 @@
       "Error": "Cannot read properties of null (reading 'Table')"
     }
   ],
-  "checkpoint": true,
-  "progress": "1418/1418"
+  "checkpoint": false
 }
