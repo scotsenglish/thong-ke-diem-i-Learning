@@ -1,24 +1,9 @@
 {
-  "run_at": "2026-08-19T14:45:45.027Z",
-  "classes_total": 1418,
+  "run_at": "2026-08-19T23:46:34.166Z",
+  "classes_total": 1417,
   "cache_errors": [],
-  "students_total": 18799,
-  "score_errors": [
-    {
-      "Branch": "Scots English Hoàng Quốc Việt",
-      "Class": "HQV_26_OFF_CKENG_CKENGLISH1_262",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    },
-    {
-      "Branch": "Scots English Hoàng Quốc Việt",
-      "Class": "HQV_26_OFF_CKENG_CKENGLISH1_261",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    },
-    {
-      "Branch": "Scots English Hoàng Quốc Việt",
-      "Class": "HQV_26_OFF_CKENG_CKENGLISH1_264",
-      "Error": "Cannot read properties of null (reading 'Table')"
-    }
-  ],
-  "checkpoint": false
+  "students_total": 603,
+  "score_errors": [],
+  "checkpoint": true,
+  "progress": "50/1417"
 }
