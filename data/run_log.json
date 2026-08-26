@@ -1,9 +1,8 @@
 {
-  "run_at": "2026-08-26T02:17:51.880Z",
+  "run_at": "2026-08-26T02:17:56.427Z",
   "classes_total": 1440,
   "cache_errors": [],
   "students_total": 19066,
   "score_errors": [],
-  "checkpoint": true,
-  "progress": "1440/1440"
+  "checkpoint": false
 }
