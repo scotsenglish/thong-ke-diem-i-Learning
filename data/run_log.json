@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-08-31T04:13:38.097Z",
+  "run_at": "2026-08-31T04:20:11.206Z",
   "classes_total": 1426,
   "cache_errors": [],
-  "students_total": 17341,
+  "students_total": 17973,
   "score_errors": [
     {
       "Branch": "Scots English Vĩnh Phúc",
@@ -16,5 +16,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1300/1426"
+  "progress": "1350/1426"
 }
