@@ -1,9 +1,20 @@
 {
-  "run_at": "2026-08-31T04:04:43.220Z",
+  "run_at": "2026-08-31T04:13:38.097Z",
   "classes_total": 1426,
   "cache_errors": [],
-  "students_total": 16675,
-  "score_errors": [],
+  "students_total": 17341,
+  "score_errors": [
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_3_26.06.03_003",
+      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_2_2026.06.13_034",
+      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
+    }
+  ],
   "checkpoint": true,
-  "progress": "1250/1426"
+  "progress": "1300/1426"
 }
