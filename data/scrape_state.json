@@ -1,7 +1,5 @@
 {
-  "status": "in_progress",
-  "cycleStartedAt": "2026-09-04T04:12:10.996Z",
-  "totalClassesInCycle": 1428,
-  "remainingClasses": [],
-  "cacheErrors": []
+  "status": "done",
+  "cycleFinishedAt": "2026-09-04T04:12:14.465Z",
+  "totalClassesInCycle": 1428
 }
