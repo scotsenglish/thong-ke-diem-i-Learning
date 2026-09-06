@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-09-06T12:17:42.708Z",
+  "run_at": "2026-09-06T12:24:12.990Z",
   "classes_total": 1440,
   "cache_errors": [],
-  "students_total": 17361,
+  "students_total": 17985,
   "score_errors": [
     {
       "Branch": "Scots English Vinh",
@@ -26,5 +26,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1300/1440"
+  "progress": "1350/1440"
 }
