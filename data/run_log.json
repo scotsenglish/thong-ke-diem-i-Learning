@@ -1,29 +1,9 @@
 {
-  "run_at": "2026-09-06T12:34:42.102Z",
-  "classes_total": 1440,
+  "run_at": "2026-09-06T14:33:15.138Z",
+  "classes_total": 1442,
   "cache_errors": [],
-  "students_total": 19182,
-  "score_errors": [
-    {
-      "Branch": "Scots English Vinh",
-      "Class": "VH_CKENGLISH_1_26.06.10_415",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    },
-    {
-      "Branch": "Scots English Vinh",
-      "Class": "VH_CK ENGLISH_1_26.05.24_408",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    },
-    {
-      "Branch": "Scots English Vinh",
-      "Class": "VI1_26_OFF_CKPHON_CKPHONICSKIDS_003",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    },
-    {
-      "Branch": "Scots English Vinh",
-      "Class": "VH_CK ENGLISH_2_26.05.07_403",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    }
-  ],
-  "checkpoint": false
+  "students_total": 628,
+  "score_errors": [],
+  "checkpoint": true,
+  "progress": "50/1442"
 }
