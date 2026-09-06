@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-09-06T17:05:27.886Z",
+  "run_at": "2026-09-06T17:10:20.199Z",
   "classes_total": 1442,
   "cache_errors": [],
-  "students_total": 18670,
+  "students_total": 19248,
   "score_errors": [
     {
       "Branch": "Scots English Hải Dương",
@@ -16,5 +16,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1400/1442"
+  "progress": "1442/1442"
 }
