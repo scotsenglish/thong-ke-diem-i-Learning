@@ -1,9 +1,15 @@
 {
-  "run_at": "2026-09-09T12:06:59.913Z",
+  "run_at": "2026-09-09T12:14:04.693Z",
   "classes_total": 1458,
   "cache_errors": [],
-  "students_total": 14617,
-  "score_errors": [],
+  "students_total": 15288,
+  "score_errors": [
+    {
+      "Branch": "Scots English Trường Chinh",
+      "Class": "TCH_26_OFF_CKPHON_CKPHONICSKIDS_070",
+      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
+    }
+  ],
   "checkpoint": true,
-  "progress": "1100/1458"
+  "progress": "1150/1458"
 }
