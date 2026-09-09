@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-09-09T12:25:49.943Z",
+  "run_at": "2026-09-09T12:31:49.041Z",
   "classes_total": 1458,
   "cache_errors": [],
-  "students_total": 16649,
+  "students_total": 17312,
   "score_errors": [
     {
       "Branch": "Scots English Trường Chinh",
@@ -11,5 +11,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1250/1458"
+  "progress": "1300/1458"
 }
