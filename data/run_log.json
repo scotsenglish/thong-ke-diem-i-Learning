@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-09-19T04:03:12.084Z",
+  "run_at": "2026-09-19T04:10:10.269Z",
   "classes_total": 1492,
   "cache_errors": [],
-  "students_total": 16595,
+  "students_total": 17256,
   "score_errors": [
     {
       "Branch": "Scots English Linh Đàm",
@@ -16,5 +16,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1250/1492"
+  "progress": "1300/1492"
 }
