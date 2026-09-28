@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-09-28T15:23:00.145Z",
+  "run_at": "2026-09-28T15:23:05.720Z",
   "classes_total": 1515,
   "cache_errors": [],
   "students_total": 20074,
@@ -15,6 +15,5 @@
       "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
     }
   ],
-  "checkpoint": true,
-  "progress": "1515/1515"
+  "checkpoint": false
 }
