@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-09-28T13:45:38.032Z",
+  "run_at": "2026-09-28T13:52:05.403Z",
   "classes_total": 1515,
   "cache_errors": [],
-  "students_total": 10523,
+  "students_total": 11215,
   "score_errors": [
     {
       "Branch": "Scots English Hoàng Đạo Thúy",
@@ -16,5 +16,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "800/1515"
+  "progress": "850/1515"
 }
