@@ -298,32 +298,39 @@ async function main() {
               const sylName = syl.syl_name ?? "";
               if (!sylId) continue;
 
-              const classes = await post("CounRptStudentClassList", {
-                counn: { coun_bsem_id: bsemId, coun_syl_id: sylId, coun_cls_isclosed: 0 }
-              });
-              for (const cls of classes) {
-                const className = cls.cls_name ?? "";
-                const clsId = cls.cls_id ?? "";
-                if (!className || !clsId) continue;
-                const cacheKey = [branch.brch_id, bsemId, corsId, sylId, clsId].join("||");
-                if (seenCache.has(cacheKey)) continue;
-                seenCache.add(cacheKey);
-
-                const planKey = `${normalize(branch.brch_name)}|${normalize(className)}`;
-                const plan = classPlanMap.get(planKey);
-                cacheRows.push({
-                  Branch: branch.brch_name,
-                  Class: className,
-                  brch_id: branch.brch_id,
-                  bsem_id: bsemId,
-                  cors_id: corsId,
-                  syl_id: sylId,
-                  cls_id: clsId,
-                  Program_LMS: programName,
-                  Syllabus_LMS: sylName,
-                  Program_From_Plan: plan?.Program ?? "",
-                  Syllabus_From_Plan: plan?.Syllabus ?? ""
+              // Quét cả lớp "In Progress" (0) LẪN "Closed" (1) — trước đây chỉ
+              // lấy 0 nên bỏ sót toàn bộ lớp đã đóng. Mỗi lớp có cls_id riêng
+              // biệt (1 lớp không thể vừa in-progress vừa closed cùng lúc)
+              // nên gộp 2 danh sách không lo trùng, seenCache vẫn khử trùng
+              // nếu LMS trả lặp trong chính 1 lần gọi.
+              for (const isClosed of [0, 1]) {
+                const classes = await post("CounRptStudentClassList", {
+                  counn: { coun_bsem_id: bsemId, coun_syl_id: sylId, coun_cls_isclosed: isClosed }
                 });
+                for (const cls of classes) {
+                  const className = cls.cls_name ?? "";
+                  const clsId = cls.cls_id ?? "";
+                  if (!className || !clsId) continue;
+                  const cacheKey = [branch.brch_id, bsemId, corsId, sylId, clsId].join("||");
+                  if (seenCache.has(cacheKey)) continue;
+                  seenCache.add(cacheKey);
+
+                  const planKey = `${normalize(branch.brch_name)}|${normalize(className)}`;
+                  const plan = classPlanMap.get(planKey);
+                  cacheRows.push({
+                    Branch: branch.brch_name,
+                    Class: className,
+                    brch_id: branch.brch_id,
+                    bsem_id: bsemId,
+                    cors_id: corsId,
+                    syl_id: sylId,
+                    cls_id: clsId,
+                    Program_LMS: programName,
+                    Syllabus_LMS: sylName,
+                    Program_From_Plan: plan?.Program ?? "",
+                    Syllabus_From_Plan: plan?.Syllabus ?? ""
+                  });
+                }
               }
             }
           }
