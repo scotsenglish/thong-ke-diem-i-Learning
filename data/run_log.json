@@ -1,24 +1,9 @@
 {
-  "run_at": "2026-10-01T15:36:40.390Z",
-  "classes_total": 1754,
+  "run_at": "2026-10-01T17:45:58.028Z",
+  "classes_total": 1755,
   "cache_errors": [],
-  "students_total": 23374,
-  "score_errors": [
-    {
-      "Branch": "Scots English Kim Giang",
-      "Class": "KGG_26_OFF_CKPHON_CKPHONICS1_007",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    },
-    {
-      "Branch": "Scots English Kim Giang",
-      "Class": "KGG_26_OFF_CKPHON_CKPHONICS2_002",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    },
-    {
-      "Branch": "Scots English Kim Giang",
-      "Class": "KGG_26_OFF_CKPHON_CKPHONICS1_009",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    }
-  ],
-  "checkpoint": false
+  "students_total": 629,
+  "score_errors": [],
+  "checkpoint": true,
+  "progress": "50/1755"
 }
