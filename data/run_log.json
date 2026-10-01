@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-10-01T15:04:22.975Z",
+  "run_at": "2026-10-01T15:11:01.074Z",
   "classes_total": 1754,
   "cache_errors": [],
-  "students_total": 19985,
+  "students_total": 20687,
   "score_errors": [
     {
       "Branch": "Scots English Kim Giang",
@@ -21,5 +21,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1500/1754"
+  "progress": "1550/1754"
 }
