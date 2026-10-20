@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-10-20T14:36:06.358Z",
+  "run_at": "2026-10-20T14:41:20.129Z",
   "classes_total": 1887,
   "cache_errors": [],
-  "students_total": 24324,
+  "students_total": 24834,
   "score_errors": [
     {
       "Branch": "Scots English Trung Văn",
@@ -21,5 +21,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1850/1887"
+  "progress": "1887/1887"
 }
