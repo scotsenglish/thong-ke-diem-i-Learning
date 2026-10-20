@@ -1,24 +1,9 @@
 {
-  "run_at": "2026-10-20T14:41:25.554Z",
-  "classes_total": 1887,
+  "run_at": "2026-10-20T16:08:32.315Z",
+  "classes_total": 1891,
   "cache_errors": [],
-  "students_total": 24834,
-  "score_errors": [
-    {
-      "Branch": "Scots English Trung Văn",
-      "Class": "TVN_26_OFF_CKENG_CKENGLISH1_003",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    },
-    {
-      "Branch": "Scots English Trung Văn",
-      "Class": "TVN_26_OFF_CKPHON_CKPHONICSKIDS_004",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    },
-    {
-      "Branch": "Scots English Trung Văn",
-      "Class": "TVN_26_OFF_CKENG_CKENGLISH1_002",
-      "Error": "HTTP 504: <html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n<hr><center>Microsoft-Azure-Applicat"
-    }
-  ],
-  "checkpoint": false
+  "students_total": 618,
+  "score_errors": [],
+  "checkpoint": true,
+  "progress": "50/1891"
 }
