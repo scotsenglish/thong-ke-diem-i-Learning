@@ -1,19 +1,9 @@
 {
-  "run_at": "2026-11-02T07:28:18.169Z",
-  "classes_total": 2019,
+  "run_at": "2026-11-02T14:02:19.055Z",
+  "classes_total": 2022,
   "cache_errors": [],
-  "students_total": 26357,
-  "score_errors": [
-    {
-      "Branch": "Scots English Đà Nẵng 2",
-      "Class": "DN2_26_OFF_CKPHON_CKPHONICS2_001",
-      "Error": "HTTP 520: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US"
-    },
-    {
-      "Branch": "Scots English Đà Nẵng 2",
-      "Class": "DN2_26_OFF_CKPHON_CKPHONICS2_002",
-      "Error": "HTTP 520: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US"
-    }
-  ],
-  "checkpoint": false
+  "students_total": 614,
+  "score_errors": [],
+  "checkpoint": true,
+  "progress": "50/2022"
 }
