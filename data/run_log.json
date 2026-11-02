@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-11-02T03:57:11.941Z",
+  "run_at": "2026-11-02T04:04:13.237Z",
   "classes_total": 2019,
   "cache_errors": [],
-  "students_total": 6712,
+  "students_total": 7406,
   "score_errors": [
     {
       "Branch": "Scots English Đà Nẵng 2",
@@ -16,5 +16,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "550/2019"
+  "progress": "600/2019"
 }
