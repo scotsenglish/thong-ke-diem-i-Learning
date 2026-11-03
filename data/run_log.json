@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-03T02:14:37.879Z",
+  "run_at": "2026-11-03T02:14:43.432Z",
   "classes_total": 2022,
   "cache_errors": [],
   "students_total": 26386,
@@ -80,6 +80,5 @@
       "Error": "HTTP 504: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US"
     }
   ],
-  "checkpoint": true,
-  "progress": "2022/2022"
+  "checkpoint": false
 }
