@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-11-03T01:40:43.523Z",
+  "run_at": "2026-11-03T01:48:33.381Z",
   "classes_total": 2022,
   "cache_errors": [],
-  "students_total": 23543,
+  "students_total": 24186,
   "score_errors": [
     {
       "Branch": "Scots English Văn Khê",
@@ -73,8 +73,13 @@
       "Branch": "Scots English Văn Khê",
       "Class": "VKE_26_OFF_CKENG_CKENGLISH1_297",
       "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH2_009",
+      "Error": "HTTP 504: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US"
     }
   ],
   "checkpoint": true,
-  "progress": "1800/2022"
+  "progress": "1850/2022"
 }
