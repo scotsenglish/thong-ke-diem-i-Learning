@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-11-03T01:55:44.080Z",
+  "run_at": "2026-11-03T02:03:03.322Z",
   "classes_total": 2022,
   "cache_errors": [],
-  "students_total": 24779,
+  "students_total": 25388,
   "score_errors": [
     {
       "Branch": "Scots English Văn Khê",
@@ -81,5 +81,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1900/2022"
+  "progress": "1950/2022"
 }
