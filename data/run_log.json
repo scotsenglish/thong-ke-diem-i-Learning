@@ -1,9 +1,80 @@
 {
-  "run_at": "2026-11-03T01:16:27.963Z",
+  "run_at": "2026-11-03T01:24:15.655Z",
   "classes_total": 2022,
   "cache_errors": [],
-  "students_total": 21607,
-  "score_errors": [],
+  "students_total": 22205,
+  "score_errors": [
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKPHON_CKPHONICSKIDS_295",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKPHON_CKPHONICSKIDS_290",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKPHON_CKPHONICSKIDS_296",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKENG_CKENGLISH1_303",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKENG_CKENGLISH1_302",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKENG_CKENGLISH1_305",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VK_CKENGLISH1_26.09.05_268",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKENG_CKENGLISH1_261",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKENG_CKENGLISH1_256",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKENG_CKENGLISH1_282",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKENG_CKENGLISH1_299",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKENG_CKENGLISH1_300",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKE1_CKENGLISH1_282",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Văn Khê",
+      "Class": "VKE_26_OFF_CKENG_CKENGLISH1_297",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    }
+  ],
   "checkpoint": true,
-  "progress": "1650/2022"
+  "progress": "1700/2022"
 }
