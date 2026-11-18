@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-18T08:00:27.320Z",
+  "run_at": "2026-11-18T08:08:11.442Z",
   "classes_total": 2021,
   "cache_errors": [
     {
@@ -23,7 +23,7 @@
       "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
     }
   ],
-  "students_total": 15395,
+  "students_total": 16059,
   "score_errors": [
     {
       "Branch": "Scots English Hải Phòng 2",
@@ -3667,5 +3667,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1500/2021"
+  "progress": "1550/2021"
 }
