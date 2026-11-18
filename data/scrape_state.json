@@ -1,28 +1,5 @@
 {
-  "status": "in_progress",
-  "cycleStartedAt": "2026-11-18T09:01:33.967Z",
-  "totalClassesInCycle": 2021,
-  "remainingClasses": [],
-  "cacheErrors": [
-    {
-      "Branch": "Scots English Vĩnh Phúc 3",
-      "Step": "Deadline",
-      "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
-    },
-    {
-      "Branch": "Scots English Vinhomes Gardenia",
-      "Step": "Deadline",
-      "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
-    },
-    {
-      "Branch": "Scots English Vinhomes Smart City",
-      "Step": "Deadline",
-      "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
-    },
-    {
-      "Branch": "Scots English Vinhomes Smart City 2",
-      "Step": "Deadline",
-      "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
-    }
-  ]
+  "status": "done",
+  "cycleFinishedAt": "2026-11-18T09:01:35.211Z",
+  "totalClassesInCycle": 2021
 }
