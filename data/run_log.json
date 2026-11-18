@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-18T06:09:59.962Z",
+  "run_at": "2026-11-18T06:15:48.507Z",
   "classes_total": 2021,
   "cache_errors": [
     {
@@ -23,8 +23,174 @@
       "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
     }
   ],
-  "students_total": 7005,
-  "score_errors": [],
+  "students_total": 7430,
+  "score_errors": [
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_012",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_005",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_004",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_009",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_002",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_008",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_007",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_010",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_006",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_011",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_013",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_003",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_014",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKPHON_CKPHONICSKIDS_001",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH1_003",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH1_005",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH1_004",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH1_002",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH1_007",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH1_011",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH1_006",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH1_001",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH2_001",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH2_004",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH1_010",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH2_006",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH2_007",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH2_009",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH2_002",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH2_003",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH2_005",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH2_008",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Hải Phòng 2",
+      "Class": "HP2_26_OFF_CKENG_CKENGLISH3_002",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    }
+  ],
   "checkpoint": true,
-  "progress": "600/2021"
+  "progress": "650/2021"
 }
