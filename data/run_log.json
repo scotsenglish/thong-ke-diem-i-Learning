@@ -1,9 +1,25 @@
 {
-  "run_at": "2026-11-18T16:50:47.086Z",
+  "run_at": "2026-11-18T16:59:15.026Z",
   "classes_total": 2206,
   "cache_errors": [],
-  "students_total": 8945,
-  "score_errors": [],
+  "students_total": 9743,
+  "score_errors": [
+    {
+      "Branch": "Scots English Hoàng Quốc Việt",
+      "Class": "HQV_26_OFF_CKPHON_CKPHONICSKIDS_277",
+      "Error": "HTTP 520: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US"
+    },
+    {
+      "Branch": "Scots English Hoàng Quốc Việt",
+      "Class": "HQV_25_OFF_CKPHONICSKIDS_090",
+      "Error": "HTTP 520: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US"
+    },
+    {
+      "Branch": "Scots English Hoàng Quốc Việt",
+      "Class": "HQV_26_OFF_CKPHON_CKPHONICSKIDS_276",
+      "Error": "HTTP 520: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US"
+    }
+  ],
   "checkpoint": true,
-  "progress": "750/2206"
+  "progress": "800/2206"
 }
