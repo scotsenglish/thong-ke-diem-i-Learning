@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-18T06:46:10.031Z",
+  "run_at": "2026-11-18T06:52:50.604Z",
   "classes_total": 2021,
   "cache_errors": [
     {
@@ -23,7 +23,7 @@
       "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
     }
   ],
-  "students_total": 9636,
+  "students_total": 10185,
   "score_errors": [
     {
       "Branch": "Scots English Hải Phòng 2",
@@ -1429,8 +1429,238 @@
       "Branch": "Scots English Linh Đàm",
       "Class": "LDM_26_OFF_CKENG_CKENGLISH2_003 (218)",
       "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH2_004 (299)",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH2_012(Jane-142)",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH3_001(220-jane)",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH2_006 ( 227 - Vinh ) ",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH1_013(202 - Selena)",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH1_014( 114 - Vinh )",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH2_013",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH2_014",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH2_015 (070 Jane)",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH1_015 (085)",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH3_002",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS1A_001",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH3_003 (218)",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Linh Đàm",
+      "Class": "LDM_26_OFF_CKENG_CKENGLISH3_004",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS2_002",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS1_001",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS1_002",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS2_003",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS2_005",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS2_001",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS2_004",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS3_002",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS1A_004",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_ON_CKPHON_CKPHONICS1A_003",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS3_001",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICSKIDS_003",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICSKIDS_002",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICS3_003",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICSKIDS_004",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICSKIDS_001",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_003",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_004",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICSKIDS_007",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKPHON_CKPHONICSKIDS_005",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_006",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_009",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_011",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_010",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_013",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_001",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_012",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH1_002",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH2_006",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH2_005",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH2_008",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Long Biên",
+      "Class": "LBN_26_OFF_CKENG_CKENGLISH2_010",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
     }
   ],
   "checkpoint": true,
-  "progress": "900/2021"
+  "progress": "950/2021"
 }
