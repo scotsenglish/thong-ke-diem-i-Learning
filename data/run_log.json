@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-18T08:55:56.977Z",
+  "run_at": "2026-11-18T09:00:37.837Z",
   "classes_total": 2021,
   "cache_errors": [
     {
@@ -23,7 +23,7 @@
       "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
     }
   ],
-  "students_total": 19702,
+  "students_total": 20032,
   "score_errors": [
     {
       "Branch": "Scots English Hải Phòng 2",
@@ -5209,8 +5209,258 @@
       "Branch": "Scots English Vinh",
       "Class": "VH_CK ENGLISH_2_26.04.18_394",
       "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH2_006",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH2_004",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH3_001",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH2_001",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH3_002",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH1_003",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH1_006",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VH_CK ENGLISH_2_26.05.07_403",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH1_005",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH3_004",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH3_003",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH2_009",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CKPHONICS 1_26.05.30_191",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH3_006",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_26_OFF_CKPHONICS1_123",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_2_26.05.31_031",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CKPHONICS 2_26.06.05_033",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CKPHONICS 1_21.07.26_522 ",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vinh",
+      "Class": "VI1_26_OFF_CKENG_CKENGLISH3_005",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_2_2026.06.13_034",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CKPHONICS 2_26.06.06_032",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CKPHONICS 2_26.06.13_888",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_2_2026.06.13_035",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_3_26.06.03_003",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_3_26.06.05_027",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_2_2026.07.05_036",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_3_26.06.21_026",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_3_26.06.30_236",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_3_26.07.07_183",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CKPHONICS 1A_21.07.26_523 ",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_26_OFF_CKPHON_CKPHONICS3_006",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_26_OFF_CKPHON_CKPHONICS1A_001",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_1A_26.09.06_100",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_KIDS_26.05.29_190",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_KIDS_26.05.31_513",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_26_OFF_CKPHON_CKPHONICS1A_004",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_KIDS_26.05.31_512",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_KIDS_26.06.16_018",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_26_OFF_CKPHONICS_KIDS_260",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_KIDS_26.07.26_04",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_PHONICS_KIDS_26.07.30_03",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_26_OFF_CKENG_CKENGLISH1_001",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_ENGLISH_1_26.06.06_192",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CKENGLISH 1_26.06.06_025",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_ENGLISH_1_26.06.09_004",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_ENGLISH_1_26.06.21_219",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_ENGLISH_1_26.07.14_192",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_26_OFF_CKENG_CKENGLISH1_008",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CKENGLISH 2_26.05.29_167",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Vĩnh Phúc",
+      "Class": "VP1_CK_ENGLISH2_25.11.02_008 ",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
     }
   ],
   "checkpoint": true,
-  "progress": "1950/2021"
+  "progress": "2000/2021"
 }
