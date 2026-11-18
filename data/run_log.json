@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-18T07:43:32.627Z",
+  "run_at": "2026-11-18T07:51:23.106Z",
   "classes_total": 2021,
   "cache_errors": [
     {
@@ -23,7 +23,7 @@
       "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
     }
   ],
-  "students_total": 13984,
+  "students_total": 14667,
   "score_errors": [
     {
       "Branch": "Scots English Hải Phòng 2",
@@ -3649,8 +3649,18 @@
       "Branch": "Scots English Sài Đồng",
       "Class": "SDG_CK ENGLISH_1_26.08.06_219",
       "Error": "Cannot read properties of null (reading 'Table')"
+    },
+    {
+      "Branch": "Scots English Tây Hồ",
+      "Class": "THO_26_OFF_CKPHON_CKPHONICS1A_006",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Tây Hồ",
+      "Class": "THO_26_OFF_CKPHON_CKPHONICS3_006",
+      "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
     }
   ],
   "checkpoint": true,
-  "progress": "1400/2021"
+  "progress": "1450/2021"
 }
