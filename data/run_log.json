@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-18T07:37:20.240Z",
+  "run_at": "2026-11-18T07:43:32.627Z",
   "classes_total": 2021,
   "cache_errors": [
     {
@@ -23,7 +23,7 @@
       "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
     }
   ],
-  "students_total": 13451,
+  "students_total": 13984,
   "score_errors": [
     {
       "Branch": "Scots English Hải Phòng 2",
@@ -3494,8 +3494,163 @@
       "Branch": "Scots English Sài Đồng",
       "Class": "SDG_26_OFF_CKPHON_CKPHONICS2_189",
       "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK PHONICS_3_26.07.28_015",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK PHONICS_3_26.07.26_011",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK PHONICS_3_26.08.24_012",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK PHONICS_3_26.08.03_013",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICS3_165",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICS1A_183",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK PHONICS_4_26.08.13_001",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICS1A_182",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CKPHONICS_1_26.08.24_026",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CKPHONICS_1A_26.08.24_027",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CKPHONICS_2_26.09.06_017",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK PHONICS_2_26.09.13_020",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CKPHONICS_2_26.11.15_021",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CKPHONICS_2_26.11.16_022",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CKPHONICS_3_26.09.19_009 ",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CKPHONICS_2_26.09.15_016",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK PHONICS KIDS_26.08.13_226",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICS3_172",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_25_OFF_CKPHON_CKPHONICSKIDS_136",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICSKIDS_140",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_25_OFF_CKPHON_CKPHONICSKIDS_134",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICSKIDS_157",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICSKIDS_177",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICSKIDS_180",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICSKIDS_183",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICSKIDS_189",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKENG_CKENGLISH1_190",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK ENGLISH_1_26.07.08_214",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_26_OFF_CKPHON_CKPHONICSKIDS_164",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK ENGLISH_1_26.07.15_222",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Sài Đồng",
+      "Class": "SDG_CK ENGLISH_1_26.08.06_219",
+      "Error": "Cannot read properties of null (reading 'Table')"
     }
   ],
   "checkpoint": true,
-  "progress": "1350/2021"
+  "progress": "1400/2021"
 }
