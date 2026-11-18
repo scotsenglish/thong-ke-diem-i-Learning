@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-18T20:00:30.019Z",
+  "run_at": "2026-11-18T20:00:38.798Z",
   "classes_total": 2206,
   "cache_errors": [],
   "students_total": 23704,
@@ -20,6 +20,5 @@
       "Error": "HTTP 520: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US"
     }
   ],
-  "checkpoint": true,
-  "progress": "1863/2206"
+  "checkpoint": true
 }
