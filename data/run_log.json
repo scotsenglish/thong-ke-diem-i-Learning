@@ -1,8 +1,8 @@
 {
-  "run_at": "2026-11-18T19:08:41.796Z",
+  "run_at": "2026-11-18T19:16:01.330Z",
   "classes_total": 2206,
   "cache_errors": [],
-  "students_total": 19599,
+  "students_total": 20258,
   "score_errors": [
     {
       "Branch": "Scots English Hoàng Quốc Việt",
@@ -21,5 +21,5 @@
     }
   ],
   "checkpoint": true,
-  "progress": "1550/2206"
+  "progress": "1600/2206"
 }
