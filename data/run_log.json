@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-18T06:52:50.604Z",
+  "run_at": "2026-11-18T07:00:00.495Z",
   "classes_total": 2021,
   "cache_errors": [
     {
@@ -23,7 +23,7 @@
       "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
     }
   ],
-  "students_total": 10185,
+  "students_total": 10709,
   "score_errors": [
     {
       "Branch": "Scots English Hải Phòng 2",
@@ -1659,8 +1659,93 @@
       "Branch": "Scots English Long Biên",
       "Class": "LBN_26_OFF_CKENG_CKENGLISH2_010",
       "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_ON_CKPHON_CKPHONICS2_001",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS2_257",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS2_256",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS2_255",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS2_246",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS2_220",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS2_250",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS2_249",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS2_251",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS2_259",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS3_004",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS3_006",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS3_005 ",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS3_009",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS3_002",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS3_003",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
+    },
+    {
+      "Branch": "Scots English Mỹ Đình",
+      "Class": "TBH_26_OFF_CKPHON_CKPHONICS1A_002",
+      "Error": "HTTP 503: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Service Unavailable</TITLE>\r\n<META HTTP-"
     }
   ],
   "checkpoint": true,
-  "progress": "950/2021"
+  "progress": "1000/2021"
 }
