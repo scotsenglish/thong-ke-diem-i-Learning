@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-18T08:08:11.442Z",
+  "run_at": "2026-11-18T08:15:50.804Z",
   "classes_total": 2021,
   "cache_errors": [
     {
@@ -23,7 +23,7 @@
       "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
     }
   ],
-  "students_total": 16059,
+  "students_total": 16745,
   "score_errors": [
     {
       "Branch": "Scots English Hải Phòng 2",
@@ -3664,8 +3664,18 @@
       "Branch": "Scots English Tây Hồ",
       "Class": "THO_26_OFF_CKPHON_CKPHONICSKIDS_303",
       "Error": "HTTP 500: <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xht"
+    },
+    {
+      "Branch": "Scots English Times City",
+      "Class": "TCY_26_OFF_CKPHON_CKPHONICSKIDS_357",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
+    },
+    {
+      "Branch": "Scots English Times City",
+      "Class": "TCY_CKPHONICS_KIDS_26.02.03_068",
+      "Error": "HTTP 404: <!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\"http://www.w3.org/TR/html4/strict.dtd\">\r\n<HTML><HEAD><TITLE>Not Found</TITLE>\r\n<META HTTP-EQUIV=\"Con"
     }
   ],
   "checkpoint": true,
-  "progress": "1550/2021"
+  "progress": "1600/2021"
 }
