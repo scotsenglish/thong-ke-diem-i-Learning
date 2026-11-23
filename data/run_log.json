@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-11-23T19:24:28.439Z",
+  "run_at": "2026-11-23T19:33:02.962Z",
   "classes_total": 2151,
   "cache_errors": [
     {
@@ -13,8 +13,8 @@
       "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
     }
   ],
-  "students_total": 12739,
+  "students_total": 13345,
   "score_errors": [],
   "checkpoint": true,
-  "progress": "1050/2151"
+  "progress": "1100/2151"
 }
