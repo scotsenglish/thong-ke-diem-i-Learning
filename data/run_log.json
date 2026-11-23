@@ -1,19 +1,9 @@
 {
-  "run_at": "2026-11-23T21:54:58.826Z",
+  "run_at": "2026-11-23T22:08:38.949Z",
   "classes_total": 2151,
-  "cache_errors": [
-    {
-      "Branch": "Scots English Vinhomes Smart City",
-      "Step": "Deadline",
-      "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
-    },
-    {
-      "Branch": "Scots English Vinhomes Smart City 2",
-      "Step": "Deadline",
-      "Error": "Chưa xử lý do hết thời gian nội bộ build cache"
-    }
-  ],
-  "students_total": 24165,
+  "cache_errors": [],
+  "students_total": 24818,
   "score_errors": [],
-  "checkpoint": true
+  "checkpoint": true,
+  "progress": "50/196"
 }
