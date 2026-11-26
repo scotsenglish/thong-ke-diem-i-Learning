@@ -1,34 +1,8 @@
 {
   "status": "in_progress",
-  "cycleStartedAt": "2026-11-26T21:05:48.014Z",
+  "cycleStartedAt": "2026-11-26T21:06:12.373Z",
   "totalClassesInCycle": 2321,
   "remainingClasses": [
-    {
-      "Branch": "Scots English Việt Trì",
-      "Class": "VT1_26_OFF_CKPHON_CKPHONICSKIDS_002",
-      "brch_id": 380,
-      "bsem_id": 71,
-      "cors_id": 1344,
-      "syl_id": 731,
-      "cls_id": 1404,
-      "Program_LMS": "CK Phonics Kids",
-      "Syllabus_LMS": "CK Phonics Kids",
-      "Program_From_Plan": "CK Phonics Kids",
-      "Syllabus_From_Plan": "CK Phonics Kids"
-    },
-    {
-      "Branch": "Scots English Việt Trì",
-      "Class": "VT1_26_OFF_CKPHON_CKPHONICSKIDS_004",
-      "brch_id": 380,
-      "bsem_id": 71,
-      "cors_id": 1344,
-      "syl_id": 731,
-      "cls_id": 1495,
-      "Program_LMS": "CK Phonics Kids",
-      "Syllabus_LMS": "CK Phonics Kids",
-      "Program_From_Plan": "CK Phonics Kids",
-      "Syllabus_From_Plan": "CK Phonics Kids"
-    },
     {
       "Branch": "Scots English Việt Trì",
       "Class": "VT1_26_OFF_CKPHON_CKPHONICSKIDS_005",
